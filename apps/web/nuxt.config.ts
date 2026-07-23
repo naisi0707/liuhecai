@@ -3,6 +3,10 @@ export default defineNuxtConfig({
   compatibilityDate: '2025-07-15',
   // 开发时关闭，减少控制台/悬浮层噪音
   devtools: { enabled: false },
+  experimental: {
+    // 避免 Vite 冷启动 #app-manifest 解析失败导致客户端白屏
+    appManifest: false,
+  },
   css: [
     '~/assets/styles/main.scss',
   ],

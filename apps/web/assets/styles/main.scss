@@ -763,15 +763,19 @@ img {
 
 .auth-stack {
   width: 100%;
-  max-width: 420px;
+  max-width: 340px;
+  margin: 0 auto;
 }
 
 .auth-card {
   width: 100%;
+  max-width: 340px;
+  margin: 0 auto;
   background: #fff;
   border-radius: 8px;
   box-shadow: 0 8px 28px rgba(0, 0, 0, 0.28);
-  padding: 22px 24px 26px;
+  padding: 18px 16px 22px;
+  box-sizing: border-box;
 }
 
 .auth-card__title {
