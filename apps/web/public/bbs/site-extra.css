@@ -1,0 +1,236 @@
+
+        body{-moz-user-select: none;-webkit-user-select: none;-ms-user-select: none;-khtml-user-select: none;user-select: none;}
+        #hidenav {
+            background-color: #f1f1f1;
+            border-bottom: 1px solid #dfdfdf;
+            background-image: url("images/logo.png");
+            background-repeat: no-repeat;
+            background-position: center;
+        }
+        
+.badge {
+    display: inline-block;
+    padding: 0.25em 0.4em;
+    font-size: 75%;
+    font-weight: 700;
+    line-height: 1;
+    text-align: center;
+    white-space: nowrap;
+    vertical-align: baseline;
+    border-radius: 0.25rem;
+}
+
+.badge:empty {
+    display: none;
+}
+
+.btn .badge {
+    position: relative;
+    top: -1px;
+}
+
+.badge-pill {
+    padding-right: 0.6em;
+    padding-left: 0.6em;
+    border-radius: 10rem;
+}
+
+.badge-primary {
+    color: #fff;
+    background-color: #1f4977;
+}
+
+.badge-primary[href]:hover,.badge-primary[href]:focus {
+    color: #fff;
+    text-decoration: none;
+    background-color: #14304f;
+}
+
+.badge-secondary {
+    color: #fff;
+    background-color: #868e96;
+}
+
+.badge-secondary[href]:hover,.badge-secondary[href]:focus {
+    color: #fff;
+    text-decoration: none;
+    background-color: #6c757d;
+}
+
+.badge-success {
+    color: #fff;
+    background-color: #177f2e;
+}
+
+.badge-success[href]:hover,.badge-success[href]:focus {
+    color: #fff;
+    text-decoration: none;
+    background-color: #0f541e;
+}
+
+.badge-info {
+    color: #fff;
+    background-color: #117887;
+}
+
+.badge-info[href]:hover,.badge-info[href]:focus {
+    color: #fff;
+    text-decoration: none;
+    background-color: #0b505a;
+}
+
+.badge-warning {
+    color: #212529;
+    background-color: #f1c84c;
+}
+
+.badge-warning[href]:hover,.badge-warning[href]:focus {
+    color: #212529;
+    text-decoration: none;
+    background-color: #edb91d;
+}
+
+.badge-danger {
+    color: #fff;
+    background-color: #c6303e;
+}
+
+.badge-danger[href]:hover,.badge-danger[href]:focus {
+    color: #fff;
+    text-decoration: none;
+    background-color: #9d2631;
+}
+
+.badge-light {
+    color: #212529;
+    background-color: #f8f9fa;
+}
+
+.badge-light[href]:hover,.badge-light[href]:focus {
+    color: #212529;
+    text-decoration: none;
+    background-color: #dae0e5;
+}
+
+.badge-dark {
+    color: #fff;
+    background-color: #343a40;
+}
+
+.badge-dark[href]:hover,.badge-dark[href]:focus {
+    color: #fff;
+    text-decoration: none;
+    background-color: #1d2124;
+}
+
+    
+
+
+
+/*ְ*/
+.divheader,.divbody,.divfooter{
+    font-size: 1.30rem;
+}
+@media (min-width: 477px) and (max-width: 767px) {
+   .divheader,.divbody,.divfooter{
+        font-size: 1.05rem;
+    }
+    .divheader{padding-top:56px;}
+     ol, ul {
+        padding-left: 1.5rem;
+    }
+    .news-title-title{font-size:1.15rem;}
+    .subject-username{ display:inline;}
+}
+@media (max-width: 476px) {
+    .divheader,.divbody,.divfooter{
+        font-size: 0.85rem;
+    }
+    .divheader{padding-top:56px;}
+    ol, ul {
+        padding-left: 1rem;
+    }
+    .news-title-title{font-size:1.05rem;}
+    .subject-username{ display:none;}
+}
+.subject-tag {
+    padding: 0.25rem;
+}
+.subject-title {
+    display: inline;
+    white-space: nowrap;
+    width: 100%;
+    overflow: hidden;
+    text-overflow: clip;
+}
+.tap {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: clip;
+}
+.subject .username {
+    max-width: 123px;
+    overflow: hidden;
+    text-overflow: clip;
+    white-space: nowrap;
+}
+
+    div.divcontainer {max-width:900px; margin:0 auto;padding:2px; border:2px solid #039e6d}
+
+
+
+
+        body{background:url("images/bga.webp") center top no-repeat,url("images/bga.webp")center top repeat-y;background-size: 100%;}
+@media (min-width: 280px) and (max-width: 575px) {
+    body{background:url("images/bga-xs.webp") center 6px no-repeat,url("images/bga-xs.webp")center top repeat-y;background-size: 100%;}
+}
+    
+
+
+
+.xxqbbslisttable
+
+{
+
+
+
+}
+
+
+
+table.xxqbbslisttable {
+
+    border-collapse: collapse;
+
+    border-bottom: 1px solid #d2d8de;
+
+    width: 100%;
+
+    color: black;
+
+    font-weight: bold;
+
+}
+
+
+
+    table.xxqbbslisttable td, table.xxqbbslisttable th {
+
+        border-bottom: 1px solid #d2d8de;
+
+        text-align: left;
+
+        color: #666666;
+
+        padding: 9px 0px 9px 0px;
+
+    }
+
+
+
+    table.xxqbbslisttable th {
+
+        background-color: #4cbd99;
+
+    }
+

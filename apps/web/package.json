@@ -1,0 +1,22 @@
+{
+  "name": "@liuhecai/web",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build": "nuxt build",
+    "dev": "nuxt dev --port 3000",
+    "generate": "nuxt generate",
+    "preview": "nuxt preview",
+    "postinstall": "nuxt prepare"
+  },
+  "dependencies": {
+    "@liuhecai/shared": "workspace:*",
+    "dompurify": "^3.4.12",
+    "nuxt": "^3.21.9",
+    "vue": "^3.5.40",
+    "vue-router": "^5.2.0"
+  },
+  "devDependencies": {
+    "sass": "^1.101.6"
+  }
+}

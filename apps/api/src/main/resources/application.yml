@@ -1,0 +1,58 @@
+server:
+  port: 8080
+
+spring:
+  application:
+    name: liuhecai-api
+  profiles:
+    active: local
+  servlet:
+    multipart:
+      max-file-size: 2MB
+      max-request-size: 3MB
+  datasource:
+    url: jdbc:mysql://127.0.0.1:3306/liuhecai?useUnicode=true&characterEncoding=utf8&serverTimezone=Asia/Shanghai&allowPublicKeyRetrieval=true&useSSL=false
+    username: root
+    password: ${MYSQL_PASSWORD:changeme}
+    driver-class-name: com.mysql.cj.jdbc.Driver
+
+mybatis-plus:
+  configuration:
+    map-underscore-to-camel-case: true
+  global-config:
+    db-config:
+      id-type: assign_id
+
+liuhecai:
+  jwt:
+    secret: ${LIUHECAI_JWT_SECRET:}
+    expire-seconds: 86400
+  tenant:
+    trust-forwarded-host: false
+  cors:
+    allowed-origins: http://127.0.0.1:3000,http://127.0.0.1:3001,http://127.0.0.1:3002,http://localhost:3000,http://localhost:3001,http://localhost:3002
+  upload:
+    root: ./uploads
+    max-bytes: 2097152
+  draw:
+    # 兼容旧配置：单一 URL，支持 {lotteryType} 占位
+    http-url:
+    # 启动时是否立即拉取一次（默认 false；定时任务仍每小时执行）
+    fetch-on-startup: false
+    # 按彩种公开源（顺序尝试）；优先原站 zhibo，保证期号/号码与首页一致
+    history-base-url: https://zhibo.77kj.vip
+    sources:
+      MACAU_NEW:
+        - https://zhibo.77kj.vip/kj/data/am.js
+        - https://macaumarksix.com/api/macaujc2.com
+      MACAU_OLD:
+        - https://zhibo.77kj.vip/kj/data/48am.js
+        - https://macaumarksix.com/api/macaujc.com
+      HK:
+        - https://zhibo.77kj.vip/kj/data/xg.js
+        - https://1234kj.com/api/opencode/2034?type=new
+
+logging:
+  level:
+    root: INFO
+    com.liuhecai: DEBUG

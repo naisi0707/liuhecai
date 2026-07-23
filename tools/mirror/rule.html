@@ -1,0 +1,393 @@
+ 
+
+
+<!doctype html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="gb2312">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="format-detection" content="telephone=no">
+    
+    
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+
+    <link href="main.css" rel="stylesheet">	
+    <script src="js/jquery/3.6.0/jquery.min.js"></script>
+   
+    <title></title>
+    
+    <link rel="stylesheet" href="css/bootstrap-icons.css">
+    <link href="css/bbsdialogstyle.css" rel="stylesheet">
+
+<script>
+    function decrypt(obj,val) {
+        if(obj && val){
+            try {
+                
+                const val2 = atob(val);
+                const str = new Uint8Array(val2.split('').map(c => c.charCodeAt(0)));
+                const str2 = new TextDecoder("GBK").decode(str);
+                const inObj = document.getElementById(obj);
+                if (inObj) inObj.innerHTML += str2;
+            } catch {}
+        }else{
+            return '';
+        }
+    }
+	function decrypt1(obj) {
+        if(obj){
+            try {
+                const inObj = document.getElementById(obj);
+                const val2 = atob(inObj.innerHTML);
+                const str = new Uint8Array(val2.split('').map(c => c.charCodeAt(0)));
+                const str2 = new TextDecoder("GBK").decode(str);                
+                inObj.innerHTML = str2;
+            } catch {}
+        }else{
+            return '';
+        }
+    }
+    function decrypt2(val) {
+        if(val){
+            try {
+                
+                const val2 = atob(val);
+                const str = new Uint8Array(val2.split('').map(c => c.charCodeAt(0)));
+                const str2 = new TextDecoder("GBK").decode(str);
+                return str2;
+            } catch {}
+        }else{
+            return '';
+        }
+    }
+    document.title=decrypt2('wfWyrs7CwtvMsw==');
+</script>
+    <style>
+        body{-moz-user-select: none;-webkit-user-select: none;-ms-user-select: none;-khtml-user-select: none;user-select: none;}
+        #hidenav {
+            background-color: #f1f1f1;
+            border-bottom: 1px solid #dfdfdf;
+            background-image: url(images/logo.png);
+            background-repeat: no-repeat;
+            background-position: center;
+        }
+        
+.badge {
+    display: inline-block;
+    padding: 0.25em 0.4em;
+    font-size: 75%;
+    font-weight: 700;
+    line-height: 1;
+    text-align: center;
+    white-space: nowrap;
+    vertical-align: baseline;
+    border-radius: 0.25rem;
+}
+
+.badge:empty {
+    display: none;
+}
+
+.btn .badge {
+    position: relative;
+    top: -1px;
+}
+
+.badge-pill {
+    padding-right: 0.6em;
+    padding-left: 0.6em;
+    border-radius: 10rem;
+}
+
+.badge-primary {
+    color: #fff;
+    background-color: #1f4977;
+}
+
+.badge-primary[href]:hover,.badge-primary[href]:focus {
+    color: #fff;
+    text-decoration: none;
+    background-color: #14304f;
+}
+
+.badge-secondary {
+    color: #fff;
+    background-color: #868e96;
+}
+
+.badge-secondary[href]:hover,.badge-secondary[href]:focus {
+    color: #fff;
+    text-decoration: none;
+    background-color: #6c757d;
+}
+
+.badge-success {
+    color: #fff;
+    background-color: #177f2e;
+}
+
+.badge-success[href]:hover,.badge-success[href]:focus {
+    color: #fff;
+    text-decoration: none;
+    background-color: #0f541e;
+}
+
+.badge-info {
+    color: #fff;
+    background-color: #117887;
+}
+
+.badge-info[href]:hover,.badge-info[href]:focus {
+    color: #fff;
+    text-decoration: none;
+    background-color: #0b505a;
+}
+
+.badge-warning {
+    color: #212529;
+    background-color: #f1c84c;
+}
+
+.badge-warning[href]:hover,.badge-warning[href]:focus {
+    color: #212529;
+    text-decoration: none;
+    background-color: #edb91d;
+}
+
+.badge-danger {
+    color: #fff;
+    background-color: #c6303e;
+}
+
+.badge-danger[href]:hover,.badge-danger[href]:focus {
+    color: #fff;
+    text-decoration: none;
+    background-color: #9d2631;
+}
+
+.badge-light {
+    color: #212529;
+    background-color: #f8f9fa;
+}
+
+.badge-light[href]:hover,.badge-light[href]:focus {
+    color: #212529;
+    text-decoration: none;
+    background-color: #dae0e5;
+}
+
+.badge-dark {
+    color: #fff;
+    background-color: #343a40;
+}
+
+.badge-dark[href]:hover,.badge-dark[href]:focus {
+    color: #fff;
+    text-decoration: none;
+    background-color: #1d2124;
+}
+
+    </style>
+    <style type="text/css">
+
+/*高手榜*/
+.divheader,.divbody,.divfooter{
+    font-size: 1.30rem;
+}
+@media (min-width: 477px) and (max-width: 767px) {
+   .divheader,.divbody,.divfooter{
+        font-size: 1.05rem;
+    }
+    .divheader{padding-top:30px;}
+     ol, ul {
+        padding-left: 1.5rem;
+    }
+    .news-title-title{font-size:1.15rem;}
+    .subject-username{ display:inline;}
+}
+@media (max-width: 476px) {
+    .divheader,.divbody,.divfooter{
+        font-size: 0.85rem;
+    }
+    .divheader{padding-top:55px;}
+    ol, ul {
+        padding-left: 1rem;
+    }
+    .news-title-title{font-size:1.05rem;}
+    .subject-username{ display:none;}
+}
+.subject-tag {
+    padding: 0.25rem;
+}
+.subject-title {
+    display: inline;
+    white-space: nowrap;
+    width: 100%;
+    overflow: hidden;
+    text-overflow: clip;
+}
+.tap {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: clip;
+}
+.subject .username {
+    max-width: 123px;
+    overflow: hidden;
+    text-overflow: clip;
+    white-space: nowrap;
+}
+
+    div.divcontainer {max-width:900px; margin:0 auto;padding:2px; border:2px solid #039e6d}
+
+</style>
+	<script>
+		(function(){
+			var docElem = document.documentElement;
+			window.lazySizesConfig = window.lazySizesConfig || {};
+			window.lazySizesConfig.loadMode = 1;
+			//set expand to a higher value on larger displays
+			window.lazySizesConfig.expand = Math.max(Math.min(docElem.clientWidth, docElem.clientHeight, 1222) - 1, 359);
+			window.lazySizesConfig.expFactor = lazySizesConfig.expand < 380 ? 4 : 3;
+		})();
+	</script>
+    <script src="js/lazysizes.min.js" async=""></script>
+         <script type="text/javascript">
+    function topMao(target) {
+        $('html, body').animate({
+            scrollTop: $(target).offset().top - 30
+        }, 500);
+    }
+</script>
+</head>
+<body >
+
+    
+    <header class="fixed-top p-2 text-danger d-none d-md-block" style="background-color:#f1f1f1;border-bottom:1px solid #dfdfdf;z-index:10;">
+        <div class="container">
+            <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-md-start">
+                <a href="" class="d-flex align-items-center mb-2 mb-md-0 text-white text-decoration-none">
+                    <img src="images/logo.png" class="me-3">
+                </a>
+                <ul class="nav col-12 col-md-auto me-md-auto mb-2 justify-content-center mb-md-0">
+                   
+                    <li><a href="index.php" class="nav-link px-2 text-dark"><span id="de-souye">                    <script>
+                   
+                        decrypt('de-souye','ytfSsw==');
+                    </script></span></a></li>
+                
+                    <li><a href="rule.php" class="nav-link px-2 text-danger"><span id="de-rule">                    <script>
+                   
+                        decrypt('de-rule','uebU8g==');
+                    </script></span></a></li>
+                    <li><a href="rcg.php"  class="nav-link px-2 text-dark"><span id="de-rcg">                    <script>
+                   
+                        decrypt('de-rcg','s+TWtQ==');
+                    </script></span></a></li>
+                    <li><a href="kefu.php"  class="nav-link px-2 text-dark"><span id="de-kefu">                    <script>
+                   
+                        decrypt('de-kefu','v823/g==');
+                    </script></span></a></li>
+                </ul>
+                
+                <div class="text-end">
+                    <a href="register.php"><button type="button" class="btn btn-outline-danger"><span id="de-register">                    <script>
+                   
+                        decrypt('de-register','16Ky4Q==');
+                    </script></span></button></a>
+                    <a href="login.php"><button type="button" class="btn btn-danger"><span id="de-login">                    <script>
+                   
+                        decrypt('de-login','tcfCvA==');
+                    </script></span></button></a>
+                </div>
+            </div>
+        </div>
+    </header>
+    
+    <header class="p-2 bg-danger text-white d-none d-md-block" style="border-bottom:1px solid #f4a86e;">
+        <div class="container">
+            <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-md-start">
+                <a href="" class="d-flex align-items-center mb-2 mb-md-0 text-white text-decoration-none">
+                    <img src="images/logo.png" class="me-3">
+                </a>
+                <ul class="nav col-12 col-md-auto me-md-auto mb-2 justify-content-center mb-md-0">
+                    <li><a href="" class="nav-link px-2 text-light"><span id="de-webname">                    <script>
+                   
+                        decrypt('de-webname','wfWyrs7CwtvMsw==');
+                    </script></span></a></li>
+                </ul>
+            </div>
+        </div>
+    </header>
+
+    <header id="hidenav" class="fixed-top p-2 d-lg-none d-md-block" style="background-color:#f1f1f1;border-bottom:1px solid #dfdfdf;">
+        <div class="container d-flex flex-wrap">
+            <div class="me-auto">
+                <a class="py-2 text-secondary d-inline-block" href="register.php"><i class="bi bi-caret-left"></i><span id="de-register1">                    <script>
+                   
+                        decrypt('de-register1','16Ky4Q==');
+                    </script></span></a>
+            </div>
+            <div class="text-end">
+                <a class="py-2 text-secondary d-inline-block" href="login.php"><span id="de-login1">                    <script>
+                   
+                        decrypt('de-login1','tcfCvA==');
+                    </script></span><i class="bi bi-caret-right"></i></a>
+            </div>
+        </div>
+    </header><header class="fixed-bottom d-md-none" style="background-color:#f1f1f1;border-top:1px solid #dfdfdf;box-shadow: 0px -2px 4px rgba(100, 100, 100, 0.1);">
+    <div class="container">
+        <ul class="nav col-12 col-md-auto me-md-auto justify-content-center mb-md-0" style="line-height:1.2rem">
+            <li class="mx-auto">
+                <a href="index.php" class="nav-link py-1 text-center text-secondary">
+                    <i class="bi bi-house fs-3"></i><br><span id="de-souye1">                    <script>
+                   
+                        decrypt('de-souye1','ytfSsw==');
+                    </script></span>
+                </a>
+            </li>
+            <li class="mx-auto">
+                <a href="rule.php"  class="nav-link py-1 text-center text-danger">
+                   <i class="bi-calendar3 fs-3"></i><br><span id="de-rule1">                    <script>
+                   
+                        decrypt('de-rule1','uebU8g==');
+                    </script></span>
+                </a>
+            </li>
+            <li class="mx-auto">
+                <a href="rcg.php" onclick="topMao('#hf')" class="nav-link py-1 text-center text-secondary">
+                    <i class="bi bi-box fs-3"></i><br><span id="de-rcg1">                    <script>
+                   
+                        decrypt('de-rcg1','s+TWtQ==');
+                    </script></span>
+                </a>
+            </li>
+            <li class="mx-auto">
+                <a href="kefu.php"  class="nav-link py-1 text-center text-secondary">
+                    <i class="bi bi-person-square fs-3"></i><br><span id="de-kefu1">                    <script>
+                   
+                        decrypt('de-kefu1','v823/g==');
+                    </script></span>
+                </a>
+            </li>
+        </ul>
+    </div>
+</header>
+
+
+<div id="scroll_to_top" class="d-fixed" style="display:none;position: fixed; bottom: 60px; right: 10px; width: 60px; height: 60px;z-index: 20">
+    <a href="javascript:void(0);" title="返回顶部"><img src="images/top.png" width="60px" height="60px"></a>
+</div>    <style>
+        body{background:url(images/bga.webp) center top no-repeat,url(images/bga.webp)center top repeat-y;background-size: 100%;}
+@media (min-width: 280px) and (max-width: 575px) {
+    body{background:url(images/bga-xs.webp) center 6px no-repeat,url(images/bga-xs.webp)center top repeat-y;background-size: 100%;}
+}
+    </style>
+    <section id="banner">
+        <picture>
+            <source type="image/webp" media="(min-width: 466px)" srcset="images/kb.webp" class="img-fluid" width="100%" alt="banner">
+            <source type="image/webp" media="(max-width: 465px)" srcset="images/m-kb.webp" class="img-fluid" width="100%" alt="banner">
+                       
+                    </picture>
+    </section><style>body{min-height:100%;background-color: #fff;}.blockquote {    width: 85%;    zoom: 1;    padding: 5px 8px 5px;    line-height: 1.3;    border: 1px dashed #eda85f;    background: #fff7dd;    color: #000;    margin: 0px 0px;}.watermark{font-size: 20px;color:#000;font-weight: bold;transform: rotate(-20deg);            position:absolute;            z-index: 100;            pointer-events:none;            filter: alpha(opacity=9);            -moz-opacity: 0.3;            opacity: 0.3;}.sb{top:20%;left:5%;}.zb{top:50%;left:5%;}.xb{bottom:30%;left:5%;}</style>       <div class="divcontainer">                       <div class="divheader">                <span id="de-addhtmltxtt">                    <script>                                           decrypt('de-addhtmltxtt','PGltZyBzcmM9ImltYWdlcy8zMTE5OTIuZ2lmIiB3aWR0aD0iMTAwJSIvPgoKCgo8ZGl2IHN0eWxlPSJiYWNrZ3JvdW5kOiNmZmY7dGV4dC1hbGlnbjpjZW50ZXI7bWFyZ2luOiAwcHggYXV0byAwcHg7Ym9yZGVyOjBweCBzb2xpZCAjZDNkM2QzO3BhZGRpbmc6MXB4IDAgMCAwO2JvcmRlci1yYWRpdXM6MHB4OyI+CjxpZnJhbWUgc3JjPSJodHRwczovL3poaWJvLjg4a2oudmlwL2tqL2E4Lmh0bWw/YW0iIHdpZHRoPSIxMDAlIiBtYXJnaW53aWR0aD0iMCIgaGVpZ2h0PSIxNzAiIHNjcm9sbGluZz0ibm8iIGZyYW1lYm9yZGVyPSIwIiBib3JkZXI9IjAiPjwvaWZyYW1lPgo8L2Rpdj4=');                    </script></span>            </div>            <div class="divbody">                         <div class="news-title" style="border-bottom:1px dashed #ccc;padding-top:5px;padding-bottom:5px;">                <h3 class="m-0  fw-bolder" style="text-align:center"><span id="de-newstitle">                    <script>                                           decrypt('de-newstitle','s+TWtdPrubrC8rnm1PI=');                    </script></span></h3>        </div>                <br>        <div class="content">            <span id="de-content">                    <script>                                           decrypt('de-content','PGRpdiBzdHlsZT0idGV4dC1hbGlnbjogY2VudGVyOyI+PHNwYW4gc3R5bGU9ImZvbnQtc2l6ZToyNHB4O2NvbG9yOiNmZmZmMzM7YmFja2dyb3VuZC1jb2xvcjogcmdiKDI1NSwgMTAyLCAxMDIpOyI+obbB9bKuzsLC28yzobez0MW10+uxo9XPJm5ic3A7PC9zcGFuPjwvZGl2PjxiciAvPjxzcGFuIHN0eWxlPSJmb250LXNpemU6MTZweDsiPjxzcGFuIHN0eWxlPSJjb2xvcjojZmYwMDAwOyI+saPVz9K7o7o8L3NwYW4+1NqxvtW+ubrC8tfKwc+2xb74tv60zsrVt9HQ0M6qo6jS8s6qtrzKx9fU08nP+7fRo6yyu7Tm1NrG28ato6k8YnIgLz4mbmJzcDs8YnIgLz48c3BhbiBzdHlsZT0iY29sb3I6I2ZmMDAwMDsiPrGj1c+2/qO6PC9zcGFuPtTasb7Vvrm6wvLXysHPsNm31rDZ1ebKtb/Jv7+jrLK7u+Gz9s/Wv6q9sbrzuMTXysHPzvO1vLLK09HQ0M6qo6jDv8ba18rBz7a809Cw5tb3vOC2vaOssaPWpNXmyrWjqSZuYnNwOzxiciAvPjxiciAvPjxzcGFuIHN0eWxlPSJjb2xvcjojZmYwMDAwOyI+saPVz8j9o7o8L3NwYW4+1NqxvtW+ubrC8tfKwc+686Ossru74bP2z9a4+Meusru3otfKwc/Q0M6qo6zS8s6qw7/G2ra8u+HU2tStzPu5q7+q18rBz6OsubrC8rrzu+HX1Lavz9TKvrWxxtrXysHPo6zI57n7ubrC8rrzuN/K1ru5w7u5q7+qo6zH68nUuvPU2cui0MLM+9fTvLS/ybLpv7SjqCDXysHPw7/G2ra809Cw5tb3udzA7dSxvOC2vaOsttS07bK7uMSjrM6lt7S55tTyt+JJUKOpJm5ic3A7PGJyIC8+PGJyIC8+PHNwYW4gc3R5bGU9ImNvbG9yOiNmZjAwMDA7Ij6xo9XPy8Sjujwvc3Bhbj7G5Mv7zfjVvrm6wvLXysHPuvOjrMat19PSqsfzsO/Dps/C16KjrLK7z8LXor7NwK262tDQzqqho9Tasb7Vvr74sru74beiyfrV4tH5tcTKwsfpo6y2vMrH19TTyc/7t9GjrLbUxq3X0774ttTB48jdyMyjoTxiciAvPiZuYnNwOzxiciAvPjxzcGFuIHN0eWxlPSJjb2xvcjojZmYwMDAwOyI+saPVz87lo7o8L3NwYW4+1NqxvtW+ubrC8tfKwc+2vMrH19TUuLWlxtq5usLyo6iyu9PDtaPQxMat19PS1Lj31ta96L/az/LE48v30qrKssO0t/7O8bfRoaKxo9akvfChorrssPyhorXItcguLiAuLi4g0tS8sMe/xsjE47Dvw6bPwtei0NDOqqGjxOPXrLbgydm2vMrHxOPX1Ly6tcTHrqGjo6kmbmJzcDs8YnIgLz48L3NwYW4+PGJyIC8+PHNwYW4gc3R5bGU9ImZvbnQtc2l6ZToxOHB4O2NvbG9yOiM2NjY2NjY7YmFja2dyb3VuZC1jb2xvcjogcmdiKDIwNCwgMjU1LCAyNTUpOyI+1trL+dbc1qqjrMH5us/Du9PQsdjW0LXE18rBzzwvc3Bhbj48YnIgLz48c3BhbiBzdHlsZT0iZm9udC1zaXplOjE4cHg7Ij48c3BhbiBzdHlsZT0iY29sb3I6I2ZmMDAwMDsiPralvOLOwtywzOHKvsT6o7o8L3NwYW4+PHNwYW4gc3R5bGU9ImNvbG9yOiMzMzMzZmY7Ij7L+dPQuN/K1rP2ytu1xNfKwc+2vMrHtaXG2qOsw7/G2ra80OjSqrm6wvKyxcTcsum/tKOsttS07bK7srmjrNKysru74be1u7m98LHSoaO438rW18rBz9a709Cxo9ak18rBz9XmyrWjrLK7v8nE3LGj1qSw/NbQo6zP67D81tC+zdXSxq3X08ilo6HN/Lj3zrvK7Naqv7zCx7rD0qqyu9Kqs+TWtdTZwarPtbncwO3UsaGjPC9zcGFuPjwvc3Bhbj48YnIgLz48YnIgLz48YnIgLz48ZGl2IHN0eWxlPSJ0ZXh0LWFsaWduOiBjZW50ZXI7Ij48c3BhbiBzdHlsZT0iZm9udC1zaXplOjI0cHg7Y29sb3I6I2ZmMDAwMDtiYWNrZ3JvdW5kLWNvbG9yOiByZ2IoMjA0LCAyNTUsIDI1NSk7Ij4mbmJzcDvI57rOvNPI68LbzLO3osz7uN/K1iZuYnNwOzwvc3Bhbj48L2Rpdj48YnIgLz48c3BhbiBzdHlsZT0iZm9udC1zaXplOjE4cHg7Ij48c3BhbiBzdHlsZT0iY29sb3I6I2ZmMDAwMDtiYWNrZ3JvdW5kLWNvbG9yOiByZ2IoMjA0LCAyNTUsIDI1NSk7Ij6wxLLKwfWyrs7CwtvMs73pydyjujwvc3Bhbj4gy/nT0LP2ytu1xLjfytbBz77508m438rWzOG5qaOsx9LWwcnZ1Nqxvs341b63orHtwazQ+Ne8yLc2xtq8sNLUyc+jrMv509C438rWwc+++dPJtqW84sLbzLO53MDtyfO6y82ouf2yxcTct6Kx7aOsvMfCvL6tsObW99HPuPHJ87rLvLCyysPxuPrX2bzgtr278ciho6zIt7GjssrD8dTasb7N+MLytb2w2bfW1q6w2dXmyrW1xLjfytbBz6GjJm5ic3A7PC9zcGFuPjxiciAvPjxiciAvPjxzcGFuIHN0eWxlPSJmb250LXNpemU6MTZweDtiYWNrZ3JvdW5kLWNvbG9yOiByZ2IoMTUzLCAyNTUsIDI1NSk7Ij4mbmJzcDsgJm5ic3A7PHNwYW4gc3R5bGU9ImNvbG9yOiNmZjAwMDA7Ij48c3Ryb25nPtK7oaI8L3N0cm9uZz48L3NwYW4+ytfPyM/rs8nOqrjfytax2NDrus253MDt1LHBqs+1ubrC8rjfyta3orHtuabE3LrNyfO6y8TjtcTVy7rFo6y3orHt18rBz7HY0OvKx7Wxz8K8uNbWtbHW0NK71tahosn60KShoszYwuuhosj91tDI/aGixr3M2MLroaK1pcuroaK089ChoaLLq7KooaLNt8r9oaLOssr9oaK80tKwoaLGvczY0rvQpKGiybHQpKGiybHOsqGiybHNt6Gitci1yC4uLiAuLi4mbmJzcDsgtry/ydLUt6Kx7dfUvLq1xNDEy66hozwvc3Bhbj48YnIgLz48YnIgLz48c3BhbiBzdHlsZT0iZm9udC1zaXplOjE2cHg7YmFja2dyb3VuZC1jb2xvcjogcmdiKDE1MywgMjU1LCAyNTUpOyI+Jm5ic3A7ICZuYnNwOzxzcGFuIHN0eWxlPSJjb2xvcjojZmYwMDAwOyI+PHN0cm9uZz62/qGiPC9zdHJvbmc+PC9zcGFuPrTvtb3SqsfztcS438rWo6zH68Gqz7Ww5tb3yM/WpLjfytajrMnzusvNqLn9uvOjrNDoz/KxvtW+vcnEyTIwMDAw1KrRur3wo6jRur3wy7XD96O61eIyMDAwMNSq0bq98MrHzqrBy7fA1rm438rWzqW55rejv+7Tw6Opo6y438rWt6Kx7cz719Oyu8TczqW3tMa9zKi55tTyKM/qz7i55tTyx+u/tM/Ct70po6zI57eise20+NPQvNm8zcK8us2/qr2xuvO4/LjEzPvX07XEuN/K1qOstdrSu7TOvq+45rejv+41MDAw1KqjrLXatv60zrLhs/3Tw7unw/u/27P90bq98KOszazKsdPA1La9+9a5uMPTw7unuN/K1tTasb7C28yzt6Kx7cjOus7XysHPoaPC28yz0qq1xMrHtq655r7YtcS438rWz6PN+7TzvNLX8crYo6y3orHt18rBz7nmvtjH67+0z8LD5jbM9dKqx/M6PC9zcGFuPjxiciAvPjxiciAvPjxzcGFuIHN0eWxlPSJmb250LXNpemU6MThweDtjb2xvcjojZmY2NjY2OyI+Jm5ic3A7ICZuYnNwOyAmbmJzcDsxoaKyu8TctPjT0LzZvM3CvKGjPGJyIC8+Jm5ic3A7ICZuYnNwOyAmbmJzcDsyoaLXysHPt6Kx7cHLvty++NTZtM64/NDCoaM8YnIgLz4mbmJzcDsgJm5ic3A7ICZuYnNwOzOhorK7xNzB9NPQxOO1xMGqz7W3vcq9us3N+Na3oaM8YnIgLz4mbmJzcDsgJm5ic3A7ICZuYnNwOzShoreise3XysHP0ru0zrj80MKjrLK7xNy3or/VzPmhozxiciAvPiZuYnNwOyAmbmJzcDsgJm5ic3A7NaGi18rBz9Hp1qTI57P2tO2+zbK7xNy4/LjEsdjQ68jnyrWhozxiciAvPiZuYnNwOyAmbmJzcDsgJm5ic3A7NqGit6Kx7dfKwc+x2NDrsLTV1bG+wtvMs7nmtqi1xLnmuPG3orHtoaM8YnIgLz48L3NwYW4+PGJyIC8+PHNwYW4gc3R5bGU9ImZvbnQtc2l6ZToxNnB4O2JhY2tncm91bmQtY29sb3I6IHJnYigxNTMsIDI1NSwgMjU1KTsiPiZuYnNwOyAmbmJzcDs8c3Ryb25nPjxzcGFuIHN0eWxlPSJjb2xvcjojZmYwMDAwOyI+yP2hojwvc3Bhbj48L3N0cm9uZz7K17TOs/bK27XEzPvX09a70qq077W9MTDG2tbQN6GiOMbavLS/ybP2ytvXysHPoaMyMDIyxOo11MIyNbrFv6rKvNDCuea2qDq6zbG+wtvMs7rP1/ez9srb18rBz8z1vP7Sqsfzus255r7Yy7XD97jfytaz9srb18rBz9Kqx/OjrLHY0OvRuTIwMDAw1KrRur3wwtvMs7ncwO3Gvcyoo6yyxcTczai5/bP2ytvXysHPuabE3KOsvbu1xDIwMDAw1KrRur3w1NrE48nqx+vNy7P2uN/K1rrzxr3MqLvhsNHE48v50bm1xDIwMDAw1Kqxo9akvfDNy7vYuPjE46GjyfnD96O6s/bK29fKwc+jrMO/scqzyb27s+nIoTIwJb3wsdLX9s6qwtvMs7XEzqy7pKGjPC9zcGFuPjxiciAvPjxiciAvPjxiciAvPjxzcGFuIHN0eWxlPSJmb250LXNpemU6MTZweDtjb2xvcjojMzM2NmZmOyI+ob48L3NwYW4+PHNwYW4gc3R5bGU9ImZvbnQtc2l6ZToxNnB4O2NvbG9yOiNmZjAwMDA7Ij7OwtywzOHKvjwvc3Bhbj48c3BhbiBzdHlsZT0iZm9udC1zaXplOjE2cHg7Y29sb3I6IzMzNjZmZjsiPqG/ttK7u8/WvfDQ6NKqzO7QtMT6tcTS+NDQv6jVy7rFu6fD+7XIoaPIz9XmzO7QtKOszO7QtNPQzvO/ycTctbzWws7et6i1vdXLoaM8YnIgLz6hvjwvc3Bhbj48c3BhbiBzdHlsZT0iZm9udC1zaXplOjE2cHg7Y29sb3I6I2ZmMDAwMDsiPszYsfDLtcP3PC9zcGFuPjxzcGFuIHN0eWxlPSJmb250LXNpemU6MTZweDtjb2xvcjojMzM2NmZmOyI+ob+438rWs/bK29fKwc/L+bXDtcTC28yzvfDHrrbSu7vP1r3wysc4MCWjqMLbzLO/27P9MjAl1/bOqsLbzLO1xM6su6SjqTwvc3Bhbj48YnIgLz48YnIgLz48c3BhbiBzdHlsZT0iZm9udC1zaXplOjE4cHg7Y29sb3I6I2ZmMDAwMDsiPsHtzeLSsrjmveu3osz7uN/K1qOsuty24Lm6wvLXysHPtcSyytPRtrzKx9LUx7DK5LLSwcu1xLLKw/HF89PRo6y828eut73D5r6hwb+2qLXNteOjrLK70qrU2sjLvNLJy7/ayPbRzqOs0anJz7zTy6q1xMrCx+nO0sPHsrvX9qGjyNXQ0NK7ycajrLijsajC+sL6o6E8L3NwYW4+PGJyIC8+PGJyIC8+PGJyIC8+PGJyIC8+PGJyIC8+PGJyIC8+');                    </script></span>        </div><br><br>       </div>         <div class="divfooter">         <br>         <br>         <br>        </div> </div>

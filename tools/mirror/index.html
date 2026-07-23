@@ -1,0 +1,2958 @@
+ 
+
+
+<!doctype html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="gb2312">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="format-detection" content="telephone=no">
+    
+    
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+
+    <link href="main.css" rel="stylesheet">	
+    <script src="js/jquery/3.6.0/jquery.min.js"></script>
+   
+    <title></title>
+    
+    <link rel="stylesheet" href="css/bootstrap-icons.css">
+    <link href="css/bbsdialogstyle.css" rel="stylesheet">
+
+<script>
+    function decrypt(obj,val) {
+        if(obj && val){
+            try {
+                
+                const val2 = atob(val);
+                const str = new Uint8Array(val2.split('').map(c => c.charCodeAt(0)));
+                const str2 = new TextDecoder("GBK").decode(str);
+                const inObj = document.getElementById(obj);
+                if (inObj) inObj.innerHTML += str2;
+            } catch {}
+        }else{
+            return '';
+        }
+    }
+	function decrypt1(obj) {
+        if(obj){
+            try {
+                const inObj = document.getElementById(obj);
+                const val2 = atob(inObj.innerHTML);
+                const str = new Uint8Array(val2.split('').map(c => c.charCodeAt(0)));
+                const str2 = new TextDecoder("GBK").decode(str);                
+                inObj.innerHTML = str2;
+            } catch {}
+        }else{
+            return '';
+        }
+    }
+    function decrypt2(val) {
+        if(val){
+            try {
+                
+                const val2 = atob(val);
+                const str = new Uint8Array(val2.split('').map(c => c.charCodeAt(0)));
+                const str2 = new TextDecoder("GBK").decode(str);
+                return str2;
+            } catch {}
+        }else{
+            return '';
+        }
+    }
+    document.title=decrypt2('wfWyrs7CwtvMsw==');
+</script>
+    <style>
+        body{-moz-user-select: none;-webkit-user-select: none;-ms-user-select: none;-khtml-user-select: none;user-select: none;}
+        #hidenav {
+            background-color: #f1f1f1;
+            border-bottom: 1px solid #dfdfdf;
+            background-image: url(images/logo.png);
+            background-repeat: no-repeat;
+            background-position: center;
+        }
+        
+.badge {
+    display: inline-block;
+    padding: 0.25em 0.4em;
+    font-size: 75%;
+    font-weight: 700;
+    line-height: 1;
+    text-align: center;
+    white-space: nowrap;
+    vertical-align: baseline;
+    border-radius: 0.25rem;
+}
+
+.badge:empty {
+    display: none;
+}
+
+.btn .badge {
+    position: relative;
+    top: -1px;
+}
+
+.badge-pill {
+    padding-right: 0.6em;
+    padding-left: 0.6em;
+    border-radius: 10rem;
+}
+
+.badge-primary {
+    color: #fff;
+    background-color: #1f4977;
+}
+
+.badge-primary[href]:hover,.badge-primary[href]:focus {
+    color: #fff;
+    text-decoration: none;
+    background-color: #14304f;
+}
+
+.badge-secondary {
+    color: #fff;
+    background-color: #868e96;
+}
+
+.badge-secondary[href]:hover,.badge-secondary[href]:focus {
+    color: #fff;
+    text-decoration: none;
+    background-color: #6c757d;
+}
+
+.badge-success {
+    color: #fff;
+    background-color: #177f2e;
+}
+
+.badge-success[href]:hover,.badge-success[href]:focus {
+    color: #fff;
+    text-decoration: none;
+    background-color: #0f541e;
+}
+
+.badge-info {
+    color: #fff;
+    background-color: #117887;
+}
+
+.badge-info[href]:hover,.badge-info[href]:focus {
+    color: #fff;
+    text-decoration: none;
+    background-color: #0b505a;
+}
+
+.badge-warning {
+    color: #212529;
+    background-color: #f1c84c;
+}
+
+.badge-warning[href]:hover,.badge-warning[href]:focus {
+    color: #212529;
+    text-decoration: none;
+    background-color: #edb91d;
+}
+
+.badge-danger {
+    color: #fff;
+    background-color: #c6303e;
+}
+
+.badge-danger[href]:hover,.badge-danger[href]:focus {
+    color: #fff;
+    text-decoration: none;
+    background-color: #9d2631;
+}
+
+.badge-light {
+    color: #212529;
+    background-color: #f8f9fa;
+}
+
+.badge-light[href]:hover,.badge-light[href]:focus {
+    color: #212529;
+    text-decoration: none;
+    background-color: #dae0e5;
+}
+
+.badge-dark {
+    color: #fff;
+    background-color: #343a40;
+}
+
+.badge-dark[href]:hover,.badge-dark[href]:focus {
+    color: #fff;
+    text-decoration: none;
+    background-color: #1d2124;
+}
+
+    </style>
+    <style type="text/css">
+
+/*高手榜*/
+.divheader,.divbody,.divfooter{
+    font-size: 1.30rem;
+}
+@media (min-width: 477px) and (max-width: 767px) {
+   .divheader,.divbody,.divfooter{
+        font-size: 1.05rem;
+    }
+    .divheader{padding-top:30px;}
+     ol, ul {
+        padding-left: 1.5rem;
+    }
+    .news-title-title{font-size:1.15rem;}
+    .subject-username{ display:inline;}
+}
+@media (max-width: 476px) {
+    .divheader,.divbody,.divfooter{
+        font-size: 0.85rem;
+    }
+    .divheader{padding-top:55px;}
+    ol, ul {
+        padding-left: 1rem;
+    }
+    .news-title-title{font-size:1.05rem;}
+    .subject-username{ display:none;}
+}
+.subject-tag {
+    padding: 0.25rem;
+}
+.subject-title {
+    display: inline;
+    white-space: nowrap;
+    width: 100%;
+    overflow: hidden;
+    text-overflow: clip;
+}
+.tap {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: clip;
+}
+.subject .username {
+    max-width: 123px;
+    overflow: hidden;
+    text-overflow: clip;
+    white-space: nowrap;
+}
+
+    div.divcontainer {max-width:900px; margin:0 auto;padding:2px; border:2px solid #039e6d}
+
+</style>
+	<script>
+		(function(){
+			var docElem = document.documentElement;
+			window.lazySizesConfig = window.lazySizesConfig || {};
+			window.lazySizesConfig.loadMode = 1;
+			//set expand to a higher value on larger displays
+			window.lazySizesConfig.expand = Math.max(Math.min(docElem.clientWidth, docElem.clientHeight, 1222) - 1, 359);
+			window.lazySizesConfig.expFactor = lazySizesConfig.expand < 380 ? 4 : 3;
+		})();
+	</script>
+    <script src="js/lazysizes.min.js" async=""></script>
+         <script type="text/javascript">
+    function topMao(target) {
+        $('html, body').animate({
+            scrollTop: $(target).offset().top - 30
+        }, 500);
+    }
+</script>
+</head>
+<body >
+
+    
+    <header class="fixed-top p-2 text-danger d-none d-md-block" style="background-color:#f1f1f1;border-bottom:1px solid #dfdfdf;z-index:10;">
+        <div class="container">
+            <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-md-start">
+                <a href="" class="d-flex align-items-center mb-2 mb-md-0 text-white text-decoration-none">
+                    <img src="images/logo.png" class="me-3">
+                </a>
+                <ul class="nav col-12 col-md-auto me-md-auto mb-2 justify-content-center mb-md-0">
+                   
+                    <li><a href="index.php" class="nav-link px-2 text-danger"><span id="de-souye">                    <script>
+                   
+                        decrypt('de-souye','ytfSsw==');
+                    </script></span></a></li>
+                
+                    <li><a href="rule.php" class="nav-link px-2 text-dark"><span id="de-rule">                    <script>
+                   
+                        decrypt('de-rule','uebU8g==');
+                    </script></span></a></li>
+                    <li><a href="rcg.php"  class="nav-link px-2 text-dark"><span id="de-rcg">                    <script>
+                   
+                        decrypt('de-rcg','s+TWtQ==');
+                    </script></span></a></li>
+                    <li><a href="kefu.php"  class="nav-link px-2 text-dark"><span id="de-kefu">                    <script>
+                   
+                        decrypt('de-kefu','v823/g==');
+                    </script></span></a></li>
+                </ul>
+                
+                <div class="text-end">
+                    <a href="register.php"><button type="button" class="btn btn-outline-danger"><span id="de-register">                    <script>
+                   
+                        decrypt('de-register','16Ky4Q==');
+                    </script></span></button></a>
+                    <a href="login.php"><button type="button" class="btn btn-danger"><span id="de-login">                    <script>
+                   
+                        decrypt('de-login','tcfCvA==');
+                    </script></span></button></a>
+                </div>
+            </div>
+        </div>
+    </header>
+    
+    <header class="p-2 bg-danger text-white d-none d-md-block" style="border-bottom:1px solid #f4a86e;">
+        <div class="container">
+            <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-md-start">
+                <a href="" class="d-flex align-items-center mb-2 mb-md-0 text-white text-decoration-none">
+                    <img src="images/logo.png" class="me-3">
+                </a>
+                <ul class="nav col-12 col-md-auto me-md-auto mb-2 justify-content-center mb-md-0">
+                    <li><a href="" class="nav-link px-2 text-light"><span id="de-webname">                    <script>
+                   
+                        decrypt('de-webname','wfWyrs7CwtvMsw==');
+                    </script></span></a></li>
+                </ul>
+            </div>
+        </div>
+    </header>
+
+    <header id="hidenav" class="fixed-top p-2 d-lg-none d-md-block" style="background-color:#f1f1f1;border-bottom:1px solid #dfdfdf;">
+        <div class="container d-flex flex-wrap">
+            <div class="me-auto">
+                <a class="py-2 text-secondary d-inline-block" href="register.php"><i class="bi bi-caret-left"></i><span id="de-register1">                    <script>
+                   
+                        decrypt('de-register1','16Ky4Q==');
+                    </script></span></a>
+            </div>
+            <div class="text-end">
+                <a class="py-2 text-secondary d-inline-block" href="login.php"><span id="de-login1">                    <script>
+                   
+                        decrypt('de-login1','tcfCvA==');
+                    </script></span><i class="bi bi-caret-right"></i></a>
+            </div>
+        </div>
+    </header><header class="fixed-bottom d-md-none" style="background-color:#f1f1f1;border-top:1px solid #dfdfdf;box-shadow: 0px -2px 4px rgba(100, 100, 100, 0.1);">
+    <div class="container">
+        <ul class="nav col-12 col-md-auto me-md-auto justify-content-center mb-md-0" style="line-height:1.2rem">
+            <li class="mx-auto">
+                <a href="index.php" class="nav-link py-1 text-center text-danger">
+                    <i class="bi bi-house fs-3"></i><br><span id="de-souye1">                    <script>
+                   
+                        decrypt('de-souye1','ytfSsw==');
+                    </script></span>
+                </a>
+            </li>
+            <li class="mx-auto">
+                <a href="rule.php"  class="nav-link py-1 text-center text-secondary">
+                   <i class="bi-calendar3 fs-3"></i><br><span id="de-rule1">                    <script>
+                   
+                        decrypt('de-rule1','uebU8g==');
+                    </script></span>
+                </a>
+            </li>
+            <li class="mx-auto">
+                <a href="rcg.php" onclick="topMao('#hf')" class="nav-link py-1 text-center text-secondary">
+                    <i class="bi bi-box fs-3"></i><br><span id="de-rcg1">                    <script>
+                   
+                        decrypt('de-rcg1','s+TWtQ==');
+                    </script></span>
+                </a>
+            </li>
+            <li class="mx-auto">
+                <a href="kefu.php"  class="nav-link py-1 text-center text-secondary">
+                    <i class="bi bi-person-square fs-3"></i><br><span id="de-kefu1">                    <script>
+                   
+                        decrypt('de-kefu1','v823/g==');
+                    </script></span>
+                </a>
+            </li>
+        </ul>
+    </div>
+</header>
+
+
+<div id="scroll_to_top" class="d-fixed" style="display:none;position: fixed; bottom: 60px; right: 10px; width: 60px; height: 60px;z-index: 20">
+    <a href="javascript:void(0);" title="返回顶部"><img src="images/top.png" width="60px" height="60px"></a>
+</div>    <style>
+        body{background:url(images/bga.webp) center top no-repeat,url(images/bga.webp)center top repeat-y;background-size: 100%;}
+@media (min-width: 280px) and (max-width: 575px) {
+    body{background:url(images/bga-xs.webp) center 6px no-repeat,url(images/bga-xs.webp)center top repeat-y;background-size: 100%;}
+}
+    </style>
+    <section id="banner">
+        <picture>
+            <source type="image/webp" media="(min-width: 466px)" srcset="images/kb.webp" class="img-fluid" width="100%" alt="banner">
+            <source type="image/webp" media="(max-width: 465px)" srcset="images/m-kb.webp" class="img-fluid" width="100%" alt="banner">
+                       
+                    </picture>
+    </section><style type="text/css">.xxqbbslisttable{}table.xxqbbslisttable {    border-collapse: collapse;    border-bottom: 1px solid #d2d8de;    width: 100%;    color: black;    font-weight: bold;}    table.xxqbbslisttable td, table.xxqbbslisttable th {        border-bottom: 1px solid #d2d8de;        text-align: left;        color: #666666;        padding: 9px 0px 9px 0px;    }    table.xxqbbslisttable th {        background-color: #4cbd99;    }</style>        <div class="divcontainer">                               <div class="divheader" id="de-addhtmltxta">                                       <script>                                           decrypt('de-addhtmltxta','PGltZyBzcmM9ImltYWdlcy8zMTE5OTIuZ2lmIiB3aWR0aD0iMTAwJSIvPg0KDQoNCg0KPGRpdiBjbGFzcz0id2hpdGUtYm94Ij48aWZyYW1lIG1hcmdpbndpZHRoPSIwIiBtYXJnaW5oZWlnaHQ9IjAiIGZyYW1lYm9yZGVyPSIwIiB3aWR0aD0iMTAwJSIgc2Nyb2xsaW5nPSJubyIgaGVpZ2h0PSIxODAiDQogICAgICAgIHNyYz0iaHR0cHM6Ly96aGliby43N2tqLnZpcC9rai9hNC5odG1sP2FtIj48L2lmcmFtZT48L2Rpdj4NCjwhLS2/qr2xsuW8/i0tPg0KPGlmcmFtZSBpZD0ibGl2ZS1pZnJhbWUiIHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjMwMCIgc3JjPSJodHRwczovLzFlLjM2MzUxYy5jb206ODQ0My96Yi9ranpiLmh0bWwiIGZyYW1lYm9yZGVyPSIwIg0KICAgIHNjcm9sbGluZz0ibm8iIHRhcmdldD0iX2JsYW5rIj48L2lmcmFtZT4NCg0KDQoNCjxkaXYgY2xhc3M9IndoaXRlLWJveCI+DQo8c3R5bGU+DQoNCg0KYXsgdGV4dC1kZWNvcmF0aW9uOm5vbmU7fQ0KKnsgbWFyZ2luOjBweDsgcGFkZGluZzowcHg7fQ0KDQoNCi54Z2FteyBmb250LWZhbWlseTogzqLI7dHFuto7Zm9udC1zaXplOiAxM3B0OyB0ZXh0LWFsaWduOiBjZW50ZXI7IGNvbG9yOiAjMDAwO3RleHQtYWxpZ246IGNlbnRlcjt9DQoueGdhbSBpbWcgeyB2ZXJ0aWNhbC1hbGlnbjogbWlkZGxlO30NCi54Z2FtIHRhYmxlIHsgYm9yZGVyLWNvbGxhcHNlOiBjb2xsYXBzZTsgYmFja2dyb3VuZDogI2ZmMDt9DQoueGdhbSB0YWJsZSB0ZCB7IHBhZGRpbmc6IDVweCAwOyBib3JkZXI6IHNvbGlkIDFweCAjYzBjMGMwOyBjdXJzb3I6IHBvaW50ZXI7fQ0KLnhnYW0tdGl0IHsgcGFkZGluZzogM3B4IDAgMnB4IDA7IGhlaWdodDogMzBweDsgbGluZS1oZWlnaHQ6IDMwcHg7IGZvbnQtc2l6ZTogMTVwdDsgZm9udC13ZWlnaHQ6IDcwMDt9DQoueGdhbS10aXQgaW1nIHsgd2lkdGg6IDQwcHg7IGhlaWdodDogMzBweDt9DQoueGdhbS13ZWIgeyBwYWRkaW5nOiAycHggMCAzcHggMDsgZm9udC1zaXplOiAxOHB0OyBmb250LXdlaWdodDogNzAwO30NCg0KPC9zdHlsZT4NCg0KPGRpdiBjbGFzcz0ieGdhbSI+DQo8dGFibGUgd2lkdGg9IjEwMCUiIGJvcmRlcj0iMSI+DQogIDx0Ym9keT48dHI+DQogICAgPHRkIGJnY29sb3I9IiNGRkZGRkYiPg0KICAgIAk8ZGl2IGNsYXNzPSJ4Z2FtLXRpdCI+DQoJCQk8cCBhbGlnbj0iY2VudGVyIj48aW1nIHNyYz0iLzkyLmdpZiI+ICA8Zm9udCBjb2xvcj0iI0ZGMDAwMCI+1sHX8M7eyc/C28yzPC9mb250PjwvcD48L2Rpdj4NCiAgICAgICAgPGRpdiBjbGFzcz0ieGdhbS13ZWIiPg0KCQkJPHAgYWxpZ249ImNlbnRlciI+DQoJCQk8YSB0YXJnZXQ9Il9ibGFuayIgaHJlZj0iaHR0cHM6Ly9sdC0xLjMwNTU1MWEwLnRvcC9iYnMvIj4NCgkJCTxmb250IGNvbG9yPSIjMDAwMDAwIj4zMDU1NTE8L2ZvbnQ+PGZvbnQgY29sb3I9IiMwMDAwMDAiPi5jb208L2ZvbnQ+PC9hPjwvcD48L2Rpdj4NCgkNCgk8L3RkPg0KICAgIDx0ZCBiZ2NvbG9yPSIjRkZGRkZGIj4NCiAgICAJPGRpdiBjbGFzcz0ieGdhbS10aXQiPg0KCQkJPHAgYWxpZ249ImNlbnRlciI+PGltZyBzcmM9Ii85Mi5naWYiPiAgPGZvbnQgY29sb3I9IiMyMmFjMzgiPsnxy+PX08LbzLM8L2ZvbnQ+PC9wPjwvZGl2Pg0KICAgICAgICA8ZGl2IGNsYXNzPSJ4Z2FtLXdlYiI+DQoJCQk8cCBhbGlnbj0iY2VudGVyIj48YSB0YXJnZXQ9Il9ibGFuayIgaHJlZj0iIGh0dHBzOi8vbHQtMS45MzM4NThhMC50b3AvYmJzLyI+DQoJCQk8Zm9udCBjb2xvcj0iIzAwMDAwMCI+OTMzODU4PC9mb250Pjxmb250IGNvbG9yPSIjMDAwMDAwIj4uY29tPC9mb250PjwvYT48L3A+PC9kaXY+DQogICAgPC90ZD4NCiAgPC90cj4NCiAgPHRyPg0KICAgIDx0ZCBiZ2NvbG9yPSIjRkYwMDAwIj48YSB0YXJnZXQ9Il9ibGFuayIgaHJlZj0iaHR0cHM6Ly9sdC0xLjMwNTU1MWEwLnRvcC9iYnMvIj48aW1nIHNyYz0iL3llLmdpZiI+DQoJPGZvbnQgY29sb3I9IiNGRkZGRkYiPg0KCTxiPiCy6b+01sHX8M7eyc88L2I+PC9mb250PjwvYT48L3RkPg0KICAgIDx0ZCBiZ2NvbG9yPSIjMjJhYzM4Ij48YSB0YXJnZXQ9Il9ibGFuayIgaHJlZj0iaHR0cHM6Ly9sdC0xLjkzMzg1OGEwLnRvcC9iYnMvIj48aW1nIHNyYz0iL3llLmdpZiI+PGI+IDxmb250IGNvbG9yPSIjRkZGRkZGIj6y6b+0yfHL49fTPC9mb250PjwvYj48L2E+PC90ZD4NCiAgPC90cj4NCg0KIDwvdGJvZHk+PC90YWJsZT4NCjwvZGl2Pg0KPCEtLbulwaplbmQtLT4NCjwvZGl2Pg0KDQoNCg0KPHRhYmxlIGJvcmRlcj0iMyIgd2lkdGg9IjEwMCUiIGJvcmRlcmNvbG9yPSIjRkYwMEZGIiBzdHlsZT0ibWFyZ2luOiAwcHg7IHBhZGRpbmc6IDBweDsgb3V0bGluZTogbm9uZTsgYm9yZGVyLXNwYWNpbmc6IDBweDsgY29sb3I6IHJnYig1MSwgNTEsIDUxKTsgZm9udC1mYW1pbHk6IEFyaWFsLCDLzszlOyBmb250LXNpemU6IDEycHg7IGZvbnQtc3R5bGU6IG5vcm1hbDsgZm9udC12YXJpYW50LWxpZ2F0dXJlczogbm9ybWFsOyBmb250LXZhcmlhbnQtY2Fwczogbm9ybWFsOyBmb250LXdlaWdodDogNDAwOyBsZXR0ZXItc3BhY2luZzogbm9ybWFsOyBvcnBoYW5zOiAyOyB0ZXh0LWluZGVudDogMHB4OyB0ZXh0LXRyYW5zZm9ybTogbm9uZTsgd2hpdGUtc3BhY2U6IG5vcm1hbDsgd2lkb3dzOiAyOyB3b3JkLXNwYWNpbmc6IDBweDsgLXdlYmtpdC10ZXh0LXN0cm9rZS13aWR0aDogMHB4OyBiYWNrZ3JvdW5kLWNvbG9yOiByZ2IoMjU1LCAyNTUsIDI1NSk7IHRleHQtZGVjb3JhdGlvbi1zdHlsZTogaW5pdGlhbDsgdGV4dC1kZWNvcmF0aW9uLWNvbG9yOiBpbml0aWFsOyI+DQoNCgk8dGJvZHkgc3R5bGU9Im1hcmdpbjogMHB4OyBwYWRkaW5nOiAwcHg7IG91dGxpbmU6IG5vbmU7Ij4NCg0KCQk8dHIgc3R5bGU9Im1hcmdpbjogMHB4OyBwYWRkaW5nOiAwcHg7IG91dGxpbmU6IG5vbmU7Ij4NCgkJCTx0ZCBhbGlnbj0iY2VudGVyIiBiZ2NvbG9yPSIjMDA2Njk5IiBzdHlsZT0ibWFyZ2luOiAwcHg7IHBhZGRpbmc6IDBweDsgb3V0bGluZTogbm9uZTsiPg0KCQkJPGZvbnQgY29sb3I9IiNGRkZGRkYiIHNpemU9IjMiIHN0eWxlPSJtYXJnaW46IDBweDsgcGFkZGluZzogMHB4OyBvdXRsaW5lOiBub25lOyI+DQoJCQk8aW1nIGJvcmRlcj0iMCIgc3JjPSJmdGExL2ppYW50b3UuZ2lmIiB3aWR0aD0iNTAiIGhlaWdodD0iMTYiIHN0eWxlPSJtYXJnaW46IDBweDsgcGFkZGluZzogMHB4OyBvdXRsaW5lOiBub25lOyBib3JkZXI6IDBweDsiPjxhIGhyZWY9Imh0dHBzOi8vMzExOTkyLmNvbS8iPjxzcGFuIHN0eWxlPSJ0ZXh0LWRlY29yYXRpb246IG5vbmUiPjxmb250IGNvbG9yPSIjRkZGRkZGIj4zMTE5OTI8L2ZvbnQ+PC9zcGFuPjwvYT48L2ZvbnQ+PGZvbnQgY29sb3I9IiNGRkZGRkYiIHN0eWxlPSJtYXJnaW46IDBweDsgcGFkZGluZzogMHB4OyBvdXRsaW5lOiBub25lOyI+PGEgc3R5bGU9Im1hcmdpbjogMHB4OyBwYWRkaW5nOiAwcHg7IG91dGxpbmU6IG5vbmU7IHRleHQtZGVjb3JhdGlvbjogbm9uZTsgIiBocmVmPSJodHRwczovLzMxMTk5Mi5jb20vIj48Zm9udCBjb2xvcj0iI0ZGRkZGRiIgc2l6ZT0iMyIgc3R5bGU9Im1hcmdpbjogMHB4OyBwYWRkaW5nOiAwcHg7IG91dGxpbmU6IG5vbmU7Ij4uY29tPC9mb250PjwvYT48L2ZvbnQ+PHAgc3R5bGU9Im1hcmdpbjogMHB4OyBwYWRkaW5nOiAwcHg7IG91dGxpbmU6IG5vbmU7Ij4NCgkJCTxmb250IGNvbG9yPSIjRkZGRkZGIiBzaXplPSIzIiBzdHlsZT0ibWFyZ2luOiAwcHg7IHBhZGRpbmc6IDBweDsgb3V0bGluZTogbm9uZTsiPg0KCQkJPGltZyBib3JkZXI9IjAiIHNyYz0iZnRhMS9tYWNhdS5wbmciIHdpZHRoPSIyNSIgaGVpZ2h0PSIyNSIgc3R5bGU9Im1hcmdpbjogMHB4OyBwYWRkaW5nOiAwcHg7IG91dGxpbmU6IG5vbmU7IGJvcmRlcjogMHB4OyI+x+vK1bLYsb7Vvrj619k8L2ZvbnQ+PC90ZD4NCgkJCTx0ZCBhbGlnbj0iY2VudGVyIiBiZ2NvbG9yPSIjMDA2Njk5IiBzdHlsZT0ibWFyZ2luOiAwcHg7IHBhZGRpbmc6IDBweDsgb3V0bGluZTogbm9uZTsiPg0KCQkJPGZvbnQgY29sb3I9IiNGRkZGRkYiIHNpemU9IjMiIHN0eWxlPSJtYXJnaW46IDBweDsgcGFkZGluZzogMHB4OyBvdXRsaW5lOiBub25lOyI+DQoJCQk8aW1nIGJvcmRlcj0iMCIgc3JjPSJmdGExL2ppYW50b3UuZ2lmIiB3aWR0aD0iNTAiIGhlaWdodD0iMTYiIHN0eWxlPSJtYXJnaW46IDBweDsgcGFkZGluZzogMHB4OyBvdXRsaW5lOiBub25lOyBib3JkZXI6IDBweDsiPjwvZm9udD48Zm9udCBjb2xvcj0iI0ZGRkZGRiIgc3R5bGU9Im1hcmdpbjogMHB4OyBwYWRkaW5nOiAwcHg7IG91dGxpbmU6IG5vbmU7Ij48Zm9udCBjb2xvcj0iI0ZGRkZGRiIgc2l6ZT0iMyIgc3R5bGU9Im1hcmdpbjogMHB4OyBwYWRkaW5nOiAwcHg7IG91dGxpbmU6IG5vbmU7Ij4zMTE5OTIuY29tPC9mb250PjwvZm9udD48cCBzdHlsZT0ibWFyZ2luOiAwcHg7IHBhZGRpbmc6IDBweDsgb3V0bGluZTogbm9uZTsiPg0KCQkJPGZvbnQgc2l6ZT0iMyIgY29sb3I9IiNGRkZGRkYiIHN0eWxlPSJtYXJnaW46IDBweDsgcGFkZGluZzogMHB4OyBvdXRsaW5lOiBub25lOyI+DQoJCQk8aW1nIGJvcmRlcj0iMCIgc3JjPSJmdGExL21hY2F1LnBuZyIgd2lkdGg9IjI1IiBoZWlnaHQ9IjI1IiBzdHlsZT0ibWFyZ2luOiAwcHg7IHBhZGRpbmc6IDBweDsgb3V0bGluZTogbm9uZTsgYm9yZGVyOiAwcHg7Ij7H68rVstixvtW+uPrX2TwvZm9udD48L2E+PC90ZD4NCg0KDQoNCg0KDQo8IS0t09HH6cG0vdO94cr4LS0+DQoNCjx0YWJsZSBib3JkZXI9IjAiIHdpZHRoPSIxMDAlIiBjZWxsc3BhY2luZz0iMSIgYmdjb2xvcj0iI2NjMzNjYyIgc3R5bGU9ImJvcmRlci1jb2xsYXBzZTogY29sbGFwc2UiPg0KICAgIDx0cj4NCiAgICAgICAgPHRkPjxhIHRhcmdldD0iX2JsYW5rIj4NCiAgICAgICAgICAgICAgICA8cCBhbGlnbj0iY2VudGVyIj48Yj4NCiAgICAgICAgICAgICAgICAgICAgICAgIDxmb250IHNpemU9IjQiIGZhY2U9Is6iyO3RxbraIiBjb2xvcj0iRkZGRjAwIj7B9bKuzsLC28yzuau45qO6PGZvbnQgY29sb3I9RjhGOEZGPg0KICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICC8yMjVxvCjobeyysfQwrnLv83XorLhzbPSu8vNMjg4vfCx0sDPucu/zbbgs+S24MvNo6yz5Na1uvPX1NPJubrC8iyz9srb18rBz7HY0Ou+rbn9yfO6y9Sx0c+48cnzusu077W9yq7W0LDLyc+687LFxNyz9srbo6y+28zsz8LTotDbusC93KOswfWyrs7Cu7bTrbj3wre438rWx7DAtLeise2jrLS1xaPH68jGtcCjrNfKwc/Du9PQMTAwJdbQvbENCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgo6jH68Dt0NTP+7fRo6m07bbUvviyu7j8uMSho7Gj1qSyysPxwvK1vcrH1ebKtb/Jv7/XysHPo6zXorLhs8m5prrz0OjSqrm6wvK98LHS1NnBqs+1udzA7dSxzqLQxbrFo7o8L2ZvbnQ+DQogICAgICAgICAgICAgICAgICAgICAgICA8L2ZvbnQ+DQogICAgICAgICAgICAgICAgICAgICAgICA8Zm9udCBzaXplPSI0IiBmYWNlPSLOosjt0cW62iIgY29sb3I9IiMzM0ZGMzMiPksxMzUzMjM3MjgxOA0KPC9mb250Pg0KICAgICAgICAgICAgICAgICAgICAgICAgPGZvbnQgY29sb3I9RjhGOEZGIHNpemU9IjQiIGZhY2U9Is6iyO3RxbraIj653MDt1LFRUbrFo7o8Zm9udCBzaXplPSI0IiBmYWNlPSLOosjt0cW62iIgY29sb3I9IiMzM0ZGMzMiPjM3NTc1ODQyNjQ8L2ZvbnQ+PHNwYW4NCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgc3R5bGU9ImJhY2tncm91bmQtY29sb3I6ICNGRjAwMDAiPjwvc3Bhbj4g16O49867xfPT0aOsyNW9+La3vfCjrNOux67Ew7W9ytbI7aOhzqLQxbfnv9jRz7OkyrG85LK7u9i4tMfrzO2801FRDQogICAgICAgICAgICAgICAgICAgICAgICA8L2ZvbnQ+DQogICAgICAgICAgICAgICAgICAgICAgICA8L2ZvbnQ+DQogICAgICAgICAgICAgICAgICAgICAgICA8Zm9udCBzaXplPSI0IiBmYWNlPSLOosjt0cW62iIgY29sb3I9IiMzM0ZGMzMiPteio7qjqNDC08O7p9K7tM7Q1LPk1rU1MDAw0tTJz6Osv8nP7bPktuDJ2cvNtuDJ2aGjvfbP3rXa0ru0zrPk1rWjqTwvZm9udD4NCiAgICAgICAgICAgICAgICAgICAgICAgIDwvZm9udD4NCiAgICAgICAgICAgICAgICAgICAgPC9iPg0KICAgICAgICAgICAgPC9hPjwvdGQ+DQogICAgPC90cj4NCg0KICAgIDx0cj4NCiAgICAgICAgPHRkIHN0eWxlPSJ0ZXh0LWFsaWduOiBjZW50ZXI7Ij48YSBocmVmPSJyY2cucGhwIj48aW1nIHNyYz0iaHR0cHM6Ly9pbWcudHB3d3cyLnRvcC9kamdzL2hhbmRzLmdpZiIgYWx0PSIiPjxzcGFuDQogICAgICAgICAgICAgICAgICAgIHN0eWxlPSJkaXNwbGF5OiBpbmxpbmUtYmxvY2s7IGJhY2tncm91bmQtY29sb3I6IHllbGxvdzsgYm9yZGVyLXJhZGl1czogNXB4O2ZvbnQtc2l6ZTogMjJweDtmb250LXdlaWdodDogNzAwOyI+teO797Pk1rW98LHSPC9zcGFuPjwvYT4NCiAgICAgICAgPC90ZD4NCiAgICA8L3RyPg0KPC90YWJsZT4NCjwvZGl2Pg0KDQoNCg0KDQoNCg0KDQoNCg0KPGRpdiBzdHlsZT0idGV4dC1hbGlnbjogY2VudGVyOyBiYWNrZ3JvdW5kLWNvbG9yOiByZ2IoMjMxLCAyMzEsIDIzMSk7Ij4NCg0KICAgIDxzcGFuIHN0eWxlPSJmb250LXdlaWdodDogYm9sZDsiPjxzcGFuIHN0eWxlPSJmb250LXNpemU6IDIwcHg7Ij48c3Bhbg0KICAgICAgICAgICAgICAgIHN0eWxlPSJjb2xvcjogcmdiKDI1NSwgMCwgMCk7Ij6z5Na1vfCx0sGqz7UmIzE2MDs8L3NwYW4+PHNwYW4gc3R5bGU9ImNvbG9yOiByZ2IoMjU1LCAwLCAwKTsiPjxpbWcNCiAgICAgICAgICAgICAgICAgICAgc3JjPSIvYmJzL2Z0YTEvd2VjaGF0Mi5wbmciIGFsdD0iteO79828xqy3xbTzIiBjbGFzcz0iaW1naWNvbiIgLz48L3NwYW4+PHNwYW4NCiAgICAgICAgICAgICAgICBzdHlsZT0iY29sb3I6IHJnYigyNTUsIDAsIDApOyI+o7pLMTM1MzIzNzI4MTgNCjwvc3Bhbj4NCiAgICA8c3BhbiBzdHlsZT0iZm9udC13ZWlnaHQ6IGJvbGQ7Ij48c3BhbiBzdHlsZT0iZm9udC1zaXplOiAyMHB4OyI+PHNwYW4NCiAgICAgICAgICAgICAgICBzdHlsZT0iY29sb3I6IHJnYigyNTUsIDAsIDApOyI+UVEmIzE2MDs8L3NwYW4+PHNwYW4NCiAgICAgICAgICAgICAgICBzdHlsZT0iY29sb3I6IHJnYigyNTUsIDAsIDApOyI+o7ozNzU3NTg0MjY0DQo8L3NwYW4+DQoNCjwvc3Bhbj48L3NwYW4+DQo8L2Rpdj4NCiYjMTYwOyYjMTYwOw0KDQoNCjxwIGFsaWduPSJjZW50ZXIiPg0KDQoNCg0KICAgICAgICAgICAgICAgICAgICAgICAgICAgIDxmb250IGZhY2U9Is6iyO3RxbraIj4NCiAgICAgICAgICAgICAgICAgICAgICAgICAgIA0KICAgICAgICAgICAgICAgIA0KDQoNCjxiPjxmb250IGZhY2U9Is6iyO3RxbraIiBzaXplPSI0Ij4NCgkJCQkJCQk8aW1nIHNyYz0iL3dlaXguanBnIiBhbHQ9IrXju/fNvMast8W08yIgY2xhc3M9ImltZ2ljb24gaW1nLWZsdWlkIiB3aWR0aD0iMjA2IiBoZWlnaHQ9IjUwIj4gDQo8aW1nIHNyYz0iL3FxLmpwZyIgYWx0PSK147v3zbzGrLfFtPMiIGNsYXNzPSJpbWdpY29uIGltZy1mbHVpZCIgd2lkdGg9IjIwNiIgaGVpZ2h0PSI1MCI+DQoNCg0KPC9mb250PjwvYj48L2ZvbnQ+PC9wPg0KDQomIzE2MDsmIzE2MDsNCg0KDQoNCg0KDQo8dGFibGUgYm9yZGVyPSIwIiB3aWR0aD0iMTAwJSIgc3R5bGU9ImJvcmRlci1jb2xsYXBzZTogY29sbGFwc2UiPg0KICAgIDx0Ym9keT4NCiAgICAgICAgPHRyPg0KICAgICAgICAgICAgPHRkIGhlaWdodD0iNDAiIHN0eWxlPSJwYWRkaW5nOjNweDsiPg0KICAgICAgICAgICAgICAgIDxwIGFsaWduPSJjZW50ZXIiIHN0eWxlPSJtYXJnaW4tYm90dG9tOjAuMXJlbTsiPg0KICAgICAgICAgICAgICAgICAgICA8YSB0YXJnZXQ9Il9ibGFuayIgc3R5bGU9ImJveC1zaXppbmc6IGJvcmRlci1ib3g7IHRleHQtZGVjb3JhdGlvbjogbm9uZTsgbGluZS1oZWlnaHQ6IDMwcHg7IHRleHQtYWxpZ246IGNlbnRlcjsgYm9yZGVyLXJhZGl1czogOHB4OyBib3gtc2hhZG93OiByZ2JhKDAsIDAsIDAsIDAuMSkgMHB4IDJweCA1cHg7IGRpc3BsYXk6IGJsb2NrOyBmb250LXdlaWdodDogNzAwOyBjb2xvcjogcmdiKDAsIDAsIDApOyBvdXRsaW5lOiBub25lOyBmb250LWZhbWlseTogutrM5TsgIGZvbnQtc3R5bGU6IG5vcm1hbDsgZm9udC12YXJpYW50LWxpZ2F0dXJlczogbm9ybWFsOyBmb250LXZhcmlhbnQtY2Fwczogbm9ybWFsOyBsZXR0ZXItc3BhY2luZzogbm9ybWFsOyBvcnBoYW5zOiAyOyB0ZXh0LWluZGVudDogMHB4OyB0ZXh0LXRyYW5zZm9ybTogbm9uZTsgd2lkb3dzOiAyOyB3b3JkLXNwYWNpbmc6IDBweDsgLXdlYmtpdC10ZXh0LXN0cm9rZS13aWR0aDogMHB4OyB3aGl0ZS1zcGFjZTogbm93cmFwOyBib3JkZXI6IDFweCBzb2xpZCByZ2IoMjIxLCAyMjEsIDIyMSk7IHBhZGRpbmc6IDBweDsgYmFja2dyb3VuZC1pbWFnZTogbm9uZTsgYmFja2dyb3VuZC1yZXBlYXQ6IHJlcGVhdDsgYmFja2dyb3VuZC1hdHRhY2htZW50OiBzY3JvbGw7IGJhY2tncm91bmQtcG9zaXRpb246IHRvcCIgaHJlZj0iL2Jicy9yZWdpc3Rlci5waHAiPg0KICAgICAgICAgICAgICAgICAgICAgICAgPGZvbnQgY29sb3I9IiNmZjAwMDAiIHN0eWxlPSJib3gtc2l6aW5nOiBib3JkZXItYm94OyBib3JkZXI6IDBweCBub25lOyBwYWRkaW5nOiAwcHg7IGJhY2tncm91bmQtY29sb3I6ICNmZmZmZmYiIHNpemU9IjQiPg0KICAgICAgICAgICAgICAgICAgICAgICAgICAgINPDu6fXorLhPC9mb250PjwvYT48L3A+DQogICAgICAgICAgICA8L3RkPg0KICAgICAgICAgICAgPHRkIGhlaWdodD0iNDAiIHN0eWxlPSJwYWRkaW5nOjNweDsiPg0KICAgICAgICAgICAgICAgIDxwIGFsaWduPSJjZW50ZXIiIHN0eWxlPSJtYXJnaW4tYm90dG9tOjAuMXJlbTsiPg0KICAgICAgICAgICAgICAgICAgICA8YSB0YXJnZXQ9Il9ibGFuayIgc3R5bGU9ImJveC1zaXppbmc6IGJvcmRlci1ib3g7IHRleHQtZGVjb3JhdGlvbjogbm9uZTsgbGluZS1oZWlnaHQ6IDMwcHg7IHRleHQtYWxpZ246IGNlbnRlcjsgYm9yZGVyLXJhZGl1czogOHB4OyBib3gtc2hhZG93OiByZ2JhKDAsIDAsIDAsIDAuMSkgMHB4IDJweCA1cHg7IGRpc3BsYXk6IGJsb2NrOyBmb250LXdlaWdodDogNzAwOyBjb2xvcjogcmdiKDI1NSwgMCwgMCk7IG91dGxpbmU6IG5vbmU7IGZvbnQtZmFtaWx5OiC62szlOyAgZm9udC1zdHlsZTogbm9ybWFsOyBmb250LXZhcmlhbnQtbGlnYXR1cmVzOiBub3JtYWw7IGZvbnQtdmFyaWFudC1jYXBzOiBub3JtYWw7IGxldHRlci1zcGFjaW5nOiBub3JtYWw7IG9ycGhhbnM6IDI7IHRleHQtaW5kZW50OiAwcHg7IHRleHQtdHJhbnNmb3JtOiBub25lOyB3aWRvd3M6IDI7IHdvcmQtc3BhY2luZzogMHB4OyAtd2Via2l0LXRleHQtc3Ryb2tlLXdpZHRoOiAwcHg7IHdoaXRlLXNwYWNlOiBub3dyYXA7IGJvcmRlcjogMXB4IHNvbGlkIHJnYigyMjEsIDIyMSwgMjIxKTsgcGFkZGluZzogMHB4OyBiYWNrZ3JvdW5kLWltYWdlOiBub25lOyBiYWNrZ3JvdW5kLXJlcGVhdDogcmVwZWF0OyBiYWNrZ3JvdW5kLWF0dGFjaG1lbnQ6IHNjcm9sbDsgYmFja2dyb3VuZC1wb3NpdGlvbi15OjUwJSIgaHJlZj0iL2Jicy9yY2cucGhwIj4NCiAgICAgICAgICAgICAgICAgICAgICAgIDxmb250IHN0eWxlPSJib3gtc2l6aW5nOiBib3JkZXItYm94OyBib3JkZXI6IDBweCBub25lOyBwYWRkaW5nOiAwcHg7IGJhY2tncm91bmQtY29sb3I6ICNmZmZmZmYiIHNpemU9IjQiPg0KICAgICAgICAgICAgICAgICAgICAgICAgICAgIL3wsdKz5Na1PC9mb250PjwvYT48L3A+DQogICAgICAgICAgICA8L3RkPg0KICAgICAgICAgICAgPHRkIGhlaWdodD0iNDAiIHN0eWxlPSJwYWRkaW5nOjNweDsiPg0KICAgICAgICAgICAgICAgIDxwIGFsaWduPSJjZW50ZXIiIHN0eWxlPSJtYXJnaW4tYm90dG9tOjAuMXJlbTsiPg0KICAgICAgICAgICAgICAgICAgICA8YSB0YXJnZXQ9Il9ibGFuayIgc3R5bGU9ImJveC1zaXppbmc6IGJvcmRlci1ib3g7IHRleHQtZGVjb3JhdGlvbjogbm9uZTsgbGluZS1oZWlnaHQ6IDMwcHg7IHRleHQtYWxpZ246IGNlbnRlcjsgYm9yZGVyLXJhZGl1czogOHB4OyBib3gtc2hhZG93OiByZ2JhKDAsIDAsIDAsIDAuMSkgMHB4IDJweCA1cHg7IGRpc3BsYXk6IGJsb2NrOyBmb250LXdlaWdodDogNzAwOyBjb2xvcjogcmdiKDI1NSwgMCwgMCk7IG91dGxpbmU6IG5vbmU7IGZvbnQtZmFtaWx5OiC62szlOyAgZm9udC1zdHlsZTogbm9ybWFsOyBmb250LXZhcmlhbnQtbGlnYXR1cmVzOiBub3JtYWw7IGZvbnQtdmFyaWFudC1jYXBzOiBub3JtYWw7IGxldHRlci1zcGFjaW5nOiBub3JtYWw7IG9ycGhhbnM6IDI7IHRleHQtaW5kZW50OiAwcHg7IHRleHQtdHJhbnNmb3JtOiBub25lOyB3aWRvd3M6IDI7IHdvcmQtc3BhY2luZzogMHB4OyAtd2Via2l0LXRleHQtc3Ryb2tlLXdpZHRoOiAwcHg7IHdoaXRlLXNwYWNlOiBub3dyYXA7IGJvcmRlcjogMXB4IHNvbGlkIHJnYigyMjEsIDIyMSwgMjIxKTsgcGFkZGluZzogMHB4OyBiYWNrZ3JvdW5kLWltYWdlOiBub25lOyBiYWNrZ3JvdW5kLXJlcGVhdDogcmVwZWF0OyBiYWNrZ3JvdW5kLWF0dGFjaG1lbnQ6IHNjcm9sbDsgYmFja2dyb3VuZC1wb3NpdGlvbi15OjUwJSIgaHJlZj0iL2Jicy9sb2dpbi5waHAiPg0KICAgICAgICAgICAgICAgICAgICAgICAgPGZvbnQgc3R5bGU9ImJveC1zaXppbmc6IGJvcmRlci1ib3g7IGJvcmRlcjogMHB4IG5vbmU7IHBhZGRpbmc6IDBweDsgYmFja2dyb3VuZC1jb2xvcjogI2ZmZmZmZiIgc2l6ZT0iNCI+DQogICAgICAgICAgICAgICAgICAgICAgICAgICAg08O7p7XHwrw8L2ZvbnQ+PC9hPjwvcD4NCiAgICAgICAgICAgIDwvdGQ+DQogICAgICAgIDwvdHI+DQogICAgPC90Ym9keT4NCjwvdGFibGU+DQoNCjwhLS0tLS0tLbj0wOstLS0tLS0+');                    </script>                    </div>                    <div class="divbody">                                   <div style="font-size:32px;color:#1a1d20;border-bottom:1px solid #039e6d;border-top:1px solid #039e6d">        <span id="de-sy-zc">                    <script>                                           decrypt('de-sy-zc','xPrP1tTaysfTzr/NOiAgPGEgaHJlZj0icmVnaXN0ZXIucGhwIj7XorLhPC9hPiB8IDxhIGhyZWY9ImxvZ2luLnBocCI+tcfCvDwvYT4=');                    </script></span>     </div>                                        <div id="de-addhtmltxtb">                                       <script>                                           decrypt('de-addhtmltxtb','');                    </script>                    </div>                                                             	
+<table class="xxqbbslisttable">
+	<tbody>
+											
+	
+																															
+
+						<tr>
+				<td><span class="subject-tag badge badge-danger gsttop1" id="de-title-topname15052">s/bK28z7</span></td>
+				<td><a style="color:#FF0000;" href="topic.php?id=15052" target="_blank"><span class="subject-tag"  id="de-newstitle15052">
+		    
+                                       <script>
+                   
+                        decrypt('de-newstitle15052','MjAzxtqjuqG+1ti8+8zsyNWhv6G+yP3X6TPW0DOhv9Hp1qSz9srb');
+                    </script>
+           
+		</span></a></td>
+				<td class=""><span id="de-newssource15052" class="subject-tag subject-username badge badge-light" style="color:#828385">
+				
+			
+                                       <script>
+                   
+                        decrypt('de-newssource15052','1ti8+8zsyNU=');
+						decrypt1('de-title-topname15052');
+                    </script>
+				
+				</span> </td>
+			</tr>
+
+
+			
+						<tr>
+				<td><span class="subject-tag badge badge-danger gsttop1" id="de-title-topname15043">s/bK28z7</span></td>
+				<td><a style="color:#FF0000;" href="topic.php?id=15043" target="_blank"><span class="subject-tag"  id="de-newstitle15043">
+		    
+                                       <script>
+                   
+                        decrypt('de-newstitle15043','MjAzxtqjuqG+wfm6z7/xyMuhv6G+ot7X6TPW0DOhv9Hp1qSz9srb');
+                    </script>
+           
+		</span></a></td>
+				<td class=""><span id="de-newssource15043" class="subject-tag subject-username badge badge-light" style="color:#828385">
+				
+			
+                                       <script>
+                   
+                        decrypt('de-newssource15043','wfm6z7/xyMs=');
+						decrypt1('de-title-topname15043');
+                    </script>
+				
+				</span> </td>
+			</tr>
+
+
+			
+						<tr>
+				<td><span class="subject-tag badge badge-danger gsttop1" id="de-title-topname15048">s/bK28z7</span></td>
+				<td><a style="color:#FF0000;" href="topic.php?id=15048" target="_blank"><span class="subject-tag"  id="de-newstitle15048">
+		    
+                                       <script>
+                   
+                        decrypt('de-newstitle15048','MjAzxtqjuqG+tsTPwM/Iu/qhv6G+otvX6TLW0DKhv9Hp1qSz9srb');
+                    </script>
+           
+		</span></a></td>
+				<td class=""><span id="de-newssource15048" class="subject-tag subject-username badge badge-light" style="color:#828385">
+				
+			
+                                       <script>
+                   
+                        decrypt('de-newssource15048','tsTPwM/Iu/o=');
+						decrypt1('de-title-topname15048');
+                    </script>
+				
+				</span> </td>
+			</tr>
+
+
+			
+						<tr>
+				<td><span class="subject-tag badge badge-danger gsttop1" id="de-title-topname15088">s/bK28z7</span></td>
+				<td><a style="color:#FF0000;" href="topic.php?id=15088" target="_blank"><span class="subject-tag"  id="de-newstitle15088">
+		    
+                                       <script>
+                   
+                        decrypt('de-newstitle15088','MjAzxtqjuqG+zfXW0M31ssqhv6G+ouDX6TLW0DKhv9Hp1qSz9srb');
+                    </script>
+           
+		</span></a></td>
+				<td class=""><span id="de-newssource15088" class="subject-tag subject-username badge badge-light" style="color:#828385">
+				
+			
+                                       <script>
+                   
+                        decrypt('de-newssource15088','zfXW0M31sso=');
+						decrypt1('de-title-topname15088');
+                    </script>
+				
+				</span> </td>
+			</tr>
+
+
+			
+						<tr>
+				<td><span class="subject-tag badge badge-danger gsttop1" id="de-title-topname15055">s/bK28z7</span></td>
+				<td><a style="color:#FF0000;" href="topic.php?id=15055" target="_blank"><span class="subject-tag"  id="de-newstitle15055">
+		    
+                                       <script>
+                   
+                        decrypt('de-newstitle15055','MjAzxtqjuqG+wuvN9bLGvfChv6G+xr3M2KLZ0KShv9Hp1qSz9srb');
+                    </script>
+           
+		</span></a></td>
+				<td class=""><span id="de-newssource15055" class="subject-tag subject-username badge badge-light" style="color:#828385">
+				
+			
+                                       <script>
+                   
+                        decrypt('de-newssource15055','wuvN9bLGvfA=');
+						decrypt1('de-title-topname15055');
+                    </script>
+				
+				</span> </td>
+			</tr>
+
+
+			
+						<tr>
+				<td><span class="subject-tag badge badge-danger gsttop1" id="de-title-topname15472">s/bK28z7</span></td>
+				<td><a style="color:#FF0000;" href="topic.php?id=15472" target="_blank"><span class="subject-tag"  id="de-newstitle15472">
+		    
+                                       <script>
+                   
+                        decrypt('de-newstitle15472','MjAzxtqjuqG+u+7B+rvuz9ahv6G+xr3M2Lb+wayhv9Hp1qSz9srb');
+                    </script>
+           
+		</span></a></td>
+				<td class=""><span id="de-newssource15472" class="subject-tag subject-username badge badge-light" style="color:#828385">
+				
+			
+                                       <script>
+                   
+                        decrypt('de-newssource15472','u+7B+rvuz9Y=');
+						decrypt1('de-title-topname15472');
+                    </script>
+				
+				</span> </td>
+			</tr>
+
+
+			
+						<tr>
+				<td><span class="subject-tag badge badge-danger gsttop1" id="de-title-topname15081">s/bK28z7</span></td>
+				<td><a style="color:#FF0000;" href="topic.php?id=15081" target="_blank"><span class="subject-tag"  id="de-newstitle15081">
+		    
+                                       <script>
+                   
+                        decrypt('de-newstitle15081','MjAzxtqjuqG+w7e7qMj9xaqhv6G+xr3M2Mj9wayhv9Hp1qSz9srb');
+                    </script>
+           
+		</span></a></td>
+				<td class=""><span id="de-newssource15081" class="subject-tag subject-username badge badge-light" style="color:#828385">
+				
+			
+                                       <script>
+                   
+                        decrypt('de-newssource15081','w7e7qMj9xao=');
+						decrypt1('de-title-topname15081');
+                    </script>
+				
+				</span> </td>
+			</tr>
+
+
+			
+						<tr>
+				<td><span class="subject-tag badge badge-danger gsttop1" id="de-title-topname15057">s/bK28z7</span></td>
+				<td><a style="color:#FF0000;" href="topic.php?id=15057" target="_blank"><span class="subject-tag"  id="de-newstitle15057">
+		    
+                                       <script>
+                   
+                        decrypt('de-newstitle15057','MjAzxtqjuqG+xKbIrbLB1cahv6G+xr3M2MvEwayhv9Hp1qSz9srb');
+                    </script>
+           
+		</span></a></td>
+				<td class=""><span id="de-newssource15057" class="subject-tag subject-username badge badge-light" style="color:#828385">
+				
+			
+                                       <script>
+                   
+                        decrypt('de-newssource15057','xKbIrbLB1cY=');
+						decrypt1('de-title-topname15057');
+                    </script>
+				
+				</span> </td>
+			</tr>
+
+
+			
+						<tr>
+				<td><span class="subject-tag badge badge-danger gsttop1" id="de-title-topname15072">s/bK28z7</span></td>
+				<td><a style="color:#FF0000;" href="topic.php?id=15072" target="_blank"><span class="subject-tag"  id="de-newstitle15072">
+		    
+                                       <script>
+                   
+                        decrypt('de-newstitle15072','MjAzxtqjuqG+s8/S4tX90MShv6G+0rvC69bQzNihv9Hp1qSz9srb');
+                    </script>
+           
+		</span></a></td>
+				<td class=""><span id="de-newssource15072" class="subject-tag subject-username badge badge-light" style="color:#828385">
+				
+			
+                                       <script>
+                   
+                        decrypt('de-newssource15072','s8/S4tX90MQ=');
+						decrypt1('de-title-topname15072');
+                    </script>
+				
+				</span> </td>
+			</tr>
+
+
+			
+						<tr>
+				<td><span class="subject-tag badge badge-danger gsttop1" id="de-title-topname15049">s/bK28z7</span></td>
+				<td><a style="color:#FF0000;" href="topic.php?id=15049" target="_blank"><span class="subject-tag"  id="de-newstitle15049">
+		    
+                                       <script>
+                   
+                        decrypt('de-newstitle15049','MjAzxtqjuqG+17yyysPY88Whv6G+tv7C69bQzNihv9Hp1qSz9srb');
+                    </script>
+           
+		</span></a></td>
+				<td class=""><span id="de-newssource15049" class="subject-tag subject-username badge badge-light" style="color:#828385">
+				
+			
+                                       <script>
+                   
+                        decrypt('de-newssource15049','17yyysPY88U=');
+						decrypt1('de-title-topname15049');
+                    </script>
+				
+				</span> </td>
+			</tr>
+
+
+			
+						<tr>
+				<td><span class="subject-tag badge badge-danger gsttop1" id="de-title-topname15053">s/bK28z7</span></td>
+				<td><a style="color:#FF0000;" href="topic.php?id=15053" target="_blank"><span class="subject-tag"  id="de-newstitle15053">
+		    
+                                       <script>
+                   
+                        decrypt('de-newstitle15053','MjAzxtqjuqG+8cfUxrq50+qhv6G+otvC69bQzNihv9Hp1qSz9srb');
+                    </script>
+           
+		</span></a></td>
+				<td class=""><span id="de-newssource15053" class="subject-tag subject-username badge badge-light" style="color:#828385">
+				
+			
+                                       <script>
+                   
+                        decrypt('de-newssource15053','8cfUxrq50+o=');
+						decrypt1('de-title-topname15053');
+                    </script>
+				
+				</span> </td>
+			</tr>
+
+
+			
+						<tr>
+				<td><span class="subject-tag badge badge-danger gsttop1" id="de-title-topname15063">s/bK28z7</span></td>
+				<td><a style="color:#FF0000;" href="topic.php?id=15063" target="_blank"><span class="subject-tag"  id="de-newstitle15063">
+		    
+                                       <script>
+                   
+                        decrypt('de-newstitle15063','MjAzxtqjuqG+us2wqr/Jx9ehv6G+y8TC69bQzNihv9Hp1qSz9srb');
+                    </script>
+           
+		</span></a></td>
+				<td class=""><span id="de-newssource15063" class="subject-tag subject-username badge badge-light" style="color:#828385">
+				
+			
+                                       <script>
+                   
+                        decrypt('de-newssource15063','us2wqr/Jx9c=');
+						decrypt1('de-title-topname15063');
+                    </script>
+				
+				</span> </td>
+			</tr>
+
+
+			
+						<tr>
+				<td><span class="subject-tag badge badge-danger gsttop1" id="de-title-topname15084">s/bK28z7</span></td>
+				<td><a style="color:#FF0000;" href="topic.php?id=15084" target="_blank"><span class="subject-tag"  id="de-newstitle15084">
+		    
+                                       <script>
+                   
+                        decrypt('de-newstitle15084','MjAzxtqjuqG+1ebGvsq1vt2hv6G+ot3C69bQzNihv9Hp1qSz9srb');
+                    </script>
+           
+		</span></a></td>
+				<td class=""><span id="de-newssource15084" class="subject-tag subject-username badge badge-light" style="color:#828385">
+				
+			
+                                       <script>
+                   
+                        decrypt('de-newssource15084','1ebGvsq1vt0=');
+						decrypt1('de-title-topname15084');
+                    </script>
+				
+				</span> </td>
+			</tr>
+
+
+			
+						<tr>
+				<td><span class="subject-tag badge badge-danger gsttop1" id="de-title-topname15066">s/bK28z7</span></td>
+				<td><a style="color:#FF0000;" href="topic.php?id=15066" target="_blank"><span class="subject-tag"  id="de-newstitle15066">
+		    
+                                       <script>
+                   
+                        decrypt('de-newstitle15066','MjAzxtqjuqG+0sDSwLK7yeGhv6G+ot7C69bQzNihv9Hp1qSz9srb');
+                    </script>
+           
+		</span></a></td>
+				<td class=""><span id="de-newssource15066" class="subject-tag subject-username badge badge-light" style="color:#828385">
+				
+			
+                                       <script>
+                   
+                        decrypt('de-newssource15066','0sDSwLK7yeE=');
+						decrypt1('de-title-topname15066');
+                    </script>
+				
+				</span> </td>
+			</tr>
+
+
+			
+						<tr>
+				<td><span class="subject-tag badge badge-danger gsttop1" id="de-title-topname15045">s/bK28z7</span></td>
+				<td><a style="color:#FF0000;" href="topic.php?id=15045" target="_blank"><span class="subject-tag"  id="de-newstitle15045">
+		    
+                                       <script>
+                   
+                        decrypt('de-newstitle15045','MjAzxtqjuqG+yrnNvdDQ19+hv6G+xt/C69bQzNihv9Hp1qSz9srb');
+                    </script>
+           
+		</span></a></td>
+				<td class=""><span id="de-newssource15045" class="subject-tag subject-username badge badge-light" style="color:#828385">
+				
+			
+                                       <script>
+                   
+                        decrypt('de-newssource15045','yrnNvdDQ198=');
+						decrypt1('de-title-topname15045');
+                    </script>
+				
+				</span> </td>
+			</tr>
+
+
+			
+						<tr>
+				<td><span class="subject-tag badge badge-danger gsttop1" id="de-title-topname15071">s/bK28z7</span></td>
+				<td><a style="color:#FF0000;" href="topic.php?id=15071" target="_blank"><span class="subject-tag"  id="de-newstitle15071">
+		    
+                                       <script>
+                   
+                        decrypt('de-newstitle15071','MjAzxtqjuqG+sdXUwtDfu6ihv6G+ouDC69bQzNihv9Hp1qSz9srb');
+                    </script>
+           
+		</span></a></td>
+				<td class=""><span id="de-newssource15071" class="subject-tag subject-username badge badge-light" style="color:#828385">
+				
+			
+                                       <script>
+                   
+                        decrypt('de-newssource15071','sdXUwtDfu6g=');
+						decrypt1('de-title-topname15071');
+                    </script>
+				
+				</span> </td>
+			</tr>
+
+
+			
+						<tr>
+				<td><span class="subject-tag badge badge-danger gsttop1" id="de-title-topname15070">s/bK28z7</span></td>
+				<td><a style="color:#FF0000;" href="topic.php?id=15070" target="_blank"><span class="subject-tag"  id="de-newstitle15070">
+		    
+                                       <script>
+                   
+                        decrypt('de-newstitle15070','MjAzxtqjuqG+y67M7NK7yauhv6G+vsXC69bQzNihv9Hp1qSz9srb');
+                    </script>
+           
+		</span></a></td>
+				<td class=""><span id="de-newssource15070" class="subject-tag subject-username badge badge-light" style="color:#828385">
+				
+			
+                                       <script>
+                   
+                        decrypt('de-newssource15070','y67M7NK7yas=');
+						decrypt1('de-title-topname15070');
+                    </script>
+				
+				</span> </td>
+			</tr>
+
+
+			
+						<tr>
+				<td><span class="subject-tag badge badge-danger gsttop1" id="de-title-topname15042">s/bK28z7</span></td>
+				<td><a style="color:#FF0000;" href="topic.php?id=15042" target="_blank"><span class="subject-tag"  id="de-newstitle15042">
+		    
+                                       <script>
+                   
+                        decrypt('de-newstitle15042','MjAzxtqjuqG+wfm6z7S0uLuhv6G+ouLC69bQzNihv9Hp1qSz9srb');
+                    </script>
+           
+		</span></a></td>
+				<td class=""><span id="de-newssource15042" class="subject-tag subject-username badge badge-light" style="color:#828385">
+				
+			
+                                       <script>
+                   
+                        decrypt('de-newssource15042','wfm6z7S0uLs=');
+						decrypt1('de-title-topname15042');
+                    </script>
+				
+				</span> </td>
+			</tr>
+
+
+			
+						<tr>
+				<td><span class="subject-tag badge badge-danger gsttop1" id="de-title-topname15068">s/bK28z7</span></td>
+				<td><a style="color:#FF0000;" href="topic.php?id=15068" target="_blank"><span class="subject-tag"  id="de-newstitle15068">
+		    
+                                       <script>
+                   
+                        decrypt('de-newstitle15068','MjAzxtqjuqG+wfmyyrfhuLuhv6G+MTHC69bQzNihv9Hp1qSz9srb');
+                    </script>
+           
+		</span></a></td>
+				<td class=""><span id="de-newssource15068" class="subject-tag subject-username badge badge-light" style="color:#828385">
+				
+			
+                                       <script>
+                   
+                        decrypt('de-newssource15068','wfmyyrfhuLs=');
+						decrypt1('de-title-topname15068');
+                    </script>
+				
+				</span> </td>
+			</tr>
+
+
+			
+						<tr>
+				<td><span class="subject-tag badge badge-danger gsttop1" id="de-title-topname15087">s/bK28z7</span></td>
+				<td><a style="color:#FF0000;" href="topic.php?id=15087" target="_blank"><span class="subject-tag"  id="de-newstitle15087">
+		    
+                                       <script>
+                   
+                        decrypt('de-newstitle15087','MjAzxtqjuqG+tqu5+c/Iyfqhv6G+MTLC69bQzNihv9Hp1qSz9srb');
+                    </script>
+           
+		</span></a></td>
+				<td class=""><span id="de-newssource15087" class="subject-tag subject-username badge badge-light" style="color:#828385">
+				
+			
+                                       <script>
+                   
+                        decrypt('de-newssource15087','tqu5+c/Iyfo=');
+						decrypt1('de-title-topname15087');
+                    </script>
+				
+				</span> </td>
+			</tr>
+
+
+			
+						<tr>
+				<td><span class="subject-tag badge badge-danger gsttop1" id="de-title-topname15089">s/bK28z7</span></td>
+				<td><a style="color:#FF0000;" href="topic.php?id=15089" target="_blank"><span class="subject-tag"  id="de-newstitle15089">
+		    
+                                       <script>
+                   
+                        decrypt('de-newstitle15089','MjAzxtqjuqG+uKPQx7bEsNShv6G+MTPC69bQzNihv9Hp1qSz9srb');
+                    </script>
+           
+		</span></a></td>
+				<td class=""><span id="de-newssource15089" class="subject-tag subject-username badge badge-light" style="color:#828385">
+				
+			
+                                       <script>
+                   
+                        decrypt('de-newssource15089','uKPQx7bEsNQ=');
+						decrypt1('de-title-topname15089');
+                    </script>
+				
+				</span> </td>
+			</tr>
+
+
+			
+						<tr>
+				<td><span class="subject-tag badge badge-danger gsttop1" id="de-title-topname15047">s/bK28z7</span></td>
+				<td><a style="color:#FF0000;" href="topic.php?id=15047" target="_blank"><span class="subject-tag"  id="de-newstitle15047">
+		    
+                                       <script>
+                   
+                        decrypt('de-newstitle15047','MjAzxtqjuqG+0669sbLGuLuhv6G+MTTC69bQzNihv9Hp1qSz9srb');
+                    </script>
+           
+		</span></a></td>
+				<td class=""><span id="de-newssource15047" class="subject-tag subject-username badge badge-light" style="color:#828385">
+				
+			
+                                       <script>
+                   
+                        decrypt('de-newssource15047','0669sbLGuLs=');
+						decrypt1('de-title-topname15047');
+                    </script>
+				
+				</span> </td>
+			</tr>
+
+
+			
+						<tr>
+				<td><span class="subject-tag badge badge-danger gsttop1" id="de-title-topname15080">s/bK28z7</span></td>
+				<td><a style="color:#FF0000;" href="topic.php?id=15080" target="_blank"><span class="subject-tag"  id="de-newstitle15080">
+		    
+                                       <script>
+                   
+                        decrypt('de-newstitle15080','MjAzxtqjuqG+vfXQ48ews8yhv6G+otPC69bQzNihv9Hp1qSz9srb');
+                    </script>
+           
+		</span></a></td>
+				<td class=""><span id="de-newssource15080" class="subject-tag subject-username badge badge-light" style="color:#828385">
+				
+			
+                                       <script>
+                   
+                        decrypt('de-newssource15080','vfXQ48ews8w=');
+						decrypt1('de-title-topname15080');
+                    </script>
+				
+				</span> </td>
+			</tr>
+
+
+			
+						<tr>
+				<td><span class="subject-tag badge badge-danger gsttop1" id="de-title-topname15046">s/bK28z7</span></td>
+				<td><a style="color:#FF0000;" href="topic.php?id=15046" target="_blank"><span class="subject-tag"  id="de-newstitle15046">
+		    
+                                       <script>
+                   
+                        decrypt('de-newstitle15046','MjAzxtqjuqG+1MbTzsvEuqOhv6G+otnQpNbQzNihv9Hp1qSz9srb');
+                    </script>
+           
+		</span></a></td>
+				<td class=""><span id="de-newssource15046" class="subject-tag subject-username badge badge-light" style="color:#828385">
+				
+			
+                                       <script>
+                   
+                        decrypt('de-newssource15046','1MbTzsvEuqM=');
+						decrypt1('de-title-topname15046');
+                    </script>
+				
+				</span> </td>
+			</tr>
+
+
+			
+						<tr>
+				<td><span class="subject-tag badge badge-danger gsttop1" id="de-title-topname15473">s/bK28z7</span></td>
+				<td><a style="color:#FF0000;" href="topic.php?id=15473" target="_blank"><span class="subject-tag"  id="de-newstitle15473">
+		    
+                                       <script>
+                   
+                        decrypt('de-newstitle15473','MjAzxtqjuqG+tuGxps311d+hv6G+0rvQpNK7wuuhv9Hp1qSz9srb');
+                    </script>
+           
+		</span></a></td>
+				<td class=""><span id="de-newssource15473" class="subject-tag subject-username badge badge-light" style="color:#828385">
+				
+			
+                                       <script>
+                   
+                        decrypt('de-newssource15473','tuGxps311d8=');
+						decrypt1('de-title-topname15473');
+                    </script>
+				
+				</span> </td>
+			</tr>
+
+
+			
+						<tr>
+				<td><span class="subject-tag badge badge-danger gsttop1" id="de-title-topname15073">s/bK28z7</span></td>
+				<td><a style="color:#FF0000;" href="topic.php?id=15073" target="_blank"><span class="subject-tag"  id="de-newstitle15073">
+		    
+                                       <script>
+                   
+                        decrypt('de-newstitle15073','MjAzxtqjuqG+s9a1tsrpyfqhv6G+otnQpKLawuuhv9Hp1qSz9srb');
+                    </script>
+           
+		</span></a></td>
+				<td class=""><span id="de-newssource15073" class="subject-tag subject-username badge badge-light" style="color:#828385">
+				
+			
+                                       <script>
+                   
+                        decrypt('de-newssource15073','s9a1tsrpyfo=');
+						decrypt1('de-title-topname15073');
+                    </script>
+				
+				</span> </td>
+			</tr>
+
+
+			
+						<tr>
+				<td><span class="subject-tag badge badge-danger gsttop1" id="de-title-topname15074">s/bK28z7</span></td>
+				<td><a style="color:#FF0000;" href="topic.php?id=15074" target="_blank"><span class="subject-tag"  id="de-newstitle15074">
+		    
+                                       <script>
+                   
+                        decrypt('de-newstitle15074','MjAzxtqjuqG+srvG/LHwwOuhv6G+tv7QpNbQzNihv9Hp1qSz9srb');
+                    </script>
+           
+		</span></a></td>
+				<td class=""><span id="de-newssource15074" class="subject-tag subject-username badge badge-light" style="color:#828385">
+				
+			
+                                       <script>
+                   
+                        decrypt('de-newssource15074','srvG/LHwwOs=');
+						decrypt1('de-title-topname15074');
+                    </script>
+				
+				</span> </td>
+			</tr>
+
+
+			
+						<tr>
+				<td><span class="subject-tag badge badge-danger gsttop1" id="de-title-topname15061">s/bK28z7</span></td>
+				<td><a style="color:#FF0000;" href="topic.php?id=15061" target="_blank"><span class="subject-tag"  id="de-newstitle15061">
+		    
+                                       <script>
+                   
+                        decrypt('de-newstitle15061','MjAzxtqjuqG+1u648NDEvq2hv6G+otrQpKLawuuhv9Hp1qSz9srb');
+                    </script>
+           
+		</span></a></td>
+				<td class=""><span id="de-newssource15061" class="subject-tag subject-username badge badge-light" style="color:#828385">
+				
+			
+                                       <script>
+                   
+                        decrypt('de-newssource15061','1u648NDEvq0=');
+						decrypt1('de-title-topname15061');
+                    </script>
+				
+				</span> </td>
+			</tr>
+
+
+			
+						<tr>
+				<td><span class="subject-tag badge badge-danger gsttop1" id="de-title-topname15078">s/bK28z7</span></td>
+				<td><a style="color:#FF0000;" href="topic.php?id=15078" target="_blank"><span class="subject-tag"  id="de-newstitle15078">
+		    
+                                       <script>
+                   
+                        decrypt('de-newstitle15078','MjAzxtqjuqG+vqKxrMPNwc+hv6G+otrQpKLcwuuhv9Hp1qSz9srb');
+                    </script>
+           
+		</span></a></td>
+				<td class=""><span id="de-newssource15078" class="subject-tag subject-username badge badge-light" style="color:#828385">
+				
+			
+                                       <script>
+                   
+                        decrypt('de-newssource15078','vqKxrMPNwc8=');
+						decrypt1('de-title-topname15078');
+                    </script>
+				
+				</span> </td>
+			</tr>
+
+
+			
+						<tr>
+				<td><span class="subject-tag badge badge-danger gsttop1" id="de-title-topname15083">s/bK28z7</span></td>
+				<td><a style="color:#FF0000;" href="topic.php?id=15083" target="_blank"><span class="subject-tag"  id="de-newstitle15083">
+		    
+                                       <script>
+                   
+                        decrypt('de-newstitle15083','MjAzxtqjuqG+1MvG+Mjnuuqhv6G+yP3QpNbQzNihv9Hp1qSz9srb');
+                    </script>
+           
+		</span></a></td>
+				<td class=""><span id="de-newssource15083" class="subject-tag subject-username badge badge-light" style="color:#828385">
+				
+			
+                                       <script>
+                   
+                        decrypt('de-newssource15083','1MvG+Mjnuuo=');
+						decrypt1('de-title-topname15083');
+                    </script>
+				
+				</span> </td>
+			</tr>
+
+
+			
+						<tr>
+				<td><span class="subject-tag badge badge-danger gsttop1" id="de-title-topname15067">s/bK28z7</span></td>
+				<td><a style="color:#FF0000;" href="topic.php?id=15067" target="_blank"><span class="subject-tag"  id="de-newstitle15067">
+		    
+                                       <script>
+                   
+                        decrypt('de-newstitle15067','MjAzxtqjuqG+wfm6z7Srxuahv6G+otvQpKLbwuuhv9Hp1qSz9srb');
+                    </script>
+           
+		</span></a></td>
+				<td class=""><span id="de-newssource15067" class="subject-tag subject-username badge badge-light" style="color:#828385">
+				
+			
+                                       <script>
+                   
+                        decrypt('de-newssource15067','wfm6z7SrxuY=');
+						decrypt1('de-title-topname15067');
+                    </script>
+				
+				</span> </td>
+			</tr>
+
+
+			
+						<tr>
+				<td><span class="subject-tag badge badge-danger gsttop1" id="de-title-topname15065">s/bK28z7</span></td>
+				<td><a style="color:#FF0000;" href="topic.php?id=15065" target="_blank"><span class="subject-tag"  id="de-newstitle15065">
+		    
+                                       <script>
+                   
+                        decrypt('de-newstitle15065','MjAzxtqjuqG+v7a/rsHcwOyhv6G+otvQpKLewuuhv9Hp1qSz9srb');
+                    </script>
+           
+		</span></a></td>
+				<td class=""><span id="de-newssource15065" class="subject-tag subject-username badge badge-light" style="color:#828385">
+				
+			
+                                       <script>
+                   
+                        decrypt('de-newssource15065','v7a/rsHcwOw=');
+						decrypt1('de-title-topname15065');
+                    </script>
+				
+				</span> </td>
+			</tr>
+
+
+			
+						<tr>
+				<td><span class="subject-tag badge badge-danger gsttop1" id="de-title-topname15075">s/bK28z7</span></td>
+				<td><a style="color:#FF0000;" href="topic.php?id=15075" target="_blank"><span class="subject-tag"  id="de-newstitle15075">
+		    
+                                       <script>
+                   
+                        decrypt('de-newstitle15075','MjAzxtqjuqG+4du35dTsvKuhv6G+y8TQpNbQzNihv9Hp1qSz9srb');
+                    </script>
+           
+		</span></a></td>
+				<td class=""><span id="de-newssource15075" class="subject-tag subject-username badge badge-light" style="color:#828385">
+				
+			
+                                       <script>
+                   
+                        decrypt('de-newssource15075','4du35dTsvKs=');
+						decrypt1('de-title-topname15075');
+                    </script>
+				
+				</span> </td>
+			</tr>
+
+
+			
+						<tr>
+				<td><span class="subject-tag badge badge-danger gsttop1" id="de-title-topname15599">s/bK28z7</span></td>
+				<td><a style="color:#FF0000;" href="topic.php?id=15599" target="_blank"><span class="subject-tag"  id="de-newstitle15599">
+		    
+                                       <script>
+                   
+                        decrypt('de-newstitle15599','MjAzxtqjuqG+y6vLq7PlzOyhv6G+otzQpKLcwuuhv9Hp1qSz9srb');
+                    </script>
+           
+		</span></a></td>
+				<td class=""><span id="de-newssource15599" class="subject-tag subject-username badge badge-light" style="color:#828385">
+				
+			
+                                       <script>
+                   
+                        decrypt('de-newssource15599','y6vLq7PlzOw=');
+						decrypt1('de-title-topname15599');
+                    </script>
+				
+				</span> </td>
+			</tr>
+
+
+			
+						<tr>
+				<td><span class="subject-tag badge badge-danger gsttop1" id="de-title-topname15391">s/bK28z7</span></td>
+				<td><a style="color:#FF0000;" href="topic.php?id=15391" target="_blank"><span class="subject-tag"  id="de-newstitle15391">
+		    
+                                       <script>
+                   
+                        decrypt('de-newstitle15391','MjAzxtqjuqG+wfm6z8zs0cShv6G+y8TQpLDLwuuhv9Hp1qSz9srb');
+                    </script>
+           
+		</span></a></td>
+				<td class=""><span id="de-newssource15391" class="subject-tag subject-username badge badge-light" style="color:#828385">
+				
+			
+                                       <script>
+                   
+                        decrypt('de-newssource15391','wfm6z8zs0cQ=');
+						decrypt1('de-title-topname15391');
+                    </script>
+				
+				</span> </td>
+			</tr>
+
+
+			
+						<tr>
+				<td><span class="subject-tag badge badge-danger gsttop1" id="de-title-topname15082">s/bK28z7</span></td>
+				<td><a style="color:#FF0000;" href="topic.php?id=15082" target="_blank"><span class="subject-tag"  id="de-newstitle15082">
+		    
+                                       <script>
+                   
+                        decrypt('de-newstitle15082','MjAzxtqjuqG+s/2xqbCywbyhv6G+zuXQpNbQzNihv9Hp1qSz9srb');
+                    </script>
+           
+		</span></a></td>
+				<td class=""><span id="de-newssource15082" class="subject-tag subject-username badge badge-light" style="color:#828385">
+				
+			
+                                       <script>
+                   
+                        decrypt('de-newssource15082','s/2xqbCywbw=');
+						decrypt1('de-title-topname15082');
+                    </script>
+				
+				</span> </td>
+			</tr>
+
+
+			
+						<tr>
+				<td><span class="subject-tag badge badge-danger gsttop1" id="de-title-topname15303">s/bK28z7</span></td>
+				<td><a style="color:#FF0000;" href="topic.php?id=15303" target="_blank"><span class="subject-tag"  id="de-newstitle15303">
+		    
+                                       <script>
+                   
+                        decrypt('de-newstitle15303','MjAzxtqjuqG+yqayyrGs16+hv6G+ot3QpKLiwuuhv9Hp1qSz9srb');
+                    </script>
+           
+		</span></a></td>
+				<td class=""><span id="de-newssource15303" class="subject-tag subject-username badge badge-light" style="color:#828385">
+				
+			
+                                       <script>
+                   
+                        decrypt('de-newssource15303','yqayyrGs168=');
+						decrypt1('de-title-topname15303');
+                    </script>
+				
+				</span> </td>
+			</tr>
+
+
+			
+						<tr>
+				<td><span class="subject-tag badge badge-danger gsttop1" id="de-title-topname15051">s/bK28z7</span></td>
+				<td><a style="color:#FF0000;" href="topic.php?id=15051" target="_blank"><span class="subject-tag"  id="de-newstitle15051">
+		    
+                                       <script>
+                   
+                        decrypt('de-newstitle15051','MjAzxtqjuqG+way7t7P2u/ehv6G+ot7QpNbQzNihv9Hp1qSz9srb');
+                    </script>
+           
+		</span></a></td>
+				<td class=""><span id="de-newssource15051" class="subject-tag subject-username badge badge-light" style="color:#828385">
+				
+			
+                                       <script>
+                   
+                        decrypt('de-newssource15051','way7t7P2u/c=');
+						decrypt1('de-title-topname15051');
+                    </script>
+				
+				</span> </td>
+			</tr>
+
+
+			
+						<tr>
+				<td><span class="subject-tag badge badge-danger gsttop1" id="de-title-topname15059">s/bK28z7</span></td>
+				<td><a style="color:#FF0000;" href="topic.php?id=15059" target="_blank"><span class="subject-tag"  id="de-newstitle15059">
+		    
+                                       <script>
+                   
+                        decrypt('de-newstitle15059','MjAzxtqjuqG+0+DJ+syrs6Shv6G+wfnQpDEywuuhv9Hp1qSz9srb');
+                    </script>
+           
+		</span></a></td>
+				<td class=""><span id="de-newssource15059" class="subject-tag subject-username badge badge-light" style="color:#828385">
+				
+			
+                                       <script>
+                   
+                        decrypt('de-newssource15059','0+DJ+syrs6Q=');
+						decrypt1('de-title-topname15059');
+                    </script>
+				
+				</span> </td>
+			</tr>
+
+
+			
+						<tr>
+				<td><span class="subject-tag badge badge-danger gsttop1" id="de-title-topname15079">s/bK28z7</span></td>
+				<td><a style="color:#FF0000;" href="topic.php?id=15079" target="_blank"><span class="subject-tag"  id="de-newstitle15079">
+		    
+                                       <script>
+                   
+                        decrypt('de-newstitle15079','MjAzxtqjuqG+zt7L+c63vuWhv6G+tPPQodbQzNihv9Hp1qSz9srb');
+                    </script>
+           
+		</span></a></td>
+				<td class=""><span id="de-newssource15079" class="subject-tag subject-username badge badge-light" style="color:#828385">
+				
+			
+                                       <script>
+                   
+                        decrypt('de-newssource15079','zt7L+c63vuU=');
+						decrypt1('de-title-topname15079');
+                    </script>
+				
+				</span> </td>
+			</tr>
+
+
+			
+						<tr>
+				<td><span class="subject-tag badge badge-danger gsttop1" id="de-title-topname15076">s/bK28z7</span></td>
+				<td><a style="color:#FF0000;" href="topic.php?id=15076" target="_blank"><span class="subject-tag"  id="de-newstitle15076">
+		    
+                                       <script>
+                   
+                        decrypt('de-newstitle15076','MjAzxtqjuqG+vtnG5bK7tqihv6G+taXLq9bQzNihv9Hp1qSz9srb');
+                    </script>
+           
+		</span></a></td>
+				<td class=""><span id="de-newssource15076" class="subject-tag subject-username badge badge-light" style="color:#828385">
+				
+			
+                                       <script>
+                   
+                        decrypt('de-newssource15076','vtnG5bK7tqg=');
+						decrypt1('de-title-topname15076');
+                    </script>
+				
+				</span> </td>
+			</tr>
+
+
+			
+						<tr>
+				<td><span class="subject-tag badge badge-danger gsttop1" id="de-title-topname15062">s/bK28z7</span></td>
+				<td><a style="color:#FF0000;" href="topic.php?id=15062" target="_blank"><span class="subject-tag"  id="de-newstitle15062">
+		    
+                                       <script>
+                   
+                        decrypt('de-newstitle15062','MjAzxtqjuqG+sK7M2M/Iyfqhv6G+vNLSsNbQzNihv9Hp1qSz9srb');
+                    </script>
+           
+		</span></a></td>
+				<td class=""><span id="de-newssource15062" class="subject-tag subject-username badge badge-light" style="color:#828385">
+				
+			
+                                       <script>
+                   
+                        decrypt('de-newssource15062','sK7M2M/Iyfo=');
+						decrypt1('de-title-topname15062');
+                    </script>
+				
+				</span> </td>
+			</tr>
+
+
+			
+						<tr>
+				<td><span class="subject-tag badge badge-danger gsttop1" id="de-title-topname15050">s/bK28z7</span></td>
+				<td><a style="color:#FF0000;" href="topic.php?id=15050" target="_blank"><span class="subject-tag"  id="de-newstitle15050">
+		    
+                                       <script>
+                   
+                        decrypt('de-newstitle15050','MjAzxtqjuqG+0de7xtfTy++hv6G+us/K/dbQzNihv9Hp1qSz9srb');
+                    </script>
+           
+		</span></a></td>
+				<td class=""><span id="de-newssource15050" class="subject-tag subject-username badge badge-light" style="color:#828385">
+				
+			
+                                       <script>
+                   
+                        decrypt('de-newssource15050','0de7xtfTy+8=');
+						decrypt1('de-title-topname15050');
+                    </script>
+				
+				</span> </td>
+			</tr>
+
+
+			
+						<tr>
+				<td><span class="subject-tag badge badge-danger gsttop1" id="de-title-topname15056">s/bK28z7</span></td>
+				<td><a style="color:#FF0000;" href="topic.php?id=15056" target="_blank"><span class="subject-tag"  id="de-newstitle15056">
+		    
+                                       <script>
+                   
+                        decrypt('de-newstitle15056','MjAzxtqjuqG+ysDN4szS1LShv6G+0rvOstbQzNihv9Hp1qSz9srb');
+                    </script>
+           
+		</span></a></td>
+				<td class=""><span id="de-newssource15056" class="subject-tag subject-username badge badge-light" style="color:#828385">
+				
+			
+                                       <script>
+                   
+                        decrypt('de-newssource15056','ysDN4szS1LQ=');
+						decrypt1('de-title-topname15056');
+                    </script>
+				
+				</span> </td>
+			</tr>
+
+
+			
+						<tr>
+				<td><span class="subject-tag badge badge-danger gsttop1" id="de-title-topname15058">s/bK28z7</span></td>
+				<td><a style="color:#FF0000;" href="topic.php?id=15058" target="_blank"><span class="subject-tag"  id="de-newstitle15058">
+		    
+                                       <script>
+                   
+                        decrypt('de-newstitle15058','MjAzxtqjuqG+0fS0urDX0amhv6G+otrOstbQzNihv9Hp1qSz9srb');
+                    </script>
+           
+		</span></a></td>
+				<td class=""><span id="de-newssource15058" class="subject-tag subject-username badge badge-light" style="color:#828385">
+				
+			
+                                       <script>
+                   
+                        decrypt('de-newssource15058','0fS0urDX0ak=');
+						decrypt1('de-title-topname15058');
+                    </script>
+				
+				</span> </td>
+			</tr>
+
+
+			
+						<tr>
+				<td><span class="subject-tag badge badge-danger gsttop1" id="de-title-topname15044">s/bK28z7</span></td>
+				<td><a style="color:#FF0000;" href="topic.php?id=15044" target="_blank"><span class="subject-tag"  id="de-newstitle15044">
+		    
+                                       <script>
+                   
+                        decrypt('de-newstitle15044','MjAzxtqjuqG+ssbQx9bCuLuhv6G+otvOstbQzNihv9Hp1qSz9srb');
+                    </script>
+           
+		</span></a></td>
+				<td class=""><span id="de-newssource15044" class="subject-tag subject-username badge badge-light" style="color:#828385">
+				
+			
+                                       <script>
+                   
+                        decrypt('de-newssource15044','ssbQx9bCuLs=');
+						decrypt1('de-title-topname15044');
+                    </script>
+				
+				</span> </td>
+			</tr>
+
+
+			
+						<tr>
+				<td><span class="subject-tag badge badge-danger gsttop1" id="de-title-topname15086">s/bK28z7</span></td>
+				<td><a style="color:#FF0000;" href="topic.php?id=15086" target="_blank"><span class="subject-tag"  id="de-newstitle15086">
+		    
+                                       <script>
+                   
+                        decrypt('de-newstitle15086','MjAzxtqjuqG+v/XI1bPWvsOhv6G+0rvNt9bQzNihv9Hp1qSz9srb');
+                    </script>
+           
+		</span></a></td>
+				<td class=""><span id="de-newssource15086" class="subject-tag subject-username badge badge-light" style="color:#828385">
+				
+			
+                                       <script>
+                   
+                        decrypt('de-newssource15086','v/XI1bPWvsM=');
+						decrypt1('de-title-topname15086');
+                    </script>
+				
+				</span> </td>
+			</tr>
+
+
+			
+																																				
+
+						<tr>
+				<td><span class="subject-tag badge badge-danger gsttop3" id="de-title-topname15541">s/bK28z7</span></td>
+				<td><a style="color:#FF0000;" href="topic.php?id=15541" target="_blank"><span class="subject-tag"  id="de-newstitle15541">
+		    
+                                       <script>
+                   
+                        decrypt('de-newstitle15541','MjAzxtqjuqG+08bIu9fUtcOhv6G+zuXQpMquwuuhv9Hp1qSz9srb');
+                    </script>
+           
+		</span></a></td>
+				<td class=""><span id="de-newssource15541" class="subject-tag subject-username badge badge-light" style="color:#828385">
+				
+			
+                                       <script>
+                   
+                        decrypt('de-newssource15541','08bIu9fUtcM=');
+						decrypt1('de-title-topname15541');
+                    </script>
+				
+				</span> </td>
+			</tr>
+
+
+			
+																																				
+
+						<tr>
+				<td><span class="subject-tag badge badge-warning gsttop4" id="de-title-topname15600">vqvGt8z7</span></td>
+				<td><a style="color:#008000;" href="topic.php?id=15600" target="_blank"><span class="subject-tag"  id="de-newstitle15600">
+		    
+                                       <script>
+                   
+                        decrypt('de-newstitle15600','MjAzxtqjutDHutO087Xbob6i3tCkotDC66G/of4gt6KyxtautcA=');
+                    </script>
+           
+		</span></a></td>
+				<td class=""><span id="de-newssource15600" class="subject-tag subject-username badge badge-light" style="color:#828385">
+				
+			
+                                       <script>
+                   
+                        decrypt('de-newssource15600','0Me607Tztds=');
+						decrypt1('de-title-topname15600');
+                    </script>
+				
+				</span> </td>
+			</tr>
+
+
+			
+						<tr>
+				<td><span class="subject-tag badge badge-warning gsttop4" id="de-title-topname15601">vqvGt8z7</span></td>
+				<td><a style="color:#008000;" href="topic.php?id=15601" target="_blank"><span class="subject-tag"  id="de-newstitle15601">
+		    
+                                       <script>
+                   
+                        decrypt('de-newstitle15601','MjAzxtqjurC6ytfAq7K9ob6i29Ckot7C66G/of4guPrX2beissY=');
+                    </script>
+           
+		</span></a></td>
+				<td class=""><span id="de-newssource15601" class="subject-tag subject-username badge badge-light" style="color:#828385">
+				
+			
+                                       <script>
+                   
+                        decrypt('de-newssource15601','sLrK18Crsr0=');
+						decrypt1('de-title-topname15601');
+                    </script>
+				
+				</span> </td>
+			</tr>
+
+
+			
+						<tr>
+				<td><span class="subject-tag badge badge-warning gsttop4" id="de-title-topname15602">vqvGt8z7</span></td>
+				<td><a style="color:#008000;" href="topic.php?id=15602" target="_blank"><span class="subject-tag"  id="de-newstitle15602">
+		    
+                                       <script>
+                   
+                        decrypt('de-newstitle15602','MjAzxtqjurK7xO7U8s38ob6i4sLr1tDM2KG/of4g0NLUy9bQvbE=');
+                    </script>
+           
+		</span></a></td>
+				<td class=""><span id="de-newssource15602" class="subject-tag subject-username badge badge-light" style="color:#828385">
+				
+			
+                                       <script>
+                   
+                        decrypt('de-newssource15602','srvE7tTyzfw=');
+						decrypt1('de-title-topname15602');
+                    </script>
+				
+				</span> </td>
+			</tr>
+
+
+			
+						<tr>
+				<td><span class="subject-tag badge badge-warning gsttop4" id="de-title-topname15603">vqvGt8z7</span></td>
+				<td><a style="color:#008000;" href="topic.php?id=15603" target="_blank"><span class="subject-tag"  id="de-newstitle15603">
+		    
+                                       <script>
+                   
+                        decrypt('de-newstitle15603','MjAzxtqjusPAxa70oruoob6i0MLr1tDM2KG/of4g1ti98LL5168=');
+                    </script>
+           
+		</span></a></td>
+				<td class=""><span id="de-newssource15603" class="subject-tag subject-username badge badge-light" style="color:#828385">
+				
+			
+                                       <script>
+                   
+                        decrypt('de-newssource15603','w8DFrvSiu6g=');
+						decrypt1('de-title-topname15603');
+                    </script>
+				
+				</span> </td>
+			</tr>
+
+
+			
+						<tr>
+				<td><span class="subject-tag badge badge-warning gsttop4" id="de-title-topname15604">vqvGt8z7</span></td>
+				<td><a style="color:#008000;" href="topic.php?id=15604" target="_blank"><span class="subject-tag"  id="de-newstitle15604">
+		    
+                                       <script>
+                   
+                        decrypt('de-newstitle15604','MjAzxtqjurv6u+G9tcHZob7GvczY0rvQpKG/of4guPzQwtbQvbE=');
+                    </script>
+           
+		</span></a></td>
+				<td class=""><span id="de-newssource15604" class="subject-tag subject-username badge badge-light" style="color:#828385">
+				
+			
+                                       <script>
+                   
+                        decrypt('de-newssource15604','u/q74b21wdk=');
+						decrypt1('de-title-topname15604');
+                    </script>
+				
+				</span> </td>
+			</tr>
+
+
+			
+						<tr>
+				<td><span class="subject-tag badge badge-warning gsttop4" id="de-title-topname15605">vqvGt8z7</span></td>
+				<td><a style="color:#008000;" href="topic.php?id=15605" target="_blank"><span class="subject-tag"  id="de-newstitle15605">
+		    
+                                       <script>
+                   
+                        decrypt('de-newstitle15605','MjAzxtqjurvtyLu54c2oob6i3c6y1tDM2KG/of4gsrzSwsnxy+M=');
+                    </script>
+           
+		</span></a></td>
+				<td class=""><span id="de-newssource15605" class="subject-tag subject-username badge badge-light" style="color:#828385">
+				
+			
+                                       <script>
+                   
+                        decrypt('de-newssource15605','u+3Iu7nhzag=');
+						decrypt1('de-title-topname15605');
+                    </script>
+				
+				</span> </td>
+			</tr>
+
+
+			
+						<tr>
+				<td><span class="subject-tag badge badge-warning gsttop4" id="de-title-topname15606">vqvGt8z7</span></td>
+				<td><a style="color:#008000;" href="topic.php?id=15606" target="_blank"><span class="subject-tag"  id="de-newstitle15606">
+		    
+                                       <script>
+                   
+                        decrypt('de-newstitle15606','MjAzxtqjutDK0MrP4M+nob6i4cLr1tDM2KG/of4gteO797Lpv7Q=');
+                    </script>
+           
+		</span></a></td>
+				<td class=""><span id="de-newssource15606" class="subject-tag subject-username badge badge-light" style="color:#828385">
+				
+			
+                                       <script>
+                   
+                        decrypt('de-newssource15606','0MrQys/gz6c=');
+						decrypt1('de-title-topname15606');
+                    </script>
+				
+				</span> </td>
+			</tr>
+
+
+			
+						<tr>
+				<td><span class="subject-tag badge badge-warning gsttop4" id="de-title-topname15607">vqvGt8z7</span></td>
+				<td><a style="color:#008000;" href="topic.php?id=15607" target="_blank"><span class="subject-tag"  id="de-newstitle15607">
+		    
+                                       <script>
+                   
+                        decrypt('de-newstitle15607','MjAzxtqjutDLwqG089K1ob4xNcLr1tDM2KG/of4guPzQwtbQvbE=');
+                    </script>
+           
+		</span></a></td>
+				<td class=""><span id="de-newssource15607" class="subject-tag subject-username badge badge-light" style="color:#828385">
+				
+			
+                                       <script>
+                   
+                        decrypt('de-newssource15607','0MvCobTz0rU=');
+						decrypt1('de-title-topname15607');
+                    </script>
+				
+				</span> </td>
+			</tr>
+
+
+			
+						<tr>
+				<td><span class="subject-tag badge badge-warning gsttop4" id="de-title-topname15608">vqvGt8z7</span></td>
+				<td><a style="color:#008000;" href="topic.php?id=15608" target="_blank"><span class="subject-tag"  id="de-newstitle15608">
+		    
+                                       <script>
+                   
+                        decrypt('de-newstitle15608','MjAzxtqjurLKu8qxrMHPob680tKw1tDM2KG/of4gw+7K1rvYtLo=');
+                    </script>
+           
+		</span></a></td>
+				<td class=""><span id="de-newssource15608" class="subject-tag subject-username badge badge-light" style="color:#828385">
+				
+			
+                                       <script>
+                   
+                        decrypt('de-newssource15608','ssq7yrGswc8=');
+						decrypt1('de-title-topname15608');
+                    </script>
+				
+				</span> </td>
+			</tr>
+
+
+			
+						<tr>
+				<td><span class="subject-tag badge badge-warning gsttop4" id="de-title-topname15609">vqvGt8z7</span></td>
+				<td><a style="color:#008000;" href="topic.php?id=15609" target="_blank"><span class="subject-tag"  id="de-newstitle15609">
+		    
+                                       <script>
+                   
+                        decrypt('de-newstitle15609','MjAzxtqjurLGyfHAtMHLob61pcur1tDM2KG/of4gyKvE6s7etO0=');
+                    </script>
+           
+		</span></a></td>
+				<td class=""><span id="de-newssource15609" class="subject-tag subject-username badge badge-light" style="color:#828385">
+				
+			
+                                       <script>
+                   
+                        decrypt('de-newssource15609','ssbJ8cC0wcs=');
+						decrypt1('de-title-topname15609');
+                    </script>
+				
+				</span> </td>
+			</tr>
+
+
+			
+						<tr>
+				<td><span class="subject-tag badge badge-warning gsttop4" id="de-title-topname15610">vqvGt8z7</span></td>
+				<td><a style="color:#008000;" href="topic.php?id=15610" target="_blank"><span class="subject-tag"  id="de-newstitle15610">
+		    
+                                       <script>
+                   
+                        decrypt('de-newstitle15610','MjAzxtqjuuf35/fFzsXOob6i286y1tDM2KG/of4guN/K1tHQvr8=');
+                    </script>
+           
+		</span></a></td>
+				<td class=""><span id="de-newssource15610" class="subject-tag subject-username badge badge-light" style="color:#828385">
+				
+			
+                                       <script>
+                   
+                        decrypt('de-newssource15610','5/fn98XOxc4=');
+						decrypt1('de-title-topname15610');
+                    </script>
+				
+				</span> </td>
+			</tr>
+
+
+			
+						<tr>
+				<td><span class="subject-tag badge badge-warning gsttop4" id="de-title-topname15611">vqvGt8z7</span></td>
+				<td><a style="color:#008000;" href="topic.php?id=15611" target="_blank"><span class="subject-tag"  id="de-newstitle15611">
+		    
+                                       <script>
+                   
+                        decrypt('de-newstitle15611','MjAzxtqjusL6w+a67Lniob6i2s231tDM2KG/of4gyta1vcfcwLQ=');
+                    </script>
+           
+		</span></a></td>
+				<td class=""><span id="de-newssource15611" class="subject-tag subject-username badge badge-light" style="color:#828385">
+				
+			
+                                       <script>
+                   
+                        decrypt('de-newssource15611','wvrD5rrsueI=');
+						decrypt1('de-title-topname15611');
+                    </script>
+				
+				</span> </td>
+			</tr>
+
+
+			
+						<tr>
+				<td><span class="subject-tag badge badge-warning gsttop4" id="de-title-topname15584">vqvGt8z7</span></td>
+				<td><a style="color:#008000;" href="topic.php?id=15584" target="_blank"><span class="subject-tag"  id="de-newstitle15584">
+		    
+                                       <script>
+                   
+                        decrypt('de-newstitle15584','MjAzxtqjusOpyPu22b+qob6i4MLr1tDM2KG/of4g0NLUy9bQvbE=');
+                    </script>
+           
+		</span></a></td>
+				<td class=""><span id="de-newssource15584" class="subject-tag subject-username badge badge-light" style="color:#828385">
+				
+			
+                                       <script>
+                   
+                        decrypt('de-newssource15584','w6nI+7bZv6o=');
+						decrypt1('de-title-topname15584');
+                    </script>
+				
+				</span> </td>
+			</tr>
+
+
+			
+						<tr>
+				<td><span class="subject-tag badge badge-warning gsttop4" id="de-title-topname15586">vqvGt8z7</span></td>
+				<td><a style="color:#008000;" href="topic.php?id=15586" target="_blank"><span class="subject-tag"  id="de-newstitle15586">
+		    
+                                       <script>
+                   
+                        decrypt('de-newstitle15586','MjAzxtqjuszPzM/I57LGob62/s231tDM2KG/of4gvsO4+rHYt6I=');
+                    </script>
+           
+		</span></a></td>
+				<td class=""><span id="de-newssource15586" class="subject-tag subject-username badge badge-light" style="color:#828385">
+				
+			
+                                       <script>
+                   
+                        decrypt('de-newssource15586','zM/Mz8jnssY=');
+						decrypt1('de-title-topname15586');
+                    </script>
+				
+				</span> </td>
+			</tr>
+
+
+			
+						<tr>
+				<td><span class="subject-tag badge badge-warning gsttop4" id="de-title-topname15587">vqvGt8z7</span></td>
+				<td><a style="color:#008000;" href="topic.php?id=15587" target="_blank"><span class="subject-tag"  id="de-newstitle15587">
+		    
+                                       <script>
+                   
+                        decrypt('de-newstitle15587','MjAzxtqjur6r06LBqsPLob6i3NCkouDC66G/of4g1ti98LL5168=');
+                    </script>
+           
+		</span></a></td>
+				<td class=""><span id="de-newssource15587" class="subject-tag subject-username badge badge-light" style="color:#828385">
+				
+			
+                                       <script>
+                   
+                        decrypt('de-newssource15587','vqvTosGqw8s=');
+						decrypt1('de-title-topname15587');
+                    </script>
+				
+				</span> </td>
+			</tr>
+
+
+			
+						<tr>
+				<td><span class="subject-tag badge badge-warning gsttop4" id="de-title-topname15588">vqvGt8z7</span></td>
+				<td><a style="color:#008000;" href="topic.php?id=15588" target="_blank"><span class="subject-tag"  id="de-newstitle15588">
+		    
+                                       <script>
+                   
+                        decrypt('de-newstitle15588','MjAzxtqjurP11b245r3dob66z8r91tDM2KG/of4gt6KyxtautcA=');
+                    </script>
+           
+		</span></a></td>
+				<td class=""><span id="de-newssource15588" class="subject-tag subject-username badge badge-light" style="color:#828385">
+				
+			
+                                       <script>
+                   
+                        decrypt('de-newssource15588','s/XVvbjmvd0=');
+						decrypt1('de-title-topname15588');
+                    </script>
+				
+				</span> </td>
+			</tr>
+
+
+			
+						<tr>
+				<td><span class="subject-tag badge badge-warning gsttop4" id="de-title-topname15549">vqvGt8z7</span></td>
+				<td><a style="color:#008000;" href="topic.php?id=15549" target="_blank"><span class="subject-tag"  id="de-newstitle15549">
+		    
+                                       <script>
+                   
+                        decrypt('de-newstitle15549','MjAzxtqjurGpuLu589flob4xM8Lr1tDM2KG/of4gt6KyxtautcA=');
+                    </script>
+           
+		</span></a></td>
+				<td class=""><span id="de-newssource15549" class="subject-tag subject-username badge badge-light" style="color:#828385">
+				
+			
+                                       <script>
+                   
+                        decrypt('de-newssource15549','sam4u7nz1+U=');
+						decrypt1('de-title-topname15549');
+                    </script>
+				
+				</span> </td>
+			</tr>
+
+
+			
+						<tr>
+				<td><span class="subject-tag badge badge-warning gsttop4" id="de-title-topname15550">vqvGt8z7</span></td>
+				<td><a style="color:#008000;" href="topic.php?id=15550" target="_blank"><span class="subject-tag"  id="de-newstitle15550">
+		    
+                                       <script>
+                   
+                        decrypt('de-newstitle15550','MjAzxtqjuszYvLa+q9Oiob6089Ch1tDM2KG/of4gzerDwNbQvbE=');
+                    </script>
+           
+		</span></a></td>
+				<td class=""><span id="de-newssource15550" class="subject-tag subject-username badge badge-light" style="color:#828385">
+				
+			
+                                       <script>
+                   
+                        decrypt('de-newssource15550','zNi8tr6r06I=');
+						decrypt1('de-title-topname15550');
+                    </script>
+				
+				</span> </td>
+			</tr>
+
+
+			
+						<tr>
+				<td><span class="subject-tag badge badge-warning gsttop4" id="de-title-topname15540">vqvGt8z7</span></td>
+				<td><a style="color:#008000;" href="topic.php?id=15540" target="_blank"><span class="subject-tag"  id="de-newstitle15540">
+		    
+                                       <script>
+                   
+                        decrypt('de-newstitle15540','MjAzxtqjurLGyfGxprLKob6i3M6y1tDM2KG/of4g1LLDzsH5us8=');
+                    </script>
+           
+		</span></a></td>
+				<td class=""><span id="de-newssource15540" class="subject-tag subject-username badge badge-light" style="color:#828385">
+				
+			
+                                       <script>
+                   
+                        decrypt('de-newssource15540','ssbJ8bGmsso=');
+						decrypt1('de-title-topname15540');
+                    </script>
+				
+				</span> </td>
+			</tr>
+
+
+			
+						<tr>
+				<td><span class="subject-tag badge badge-warning gsttop4" id="de-title-topname15481">vqvGt8z7</span></td>
+				<td><a style="color:#008000;" href="topic.php?id=15481" target="_blank"><span class="subject-tag"  id="de-newstitle15481">
+		    
+                                       <script>
+                   
+                        decrypt('de-newstitle15481','MjAzxtqjurrsvKvSu8qxob6i3dCkouLC66G/of4gvKvGt9fKwc8=');
+                    </script>
+           
+		</span></a></td>
+				<td class=""><span id="de-newssource15481" class="subject-tag subject-username badge badge-light" style="color:#828385">
+				
+			
+                                       <script>
+                   
+                        decrypt('de-newssource15481','uuy8q9K7yrE=');
+						decrypt1('de-title-topname15481');
+                    </script>
+				
+				</span> </td>
+			</tr>
+
+
+			
+						<tr>
+				<td><span class="subject-tag badge badge-warning gsttop4" id="de-title-topname15230">vqvGt8z7</span></td>
+				<td><a style="color:#008000;" href="topic.php?id=15230" target="_blank"><span class="subject-tag"  id="de-newstitle15230">
+		    
+                                       <script>
+                   
+                        decrypt('de-newstitle15230','MjAzxtqjusPOz+vG8Lq9ob6wy9Ck1tDM2KG/of4guPrX2beissY=');
+                    </script>
+           
+		</span></a></td>
+				<td class=""><span id="de-newssource15230" class="subject-tag subject-username badge badge-light" style="color:#828385">
+				
+			
+                                       <script>
+                   
+                        decrypt('de-newssource15230','w87P68bwur0=');
+						decrypt1('de-title-topname15230');
+                    </script>
+				
+				</span> </td>
+			</tr>
+
+
+			
+																																				
+
+						<tr>
+				<td><span class="subject-tag badge badge-primary gsttopt" id="de-title-topname15590">yMjDxcz7</span></td>
+				<td><a style="color:#0000FF;" href="topic.php?id=15590" target="_blank"><span class="subject-tag"  id="de-newstitle15590">
+		    
+                                       <script>
+                   
+                        decrypt('de-newstitle15590','MjAzxtqjurXY16+088qmob66z8r91tDM2KG/of4g1ti98LL5168=');
+                    </script>
+           
+		</span></a></td>
+				<td class=""><span id="de-newssource15590" class="subject-tag subject-username badge badge-light" style="color:#828385">
+				
+			
+                                       <script>
+                   
+                        decrypt('de-newssource15590','tdjXr7TzyqY=');
+						decrypt1('de-title-topname15590');
+                    </script>
+				
+				</span> </td>
+			</tr>
+
+
+			
+						<tr>
+				<td><span class="subject-tag badge badge-primary gsttopt" id="de-title-topname15591">yMjDxcz7</span></td>
+				<td><a style="color:#0000FF;" href="topic.php?id=15591" target="_blank"><span class="subject-tag"  id="de-newstitle15591">
+		    
+                                       <script>
+                   
+                        decrypt('de-newstitle15591','MjAzxtqjurfn99/O7ffeob680tKw1tDM2KG/of4gvqvTotfKwc8=');
+                    </script>
+           
+		</span></a></td>
+				<td class=""><span id="de-newssource15591" class="subject-tag subject-username badge badge-light" style="color:#828385">
+				
+			
+                                       <script>
+                   
+                        decrypt('de-newssource15591','t+f3387t994=');
+						decrypt1('de-title-topname15591');
+                    </script>
+				
+				</span> </td>
+			</tr>
+
+
+			
+						<tr>
+				<td><span class="subject-tag badge badge-primary gsttopt" id="de-title-topname15592">yMjDxcz7</span></td>
+				<td><a style="color:#0000FF;" href="topic.php?id=15592" target="_blank"><span class="subject-tag"  id="de-newstitle15592">
+		    
+                                       <script>
+                   
+                        decrypt('de-newstitle15592','MjAzxtqjutP5vaPT8NLtob62/squy8TC66G/of4gxtrG2sq11b0=');
+                    </script>
+           
+		</span></a></td>
+				<td class=""><span id="de-newssource15592" class="subject-tag subject-username badge badge-light" style="color:#828385">
+				
+			
+                                       <script>
+                   
+                        decrypt('de-newssource15592','0/m9o9Pw0u0=');
+						decrypt1('de-title-topname15592');
+                    </script>
+				
+				</span> </td>
+			</tr>
+
+
+			
+						<tr>
+				<td><span class="subject-tag badge badge-primary gsttopt" id="de-title-topname15596">yMjDxcz7</span></td>
+				<td><a style="color:#0000FF;" href="topic.php?id=15596" target="_blank"><span class="subject-tag"  id="de-newstitle15596">
+		    
+                                       <script>
+                   
+                        decrypt('de-newstitle15596','MjAzxtqjutGqyavDtbnlob6i3c6y1tDM2KG/of4gzerDwNbQvbE=');
+                    </script>
+           
+		</span></a></td>
+				<td class=""><span id="de-newssource15596" class="subject-tag subject-username badge badge-light" style="color:#828385">
+				
+			
+                                       <script>
+                   
+                        decrypt('de-newssource15596','0arJq8O1ueU=');
+						decrypt1('de-title-topname15596');
+                    </script>
+				
+				</span> </td>
+			</tr>
+
+
+			
+						<tr>
+				<td><span class="subject-tag badge badge-primary gsttopt" id="de-title-topname15597">yMjDxcz7</span></td>
+				<td><a style="color:#0000FF;" href="topic.php?id=15597" target="_blank"><span class="subject-tag"  id="de-newstitle15597">
+		    
+                                       <script>
+                   
+                        decrypt('de-newstitle15597','MjAzxtqjusPYw9y4xLLKob4xN8Lr1tDM2KG/of4g1f2w5tfKwc8=');
+                    </script>
+           
+		</span></a></td>
+				<td class=""><span id="de-newssource15597" class="subject-tag subject-username badge badge-light" style="color:#828385">
+				
+			
+                                       <script>
+                   
+                        decrypt('de-newssource15597','w9jD3LjEsso=');
+						decrypt1('de-title-topname15597');
+                    </script>
+				
+				</span> </td>
+			</tr>
+
+
+			
+						<tr>
+				<td><span class="subject-tag badge badge-primary gsttopt" id="de-title-topname15570">yMjDxcz7</span></td>
+				<td><a style="color:#0000FF;" href="topic.php?id=15570" target="_blank"><span class="subject-tag"  id="de-newstitle15570">
+		    
+                                       <script>
+                   
+                        decrypt('de-newstitle15570','MjAzxtqjurquzMHA5NTCob7O5dCkyq7C66G/of4guPzQwtbQvbE=');
+                    </script>
+           
+		</span></a></td>
+				<td class=""><span id="de-newssource15570" class="subject-tag subject-username badge badge-light" style="color:#828385">
+				
+			
+                                       <script>
+                   
+                        decrypt('de-newssource15570','uq7MwcDk1MI=');
+						decrypt1('de-title-topname15570');
+                    </script>
+				
+				</span> </td>
+			</tr>
+
+
+			
+						<tr>
+				<td><span class="subject-tag badge badge-primary gsttopt" id="de-title-topname15571">yMjDxcz7</span></td>
+				<td><a style="color:#0000FF;" href="topic.php?id=15571" target="_blank"><span class="subject-tag"  id="de-newstitle15571">
+		    
+                                       <script>
+                   
+                        decrypt('de-newstitle15571','MjAzxtqjurLGyfGxqLW9ob6wy9Ck1tDM2KG/of4g16jStdelwus=');
+                    </script>
+           
+		</span></a></td>
+				<td class=""><span id="de-newssource15571" class="subject-tag subject-username badge badge-light" style="color:#828385">
+				
+			
+                                       <script>
+                   
+                        decrypt('de-newssource15571','ssbJ8bGotb0=');
+						decrypt1('de-title-topname15571');
+                    </script>
+				
+				</span> </td>
+			</tr>
+
+
+			
+						<tr>
+				<td><span class="subject-tag badge badge-primary gsttopt" id="de-title-topname15573">yMjDxcz7</span></td>
+				<td><a style="color:#0000FF;" href="topic.php?id=15573" target="_blank"><span class="subject-tag"  id="de-newstitle15573">
+		    
+                                       <script>
+                   
+                        decrypt('de-newstitle15573','MjAzxtqjur7IysDQpMnxob6+xdCk1tDM2KG/of4guPzQwtbQvbE=');
+                    </script>
+           
+		</span></a></td>
+				<td class=""><span id="de-newssource15573" class="subject-tag subject-username badge badge-light" style="color:#828385">
+				
+			
+                                       <script>
+                   
+                        decrypt('de-newssource15573','vsjKwNCkyfE=');
+						decrypt1('de-title-topname15573');
+                    </script>
+				
+				</span> </td>
+			</tr>
+
+
+			
+						<tr>
+				<td><span class="subject-tag badge badge-primary gsttopt" id="de-title-topname15574">yMjDxcz7</span></td>
+				<td><a style="color:#0000FF;" href="topic.php?id=15574" target="_blank"><span class="subject-tag"  id="de-newstitle15574">
+		    
+                                       <script>
+                   
+                        decrypt('de-newstitle15574','MjAzxtqjurjQvvXQ2tO/ob6i2s231tDM2KG/of4guau/qtHp1qQ=');
+                    </script>
+           
+		</span></a></td>
+				<td class=""><span id="de-newssource15574" class="subject-tag subject-username badge badge-light" style="color:#828385">
+				
+			
+                                       <script>
+                   
+                        decrypt('de-newssource15574','uNC+9dDa078=');
+						decrypt1('de-title-topname15574');
+                    </script>
+				
+				</span> </td>
+			</tr>
+
+
+			
+						<tr>
+				<td><span class="subject-tag badge badge-primary gsttopt" id="de-title-topname15575">yMjDxcz7</span></td>
+				<td><a style="color:#0000FF;" href="topic.php?id=15575" target="_blank"><span class="subject-tag"  id="de-newstitle15575">
+		    
+                                       <script>
+                   
+                        decrypt('de-newstitle15575','MjAzxtqjurGmteS+q7H4ob6i3s6y1tDM2KG/of4gzsi2qM/C16I=');
+                    </script>
+           
+		</span></a></td>
+				<td class=""><span id="de-newssource15575" class="subject-tag subject-username badge badge-light" style="color:#828385">
+				
+			
+                                       <script>
+                   
+                        decrypt('de-newssource15575','saa15L6rsfg=');
+						decrypt1('de-title-topname15575');
+                    </script>
+				
+				</span> </td>
+			</tr>
+
+
+			
+						<tr>
+				<td><span class="subject-tag badge badge-primary gsttopt" id="de-title-topname15496">yMjDxcz7</span></td>
+				<td><a style="color:#0000FF;" href="topic.php?id=15496" target="_blank"><span class="subject-tag"  id="de-newstitle15496">
+		    
+                                       <script>
+                   
+                        decrypt('de-newstitle15496','MjAzxtqjuretzNq71LvNob6089Ch1tDM2KG/of4guPzQwtbQvbE=');
+                    </script>
+           
+		</span></a></td>
+				<td class=""><span id="de-newssource15496" class="subject-tag subject-username badge badge-light" style="color:#828385">
+				
+			
+                                       <script>
+                   
+                        decrypt('de-newssource15496','t63M2rvUu80=');
+						decrypt1('de-title-topname15496');
+                    </script>
+				
+				</span> </td>
+			</tr>
+
+
+			
+						<tr>
+				<td><span class="subject-tag badge badge-primary gsttopt" id="de-title-topname15447">yMjDxcz7</span></td>
+				<td><a style="color:#0000FF;" href="topic.php?id=15447" target="_blank"><span class="subject-tag"  id="de-newstitle15447">
+		    
+                                       <script>
+                   
+                        decrypt('de-newstitle15447','MjAzxtqjus7Iwc+w1M31ob6i39Ck1tDM2KG/of4gwazXvLbgxto=');
+                    </script>
+           
+		</span></a></td>
+				<td class=""><span id="de-newssource15447" class="subject-tag subject-username badge badge-light" style="color:#828385">
+				
+			
+                                       <script>
+                   
+                        decrypt('de-newssource15447','zsjBz7DUzfU=');
+						decrypt1('de-title-topname15447');
+                    </script>
+				
+				</span> </td>
+			</tr>
+
+
+			
+						<tr>
+				<td><span class="subject-tag badge badge-primary gsttopt" id="de-title-topname15453">yMjDxcz7</span></td>
+				<td><a style="color:#0000FF;" href="topic.php?id=15453" target="_blank"><span class="subject-tag"  id="de-newstitle15453">
+		    
+                                       <script>
+                   
+                        decrypt('de-newstitle15453','MjAzxtqjusewzb7O3sG/ob6wy86y1tDM2KG/of4g1ti98LL5168=');
+                    </script>
+           
+		</span></a></td>
+				<td class=""><span id="de-newssource15453" class="subject-tag subject-username badge badge-light" style="color:#828385">
+				
+			
+                                       <script>
+                   
+                        decrypt('de-newssource15453','x7DNvs7ewb8=');
+						decrypt1('de-title-topname15453');
+                    </script>
+				
+				</span> </td>
+			</tr>
+
+
+			
+						<tr>
+				<td><span class="subject-tag badge badge-primary gsttopt" id="de-title-topname15417">yMjDxcz7</span></td>
+				<td><a style="color:#0000FF;" href="topic.php?id=15417" target="_blank"><span class="subject-tag"  id="de-newstitle15417">
+		    
+                                       <script>
+                   
+                        decrypt('de-newstitle15417','MjAzxtqjurTzuavO3su9ob6+xdCk1tDM2KG/of4guPrX2beissY=');
+                    </script>
+           
+		</span></a></td>
+				<td class=""><span id="de-newssource15417" class="subject-tag subject-username badge badge-light" style="color:#828385">
+				
+			
+                                       <script>
+                   
+                        decrypt('de-newssource15417','tPO5q87ey70=');
+						decrypt1('de-title-topname15417');
+                    </script>
+				
+				</span> </td>
+			</tr>
+
+
+			
+						<tr>
+				<td><span class="subject-tag badge badge-primary gsttopt" id="de-title-topname15420">yMjDxcz7</span></td>
+				<td><a style="color:#0000FF;" href="topic.php?id=15420" target="_blank"><span class="subject-tag"  id="de-newstitle15420">
+		    
+                                       <script>
+                   
+                        decrypt('de-newstitle15420','MjAzxtqjutfKwc+zyb3wob6089Ch1tDM2KG/of4guPzQwtbQvbE=');
+                    </script>
+           
+		</span></a></td>
+				<td class=""><span id="de-newssource15420" class="subject-tag subject-username badge badge-light" style="color:#828385">
+				
+			
+                                       <script>
+                   
+                        decrypt('de-newssource15420','18rBz7PJvfA=');
+						decrypt1('de-title-topname15420');
+                    </script>
+				
+				</span> </td>
+			</tr>
+
+
+			
+						<tr>
+				<td><span class="subject-tag badge badge-primary gsttopt" id="de-title-topname15421">yMjDxcz7</span></td>
+				<td><a style="color:#0000FF;" href="topic.php?id=15421" target="_blank"><span class="subject-tag"  id="de-newstitle15421">
+		    
+                                       <script>
+                   
+                        decrypt('de-newstitle15421','MjAzxtqjuszszOzW0L2xob4zMMLr1tDM2KG/of4guPzQwtbQvbE=');
+                    </script>
+           
+		</span></a></td>
+				<td class=""><span id="de-newssource15421" class="subject-tag subject-username badge badge-light" style="color:#828385">
+				
+			
+                                       <script>
+                   
+                        decrypt('de-newssource15421','zOzM7NbQvbE=');
+						decrypt1('de-title-topname15421');
+                    </script>
+				
+				</span> </td>
+			</tr>
+
+
+			
+						<tr>
+				<td><span class="subject-tag badge badge-primary gsttopt" id="de-title-topname15392">yMjDxcz7</span></td>
+				<td><a style="color:#0000FF;" href="topic.php?id=15392" target="_blank"><span class="subject-tag"  id="de-newstitle15392">
+		    
+                                       <script>
+                   
+                        decrypt('de-newstitle15392','MjAzxtqjusLqwPbBq8POob6i386y1tDM2KG/of4gyta1vcfcwLQ=');
+                    </script>
+           
+		</span></a></td>
+				<td class=""><span id="de-newssource15392" class="subject-tag subject-username badge badge-light" style="color:#828385">
+				
+			
+                                       <script>
+                   
+                        decrypt('de-newssource15392','wurA9sGrw84=');
+						decrypt1('de-title-topname15392');
+                    </script>
+				
+				</span> </td>
+			</tr>
+
+
+			
+						<tr>
+				<td><span class="subject-tag badge badge-primary gsttopt" id="de-title-topname15202">yMjDxcz7</span></td>
+				<td><a style="color:#0000FF;" href="topic.php?id=15202" target="_blank"><span class="subject-tag"  id="de-newstitle15202">
+		    
+                                       <script>
+                   
+                        decrypt('de-newstitle15202','MjAzxtqjurbAvt+729Hbob7I/c231tDM2KG/of4gubLNrNbCuLs=');
+                    </script>
+           
+		</span></a></td>
+				<td class=""><span id="de-newssource15202" class="subject-tag subject-username badge badge-light" style="color:#828385">
+				
+			
+                                       <script>
+                   
+                        decrypt('de-newssource15202','tsC+37vb0ds=');
+						decrypt1('de-title-topname15202');
+                    </script>
+				
+				</span> </td>
+			</tr>
+
+
+			
+																																				
+
+						<tr>
+				<td><span class="subject-tag badge badge-success gsttop" id="de-title-topname15555">zca89sz7</span></td>
+				<td><a style="color:#000000" href="topic.php?id=15555" target="_blank"><span class="subject-tag"  id="de-newstitle15555">
+		    
+                                       <script>
+                   
+                        decrypt('de-newstitle15555','MjAzxtqjusz60arVvcq/ob6i39Ck1tDM2KG/of4gt6KyxtautcA=');
+                    </script>
+           
+		</span></a></td>
+				<td class=""><span id="de-newssource15555" class="subject-tag subject-username badge badge-light" style="color:#828385">
+				
+			
+                                       <script>
+                   
+                        decrypt('de-newssource15555','zPrRqtW9yr8=');
+						decrypt1('de-title-topname15555');
+                    </script>
+				
+				</span> </td>
+			</tr>
+
+
+			
+						<tr>
+				<td><span class="subject-tag badge badge-success gsttop" id="de-title-topname15556">zca89sz7</span></td>
+				<td><a style="color:#000000" href="topic.php?id=15556" target="_blank"><span class="subject-tag"  id="de-newstitle15556">
+		    
+                                       <script>
+                   
+                        decrypt('de-newstitle15556','MjAzxtqjuri7usDJ8cLrob61pcur1tDM2KG/of4guPzQwtbQvbE=');
+                    </script>
+           
+		</span></a></td>
+				<td class=""><span id="de-newssource15556" class="subject-tag subject-username badge badge-light" style="color:#828385">
+				
+			
+                                       <script>
+                   
+                        decrypt('de-newssource15556','uLu6wMnxwus=');
+						decrypt1('de-title-topname15556');
+                    </script>
+				
+				</span> </td>
+			</tr>
+
+
+			
+						<tr>
+				<td><span class="subject-tag badge badge-success gsttop" id="de-title-topname15558">zca89sz7</span></td>
+				<td><a style="color:#000000" href="topic.php?id=15558" target="_blank"><span class="subject-tag"  id="de-newstitle15558">
+		    
+                                       <script>
+                   
+                        decrypt('de-newstitle15558','MjAzxtqjur/ssai52r78ob7I/c231tDM2KG/of4gzOzM7NbQvbE=');
+                    </script>
+           
+		</span></a></td>
+				<td class=""><span id="de-newssource15558" class="subject-tag subject-username badge badge-light" style="color:#828385">
+				
+			
+                                       <script>
+                   
+                        decrypt('de-newssource15558','v+yxqLnavvw=');
+						decrypt1('de-title-topname15558');
+                    </script>
+				
+				</span> </td>
+			</tr>
+
+
+			
+						<tr>
+				<td><span class="subject-tag badge badge-success gsttop" id="de-title-topname15565">zca89sz7</span></td>
+				<td><a style="color:#000000" href="topic.php?id=15565" target="_blank"><span class="subject-tag"  id="de-newstitle15565">
+		    
+                                       <script>
+                   
+                        decrypt('de-newstitle15565','MjAzxtqjuszYwuuxrNevob6i386y1tDM2KG/of4gzOy0zcG8u/o=');
+                    </script>
+           
+		</span></a></td>
+				<td class=""><span id="de-newssource15565" class="subject-tag subject-username badge badge-light" style="color:#828385">
+				
+			
+                                       <script>
+                   
+                        decrypt('de-newssource15565','zNjC67Gs168=');
+						decrypt1('de-title-topname15565');
+                    </script>
+				
+				</span> </td>
+			</tr>
+
+
+			
+						<tr>
+				<td><span class="subject-tag badge badge-success gsttop" id="de-title-topname15567">zca89sz7</span></td>
+				<td><a style="color:#000000" href="topic.php?id=15567" target="_blank"><span class="subject-tag"  id="de-newstitle15567">
+		    
+                                       <script>
+                   
+                        decrypt('de-newstitle15567','MjAzxtqjurLG1MvAtMHZob680tKw1tDM2KG/of4gvqvTotfKwc8=');
+                    </script>
+           
+		</span></a></td>
+				<td class=""><span id="de-newssource15567" class="subject-tag subject-username badge badge-light" style="color:#828385">
+				
+			
+                                       <script>
+                   
+                        decrypt('de-newssource15567','ssbUy8C0wdk=');
+						decrypt1('de-title-topname15567');
+                    </script>
+				
+				</span> </td>
+			</tr>
+
+
+			
+						<tr>
+				<td><span class="subject-tag badge badge-success gsttop" id="de-title-topname15568">zca89sz7</span></td>
+				<td><a style="color:#000000" href="topic.php?id=15568" target="_blank"><span class="subject-tag"  id="de-newstitle15568">
+		    
+                                       <script>
+                   
+                        decrypt('de-newstitle15568','MjAzxtqjur3wyNrC+rnhob6wy9Ck1tDM2KG/of4g1f2w5tfKwc8=');
+                    </script>
+           
+		</span></a></td>
+				<td class=""><span id="de-newssource15568" class="subject-tag subject-username badge badge-light" style="color:#828385">
+				
+			
+                                       <script>
+                   
+                        decrypt('de-newssource15568','vfDI2sL6ueE=');
+						decrypt1('de-title-topname15568');
+                    </script>
+				
+				</span> </td>
+			</tr>
+
+
+			
+						<tr>
+				<td><span class="subject-tag badge badge-success gsttop" id="de-title-topname15511">zca89sz7</span></td>
+				<td><a style="color:#000000" href="topic.php?id=15511" target="_blank"><span class="subject-tag"  id="de-newstitle15511">
+		    
+                                       <script>
+                   
+                        decrypt('de-newstitle15511','MjAzxtqjusPAw86zydXmob6089Ch1tDM2KG/of4gyKvE6s7etO0=');
+                    </script>
+           
+		</span></a></td>
+				<td class=""><span id="de-newssource15511" class="subject-tag subject-username badge badge-light" style="color:#828385">
+				
+			
+                                       <script>
+                   
+                        decrypt('de-newssource15511','w8DDzrPJ1eY=');
+						decrypt1('de-title-topname15511');
+                    </script>
+				
+				</span> </td>
+			</tr>
+
+
+			
+						<tr>
+				<td><span class="subject-tag badge badge-success gsttop" id="de-title-topname15514">zca89sz7</span></td>
+				<td><a style="color:#000000" href="topic.php?id=15514" target="_blank"><span class="subject-tag"  id="de-newstitle15514">
+		    
+                                       <script>
+                   
+                        decrypt('de-newstitle15514','MjAzxtqjusvEvL7GvbCyob6wy86y1tDM2KG/of4guPzQwtbQvbE=');
+                    </script>
+           
+		</span></a></td>
+				<td class=""><span id="de-newssource15514" class="subject-tag subject-username badge badge-light" style="color:#828385">
+				
+			
+                                       <script>
+                   
+                        decrypt('de-newssource15514','y8S8vsa9sLI=');
+						decrypt1('de-title-topname15514');
+                    </script>
+				
+				</span> </td>
+			</tr>
+
+
+			
+						<tr>
+				<td><span class="subject-tag badge badge-success gsttop" id="de-title-topname15518">zca89sz7</span></td>
+				<td><a style="color:#000000" href="topic.php?id=15518" target="_blank"><span class="subject-tag"  id="de-newstitle15518">
+		    
+                                       <script>
+                   
+                        decrypt('de-newstitle15518','MjAzxtqjusnxy+PJ2cTqob6i4dCk1tDM2KG/of4guN/K1tHQvr8=');
+                    </script>
+           
+		</span></a></td>
+				<td class=""><span id="de-newssource15518" class="subject-tag subject-username badge badge-light" style="color:#828385">
+				
+			
+                                       <script>
+                   
+                        decrypt('de-newssource15518','yfHL48nZxOo=');
+						decrypt1('de-title-topname15518');
+                    </script>
+				
+				</span> </td>
+			</tr>
+
+
+			
+						<tr>
+				<td><span class="subject-tag badge badge-success gsttop" id="de-title-topname15519">zca89sz7</span></td>
+				<td><a style="color:#000000" href="topic.php?id=15519" target="_blank"><span class="subject-tag"  id="de-newstitle15519">
+		    
+                                       <script>
+                   
+                        decrypt('de-newstitle15519','MjAzxtqjurmnuae+tL60ob6i39Ck1tDM2KG/of4gt6KyxtautcA=');
+                    </script>
+           
+		</span></a></td>
+				<td class=""><span id="de-newssource15519" class="subject-tag subject-username badge badge-light" style="color:#828385">
+				
+			
+                                       <script>
+                   
+                        decrypt('de-newssource15519','uae5p760vrQ=');
+						decrypt1('de-title-topname15519');
+                    </script>
+				
+				</span> </td>
+			</tr>
+
+
+			
+						<tr>
+				<td><span class="subject-tag badge badge-success gsttop" id="de-title-topname15460">zca89sz7</span></td>
+				<td><a style="color:#000000" href="topic.php?id=15460" target="_blank"><span class="subject-tag"  id="de-newstitle15460">
+		    
+                                       <script>
+                   
+                        decrypt('de-newstitle15460','MjAzxtqjutDH1MLJ8buwob4zMMLr1tDM2KG/of4gsr2yvbeissY=');
+                    </script>
+           
+		</span></a></td>
+				<td class=""><span id="de-newssource15460" class="subject-tag subject-username badge badge-light" style="color:#828385">
+				
+			
+                                       <script>
+                   
+                        decrypt('de-newssource15460','0MfUwsnxu7A=');
+						decrypt1('de-title-topname15460');
+                    </script>
+				
+				</span> </td>
+			</tr>
+
+
+			
+						<tr>
+				<td><span class="subject-tag badge badge-success gsttop" id="de-title-topname15462">zca89sz7</span></td>
+				<td><a style="color:#000000" href="topic.php?id=15462" target="_blank"><span class="subject-tag"  id="de-newstitle15462">
+		    
+                                       <script>
+                   
+                        decrypt('de-newstitle15462','MjAzxtqjurart72yxri7ob6i4M6y1tDM2KG/of4gxr212Lfnsqg=');
+                    </script>
+           
+		</span></a></td>
+				<td class=""><span id="de-newssource15462" class="subject-tag subject-username badge badge-light" style="color:#828385">
+				
+			
+                                       <script>
+                   
+                        decrypt('de-newssource15462','tqu3vbLGuLs=');
+						decrypt1('de-title-topname15462');
+                    </script>
+				
+				</span> </td>
+			</tr>
+
+
+			
+						<tr>
+				<td><span class="subject-tag badge badge-success gsttop" id="de-title-topname15469">zca89sz7</span></td>
+				<td><a style="color:#000000" href="topic.php?id=15469" target="_blank"><span class="subject-tag"  id="de-newstitle15469">
+		    
+                                       <script>
+                   
+                        decrypt('de-newstitle15469','MjAzxtqjurmnz7K3orLGob7G386y1tDM2KG/of4guau/qtHp1qQ=');
+                    </script>
+           
+		</span></a></td>
+				<td class=""><span id="de-newssource15469" class="subject-tag subject-username badge badge-light" style="color:#828385">
+				
+			
+                                       <script>
+                   
+                        decrypt('de-newssource15469','uafPsreissY=');
+						decrypt1('de-title-topname15469');
+                    </script>
+				
+				</span> </td>
+			</tr>
+
+
+			
+						<tr>
+				<td><span class="subject-tag badge badge-success gsttop" id="de-title-topname15470">zca89sz7</span></td>
+				<td><a style="color:#000000" href="topic.php?id=15470" target="_blank"><span class="subject-tag"  id="de-newstitle15470">
+		    
+                                       <script>
+                   
+                        decrypt('de-newstitle15470','MjAzxtqjutTe1vrXqNPDob7I/cquwfnC66G/of4guN/Qvca4x+s=');
+                    </script>
+           
+		</span></a></td>
+				<td class=""><span id="de-newssource15470" class="subject-tag subject-username badge badge-light" style="color:#828385">
+				
+			
+                                       <script>
+                   
+                        decrypt('de-newssource15470','1N7W+teo08M=');
+						decrypt1('de-title-topname15470');
+                    </script>
+				
+				</span> </td>
+			</tr>
+
+
+			
+						<tr>
+				<td><span class="subject-tag badge badge-success gsttop" id="de-title-topname15351">zca89sz7</span></td>
+				<td><a style="color:#000000" href="topic.php?id=15351" target="_blank"><span class="subject-tag"  id="de-newstitle15351">
+		    
+                                       <script>
+                   
+                        decrypt('de-newstitle15351','MjAzxtqjur6qtq/Iq7PHob6i4dCk1tDM2KG/of4gudjXotbQvbE=');
+                    </script>
+           
+		</span></a></td>
+				<td class=""><span id="de-newssource15351" class="subject-tag subject-username badge badge-light" style="color:#828385">
+				
+			
+                                       <script>
+                   
+                        decrypt('de-newssource15351','vqq2r8irs8c=');
+						decrypt1('de-title-topname15351');
+                    </script>
+				
+				</span> </td>
+			</tr>
+
+
+			
+						<tr>
+				<td><span class="subject-tag badge badge-success gsttop" id="de-title-topname15354">zca89sz7</span></td>
+				<td><a style="color:#000000" href="topic.php?id=15354" target="_blank"><span class="subject-tag"  id="de-newstitle15354">
+		    
+                                       <script>
+                   
+                        decrypt('de-newstitle15354','MjAzxtqjusa90MS2qMb4ob7I/cquwfnC66G/of4guN/K1tHQvr8=');
+                    </script>
+           
+		</span></a></td>
+				<td class=""><span id="de-newssource15354" class="subject-tag subject-username badge badge-light" style="color:#828385">
+				
+			
+                                       <script>
+                   
+                        decrypt('de-newssource15354','xr3QxLaoxvg=');
+						decrypt1('de-title-topname15354');
+                    </script>
+				
+				</span> </td>
+			</tr>
+
+
+			
+						<tr>
+				<td><span class="subject-tag badge badge-success gsttop" id="de-title-topname15356">zca89sz7</span></td>
+				<td><a style="color:#000000" href="topic.php?id=15356" target="_blank"><span class="subject-tag"  id="de-newstitle15356">
+		    
+                                       <script>
+                   
+                        decrypt('de-newstitle15356','MjAzxtqjus7eyc/Wwdfwob6i386y1tDM2KG/of4gzerDwNbQvbE=');
+                    </script>
+           
+		</span></a></td>
+				<td class=""><span id="de-newssource15356" class="subject-tag subject-username badge badge-light" style="color:#828385">
+				
+			
+                                       <script>
+                   
+                        decrypt('de-newssource15356','zt7Jz9bB1/A=');
+						decrypt1('de-title-topname15356');
+                    </script>
+				
+				</span> </td>
+			</tr>
+
+
+			
+						<tr>
+				<td><span class="subject-tag badge badge-success gsttop" id="de-title-topname15215">zca89sz7</span></td>
+				<td><a style="color:#000000" href="topic.php?id=15215" target="_blank"><span class="subject-tag"  id="de-newstitle15215">
+		    
+                                       <script>
+                   
+                        decrypt('de-newstitle15215','MjAzxtqjusLrvq3QwtDHob6+xdCk1tDM2KG/of4guPzQwtbQvbE=');
+                    </script>
+           
+		</span></a></td>
+				<td class=""><span id="de-newssource15215" class="subject-tag subject-username badge badge-light" style="color:#828385">
+				
+			
+                                       <script>
+                   
+                        decrypt('de-newssource15215','wuu+rdDC0Mc=');
+						decrypt1('de-title-topname15215');
+                    </script>
+				
+				</span> </td>
+			</tr>
+
+
+					
+							
+
+	
+	</tbody>
+</table>                    <div id="de-addhtmltxtc">                                       <script>                                           decrypt('de-addhtmltxtc','PGltZyBzcmM9ImZ0YTEvejEyOS5wbmciIHdpZHRoPSIxMDAlIiAvPg==');                    </script>                    </div>                                        <div id="de-addhtmltxte">                                       <script>                                           decrypt('de-addhtmltxte','');                    </script>                    </div>                                        <div id="de-addhtmltxtf">                                       <script>                                           decrypt('de-addhtmltxtf','PGltZyBzcmM9Imh0dHBzOi8vdGsudHV0dS5maW5hbmNlL2FvbWVuLzIwMjYvY29sLzIwMy9zZ3hzLmpwZyIgd2lkdGg9IjEwMCUiIGFsdD0iIj4=');                    </script>                    </div>                                        <div id="de-addhtmltxtg">                                       <script>                                           decrypt('de-addhtmltxtg','');                    </script>                    </div>                                        <div id="de-addhtmltxth">                                       <script>                                           decrypt('de-addhtmltxth','PGltZyBzcmM9Imh0dHBzOi8vdGsudHV0dS5maW5hbmNlL2FvbWVuLzIwMjYvY29sLzIwMy92YjQuanBnIiB3aWR0aD0iMTAwJSIgYWx0PSIiPg==');                    </script>                    </div>                                        <div id="de-addhtmltxti">                                       <script>                                           decrypt('de-addhtmltxti','PGltZyBzcmM9Imh0dHBzOi8vYW1vLmpsaWRlc2lnbi5jb206NDk0OS9jb2wvMjAzL2FtcGd0LmpwZyIgd2lkdGg9IjEwMCUiIGFsdD0iIj4KICA8aW1nIHNyYz0iaHR0cHM6Ly9hbW8uamxpZGVzaWduLmNvbTo0OTQ5L2NvbC8yMDMvYW10dGpzLmpwZyIgd2lkdGg9IjEwMCUiIGFsdD0iIj4KICA8aW1nIHNyYz0iaHR0cHM6Ly9hbW8uamxpZGVzaWduLmNvbTo0OTQ5L2NvbC8yMDMvYW1ncC5qcGciIHdpZHRoPSIxMDAlIiBhbHQ9IiI+CiAgPGltZyBzcmM9Imh0dHBzOi8vYW1vLmpsaWRlc2lnbi5jb206NDk0OS9jb2wvMjAzL2FsYWx4MThtLmpwZyIgd2lkdGg9IjEwMCUiIGFsdD0iIj4KICA8aW1nIHNyYz0iaHR0cHM6Ly9hbW8uamxpZGVzaWduLmNvbTo0OTQ5L2NvbC8yMDMvYW1taC5qcGciIHdpZHRoPSIxMDAlIiBhbHQ9IiI+');                    </script>                    </div>                                        <div id="de-addhtmltxtj">                                       <script>                                           decrypt('de-addhtmltxtj','');                    </script>                    </div>                                          <div class="divfooter">                       <div id="de-addhtmltxtd">                                       <script>                                           decrypt('de-addhtmltxtd','PGRpdiBjbGFzcz0iZGl2Zm9vdGVyIj4KCiAgICAgICAgICAgICAgICAgICAgICAgIDxkaXYgY2xhc3M9ImRpdmZvb3RlciI+CgogICAgICAgICAgICAgICAgICAgICAgICA8ZGl2IGNsYXNzPSJ3YiI+CjxpbWcgc3JjPSJpbWFnZXMvMjAyNXN4dC5qcGciIGJvcmRlcj0iMCIgd2lkdGg9IjEwMCUiIC8+PC9kaXY+CjxkaXYgY2xhc3M9IndiIj4KPGltZyBzcmM9Ii4vaW1hZ2VzL2RpMi5wbmciIGJvcmRlcj0iMCIgd2lkdGg9IjEwMCUiIC8+PC9kaXY+CgoKICAgICAgICAgICAgICAgICAgICAgIDxkaXYgY2xhc3M9ImRpdmZvb3RlciI+CgogICAgICAgIDwvZGl2PgogICAgICAgICAgICAgICAgICAgIDwvZGl2PgoKCgoKCiAgICAgICAgPC9kaXY+');                    </script>                    </div>                    </div>        </div>
+    
+    <script src="main.js"></script>
+    
+    <footer class="bg-white pt-3">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12 text-center">
+                    <p class="text-secondary"><span id="de-text-secon"><script>
+                   
+                        decrypt('de-text-secon','w+LU8Mzhyr6jus60wvrKrrDLy+rIy8q/oaLO3sPxysLQ0M6qxNzBpsjLo6zH687w5K/AwLG+1b7E2sjdo6yxvtW+vty++MzhuanIzrrOt/7O8aGj');
+                    </script></span></p>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12 text-center">
+                    <p><span id="de-fwebname">                    <script>
+                   
+                        decrypt2('de-fwebname','sObIqMv509Agsru1w9eq1NggJmNvcHk7IMH1sq7OwsLbzLM=');
+                    </script></span></p>
+                </div>
+            </div>
+        </div>
+    </footer>
+</body>
+
+</html>

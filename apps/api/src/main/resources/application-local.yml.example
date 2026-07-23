@@ -1,0 +1,20 @@
+spring:
+  datasource:
+    url: jdbc:mysql://127.0.0.1:3306/liuhecai?useUnicode=true&characterEncoding=utf8&serverTimezone=Asia/Shanghai&allowPublicKeyRetrieval=true&useSSL=false
+    username: root
+    password: CHANGE_ME
+  data:
+    redis:
+      host: 127.0.0.1
+      port: 6379
+
+liuhecai:
+  jwt:
+    secret: local-dev-only-change-me-32bytes-min!!
+  tenant:
+    trust-forwarded-host: true
+  draw:
+    # 开发时可开：启动即拉一次公开开奖
+    fetch-on-startup: true
+
+# 启动：--spring.profiles.active=local

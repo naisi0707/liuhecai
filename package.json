@@ -1,0 +1,15 @@
+{
+  "name": "liuhecai",
+  "private": true,
+  "packageManager": "pnpm@9.15.0",
+  "scripts": {
+    "dev:web": "pnpm --filter @liuhecai/web dev",
+    "dev:admin": "pnpm --filter @liuhecai/admin dev",
+    "dev:agent": "pnpm --filter @liuhecai/agent dev",
+    "start:admin": "pnpm --filter @liuhecai/admin preview",
+    "start:agent": "pnpm --filter @liuhecai/agent preview",
+    "build:admin": "pnpm --filter @liuhecai/admin build",
+    "build:agent": "pnpm --filter @liuhecai/agent build",
+    "build:shared": "pnpm --filter @liuhecai/shared build"
+  }
+}

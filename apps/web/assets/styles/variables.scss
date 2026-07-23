@@ -1,0 +1,17 @@
+// 设计 token（SCSS 侧；运行时换肤走 CSS 变量）
+$shell-max: 900px;
+$header-h: 64px;
+$header-h-mobile: 56px;
+
+$color-ink: #222;
+$color-muted: #666;
+$color-danger: #dc0000;
+$color-shell-border: #039e6d;
+$color-header-bg: #f1f1f1;
+$color-header-border: #dfdfdf;
+$color-announce: #cc33cc;
+$color-auth-red: #c62828;
+$color-btn-blue: #1a73e8;
+$color-line-green: #7cbc8a;
+
+$font-sans: "Microsoft YaHei", "PingFang SC", "Noto Sans SC", sans-serif;
