@@ -5,9 +5,12 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.liuhecai.common.enums.ErrorCode;
 import com.liuhecai.common.exception.BusinessException;
+import com.liuhecai.config.CacheConfig;
 import com.liuhecai.entity.DemoNote;
+import com.liuhecai.entity.Domain;
 import com.liuhecai.entity.Tenant;
 import com.liuhecai.mapper.DemoNoteMapper;
+import com.liuhecai.mapper.DomainMapper;
 import com.liuhecai.mapper.TenantMapper;
 import com.liuhecai.service.TenantQueryService;
 import com.liuhecai.tenant.TenantContext;
@@ -16,12 +19,14 @@ import com.liuhecai.vo.TenantDirectoryItemVO;
 import com.liuhecai.vo.TenantVO;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 @Slf4j
 @Service
@@ -30,9 +35,13 @@ public class TenantQueryServiceImpl implements TenantQueryService {
 
     private final TenantMapper tenantMapper;
     private final DemoNoteMapper demoNoteMapper;
+    private final DomainMapper domainMapper;
     private final ObjectMapper objectMapper;
 
     @Override
+    @Cacheable(
+            cacheNames = CacheConfig.TENANT_CURRENT,
+            key = "T(com.liuhecai.tenant.TenantContext).get() + ':' + T(com.liuhecai.tenant.TenantContext).getHost()")
     public TenantVO getCurrentTenant() {
         Long tenantId = requireTenantId();
         Tenant tenant = tenantMapper.selectById(tenantId);
@@ -56,7 +65,42 @@ public class TenantQueryServiceImpl implements TenantQueryService {
         vo.setKefuQq(tenant.getKefuQq());
         vo.setAnnouncement(tenant.getAnnouncement());
         vo.setHost(TenantContext.getHost());
+        String role = TenantContext.getDomainRole();
+        vo.setDomainRole(StringUtils.hasText(role) ? role : "FORUM");
+        vo.setForumHost(resolveForumHost(tenantId));
         return vo;
+    }
+
+    private String resolveForumHost(Long tenantId) {
+        List<Domain> domains = domainMapper.selectList(new LambdaQueryWrapper<Domain>()
+                .eq(Domain::getTenantId, tenantId)
+                .eq(Domain::getStatus, 1)
+                .orderByDesc(Domain::getIsPrimary)
+                .orderByAsc(Domain::getId));
+        List<Domain> forums = domains.stream()
+                .filter(d -> {
+                    String r = d.getRole();
+                    return !StringUtils.hasText(r) || "FORUM".equalsIgnoreCase(r.trim());
+                })
+                .toList();
+        String current = TenantContext.getHost();
+        // entry.xxx → 优先配对论坛域 xxx
+        if (StringUtils.hasText(current) && current.toLowerCase().startsWith("entry.")) {
+            String paired = current.substring("entry.".length()).toLowerCase();
+            for (Domain d : forums) {
+                if (paired.equalsIgnoreCase(d.getHost())) {
+                    return d.getHost();
+                }
+            }
+        }
+        if (!forums.isEmpty()) {
+            return forums.get(0).getHost();
+        }
+        return domains.stream()
+                .map(Domain::getHost)
+                .filter(Objects::nonNull)
+                .findFirst()
+                .orElse(null);
     }
 
     @Override

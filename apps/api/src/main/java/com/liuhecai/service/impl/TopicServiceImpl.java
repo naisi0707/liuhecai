@@ -1,11 +1,14 @@
 package com.liuhecai.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.liuhecai.auth.AuthContext;
 import com.liuhecai.auth.AuthUser;
 import com.liuhecai.common.enums.ErrorCode;
 import com.liuhecai.common.enums.LotteryType;
 import com.liuhecai.common.exception.BusinessException;
+import com.liuhecai.common.result.PageResult;
+import com.liuhecai.common.util.PageLimits;
 import com.liuhecai.dto.CoinGrantRequest;
 import com.liuhecai.dto.TopicCreateRequest;
 import com.liuhecai.dto.TopicStatusRequest;
@@ -67,6 +70,7 @@ public class TopicServiceImpl implements TopicService {
         topic.setLotteryType(lotteryType);
         topic.setIssueNo(request.getIssueNo().trim());
         topic.setPlayType(StringUtils.hasText(request.getPlayType()) ? request.getPlayType().trim() : "综合");
+        topic.setTag(StringUtils.hasText(request.getTag()) ? request.getTag().trim() : "出售帖");
         topic.setPrice(request.getPrice());
         topic.setContent(htmlSanitizeService.sanitize(request.getContent()));
         if (StringUtils.hasText(request.getPreviewContent())) {
@@ -106,17 +110,41 @@ public class TopicServiceImpl implements TopicService {
     }
 
     @Override
-    public List<TopicVO> listPublic(Long viewerUserId) {
-        List<Topic> topics = topicMapper.selectList(new LambdaQueryWrapper<Topic>()
-                .eq(Topic::getStatus, STATUS_APPROVED)
-                .orderByDesc(Topic::getCreatedAt));
+    public PageResult<TopicVO> listPublic(Long viewerUserId, int page, int size) {
+        int safePage = PageLimits.clampPage(page);
+        int safeSize = PageLimits.clampSize(size);
+        Page<Topic> topicPage = topicMapper.selectPage(
+                new Page<>(safePage, safeSize),
+                new LambdaQueryWrapper<Topic>()
+                        .select(
+                                Topic::getId,
+                                Topic::getTenantId,
+                                Topic::getTitle,
+                                Topic::getLotteryType,
+                                Topic::getIssueNo,
+                                Topic::getPlayType,
+                                Topic::getPrice,
+                                Topic::getViewCount,
+                                Topic::getStatus,
+                                Topic::getCreatedBy,
+                                Topic::getCreatedAt,
+                                Topic::getUpdatedAt)
+                        .eq(Topic::getStatus, STATUS_APPROVED)
+                        .orderByDesc(Topic::getCreatedAt));
+        List<Topic> topics = topicPage.getRecords();
         Set<Long> purchasedIds = purchasedTopicIds(viewerUserId, topics.stream().map(Topic::getId).toList());
-        return topics.stream()
+        List<TopicVO> records = topics.stream()
                 .map(t -> {
                     boolean purchased = purchasedIds.contains(t.getId()) || isFree(t);
                     return toVo(t, purchased, false, null, null, null);
                 })
                 .collect(Collectors.toList());
+        PageResult<TopicVO> result = new PageResult<>();
+        result.setTotal(topicPage.getTotal());
+        result.setPage(safePage);
+        result.setSize(safeSize);
+        result.setRecords(records);
+        return result;
     }
 
     @Override
@@ -271,6 +299,7 @@ public class TopicServiceImpl implements TopicService {
                 .lotteryType(topic.getLotteryType())
                 .issueNo(topic.getIssueNo())
                 .playType(topic.getPlayType())
+                .tag(StringUtils.hasText(topic.getTag()) ? topic.getTag() : "出售帖")
                 .price(topic.getPrice())
                 .status(topic.getStatus())
                 .purchased(purchased)

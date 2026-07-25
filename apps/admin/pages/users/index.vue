@@ -4,7 +4,7 @@ import type { AdminUserListItem } from '@liuhecai/shared'
 
 definePageMeta({ title: '用户管理' })
 
-const { hydrate } = useAdminAuth()
+const { api, hydrate } = useAdminAuth()
 const {
   pageUsers,
   setUserEnabled,
@@ -18,7 +18,8 @@ const rows = ref<AdminUserListItem[]>([])
 const total = ref(0)
 const page = ref(1)
 const size = ref(20)
-const filter = reactive({ username: '', enabled: '' as '' | '0' | '1', tenantId: '' })
+const filter = reactive({ username: '', enabled: '' as '' | '0' | '1', tenantId: '' as '' | number })
+const tenants = ref<{ id: number; name: string }[]>([])
 const selected = ref<AdminUserListItem[]>([])
 const echo = ref('')
 
@@ -26,7 +27,7 @@ function filterParams() {
   return {
     username: filter.username || undefined,
     enabled: filter.enabled === '' ? undefined : Number(filter.enabled),
-    tenantId: filter.tenantId ? Number(filter.tenantId) : undefined,
+    tenantId: filter.tenantId === '' ? undefined : Number(filter.tenantId),
   }
 }
 
@@ -106,6 +107,7 @@ function fmtTime(v?: string) {
 
 onMounted(async () => {
   hydrate()
+  tenants.value = await api('/api/admin/tenants')
   await load()
 })
 </script>
@@ -117,8 +119,15 @@ onMounted(async () => {
         <el-form-item label="用户名">
           <el-input v-model="filter.username" clearable style="width:140px;" />
         </el-form-item>
-        <el-form-item label="租户ID">
-          <el-input v-model="filter.tenantId" clearable style="width:120px;" />
+        <el-form-item label="租户">
+          <el-select v-model="filter.tenantId" clearable placeholder="全部" style="width:180px;">
+            <el-option
+              v-for="t in tenants"
+              :key="t.id"
+              :label="`${t.name} (#${t.id})`"
+              :value="t.id"
+            />
+          </el-select>
         </el-form-item>
         <el-form-item label="状态">
           <el-select v-model="filter.enabled" clearable placeholder="全部" style="width:110px;">

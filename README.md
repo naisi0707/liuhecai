@@ -68,6 +68,10 @@ curl -H "X-Forwarded-Host: unknown.test" http://127.0.0.1:8080/api/tenant/curren
 
 数据库密码写在 `apps/api/src/main/resources/application-local.yml`（已 gitignore，勿提交）。
 
+入口伪装（假商城 → 线路 → 论坛）：见 [docs/entry-camouflage.md](docs/entry-camouflage.md)。本地演示：
+- 入口：`http://127.0.0.1:3000/?host=entry.127.0.0.1`
+- 论坛：`http://127.0.0.1:3000/?host=127.0.0.1`
+
 ## M3 演示账号
 
 | 端 | 地址 | 账号 | 密码 |

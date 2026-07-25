@@ -5,6 +5,7 @@ import com.liuhecai.auth.AuthContext;
 import com.liuhecai.auth.AuthUser;
 import com.liuhecai.common.enums.ErrorCode;
 import com.liuhecai.common.exception.BusinessException;
+import com.liuhecai.common.util.PageLimits;
 import com.liuhecai.dto.RechargeCreateRequest;
 import com.liuhecai.dto.RechargeRejectRequest;
 import com.liuhecai.entity.CoinLog;
@@ -71,7 +72,8 @@ public class RechargeServiceImpl implements RechargeService {
         AuthUser authUser = requireUser();
         List<RechargeRequest> list = rechargeRequestMapper.selectList(new LambdaQueryWrapper<RechargeRequest>()
                 .eq(RechargeRequest::getUserId, authUser.getId())
-                .orderByDesc(RechargeRequest::getCreatedAt));
+                .orderByDesc(RechargeRequest::getCreatedAt)
+                .last("LIMIT " + PageLimits.clampSize(100)));
         User user = userMapper.selectById(authUser.getId());
         Integer balance = user == null ? null : user.getCoinBalance();
         return list.stream()
@@ -82,11 +84,12 @@ public class RechargeServiceImpl implements RechargeService {
     @Override
     public List<RechargeVO> listForAgent(Integer status) {
         requireAgent();
-        LambdaQueryWrapper<RechargeRequest> qw = new LambdaQueryWrapper<RechargeRequest>()
-                .orderByDesc(RechargeRequest::getCreatedAt);
+        LambdaQueryWrapper<RechargeRequest> qw = new LambdaQueryWrapper<RechargeRequest>();
         if (status != null) {
             qw.eq(RechargeRequest::getStatus, status);
         }
+        qw.orderByDesc(RechargeRequest::getCreatedAt)
+                .last("LIMIT " + PageLimits.clampSize(100));
         List<RechargeRequest> list = rechargeRequestMapper.selectList(qw);
         Set<Long> userIds = list.stream().map(RechargeRequest::getUserId).collect(Collectors.toSet());
         Map<Long, User> users = userIds.isEmpty()

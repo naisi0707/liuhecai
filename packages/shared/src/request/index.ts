@@ -2,6 +2,7 @@ export {
   ApiError,
   request,
   setApiBaseURL,
+  setForwardedHostResolver,
   setRequestErrorHandler,
   setTenantHostOverride,
   getTenantHostOverride,

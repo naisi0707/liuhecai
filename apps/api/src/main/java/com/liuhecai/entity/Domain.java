@@ -15,6 +15,8 @@ public class Domain {
     private Long tenantId;
     private String host;
     private Integer isPrimary;
+    /** ENTRY 入口伪装 / FORUM 论坛 */
+    private String role;
     private Integer status;
     private LocalDateTime createdAt;
 }

@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import type { CmsHomeContent } from '@liuhecai/shared'
 
-const { loadPage, pageContent } = useSiteCms()
+const { pageContent } = useSiteCms()
 const { mediaUrl } = useMediaUrl()
 
 const images = computed(() => {
@@ -10,14 +10,6 @@ const images = computed(() => {
   return list
     .filter((img) => !!img?.src)
     .map((img) => ({ ...img, src: mediaUrl(img.src) }))
-})
-
-onMounted(async () => {
-  try {
-    await loadPage('home')
-  } catch {
-    // busy 已标记
-  }
 })
 </script>
 
@@ -29,6 +21,7 @@ onMounted(async () => {
       :src="img.src"
       :alt="img.alt || ''"
       width="100%"
+      height="auto"
       loading="lazy"
     />
   </div>

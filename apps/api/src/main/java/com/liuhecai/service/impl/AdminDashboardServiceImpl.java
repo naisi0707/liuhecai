@@ -11,7 +11,6 @@ import java.sql.Date;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -67,16 +66,7 @@ public class AdminDashboardServiceImpl implements AdminDashboardService {
     }
 
     private List<AdminDashboardVO.ActivityItem> mergeActivities() {
-        List<AdminDashboardVO.ActivityItem> merged = new ArrayList<>();
-        merged.addAll(nullToEmpty(adminStatsMapper.listCoinActivities()));
-        merged.addAll(nullToEmpty(adminStatsMapper.listRechargeActivities()));
-        merged.addAll(nullToEmpty(adminStatsMapper.listTopicActivities()));
-        return merged.stream()
-                .sorted(Comparator.comparing(
-                        AdminDashboardVO.ActivityItem::getCreatedAt,
-                        Comparator.nullsLast(Comparator.reverseOrder())))
-                .limit(30)
-                .toList();
+        return nullToEmpty(adminStatsMapper.listRecentActivities());
     }
 
     private List<AdminDashboardVO.NameCount> toNameCounts(List<Map<String, Object>> rows) {

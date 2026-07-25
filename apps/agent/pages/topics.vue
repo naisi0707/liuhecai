@@ -1,6 +1,10 @@
 <script setup lang="ts">
 import { ElMessage } from 'element-plus'
-import type { TopicVO } from '@liuhecai/shared'
+import {
+  PLAY_TYPE_OPTIONS,
+  TOPIC_TAG_OPTIONS,
+  type TopicVO,
+} from '@liuhecai/shared'
 definePageMeta({ title: '资料管理' })
 const { api, hydrate } = useAgentAuth()
 
@@ -10,6 +14,7 @@ const topicForm = reactive({
   lotteryType: 'MACAU_NEW',
   issueNo: '20260722',
   playType: '特码',
+  tag: '出售帖',
   price: 10,
   content: '演示正文：1 12 23 34（购买后可见）',
   status: 1,
@@ -65,7 +70,30 @@ onMounted(async () => {
             </el-select>
           </el-form-item>
           <el-form-item label="期号"><el-input v-model="topicForm.issueNo" /></el-form-item>
-          <el-form-item label="玩法"><el-input v-model="topicForm.playType" /></el-form-item>
+          <el-form-item label="帖子标签">
+            <el-select
+              v-model="topicForm.tag"
+              filterable
+              allow-create
+              default-first-option
+              placeholder="选择或输入标签"
+              style="width:100%"
+            >
+              <el-option v-for="opt in TOPIC_TAG_OPTIONS" :key="opt" :label="opt" :value="opt" />
+            </el-select>
+          </el-form-item>
+          <el-form-item label="玩法">
+            <el-select
+              v-model="topicForm.playType"
+              filterable
+              allow-create
+              default-first-option
+              placeholder="选择或输入玩法"
+              style="width:100%"
+            >
+              <el-option v-for="opt in PLAY_TYPE_OPTIONS" :key="opt" :label="opt" :value="opt" />
+            </el-select>
+          </el-form-item>
           <el-form-item label="价格"><el-input-number v-model="topicForm.price" :min="0" /></el-form-item>
           <el-form-item label="状态">
             <el-select v-model="topicForm.status" style="width:100%">
@@ -92,6 +120,7 @@ onMounted(async () => {
         </template>
         <el-table :data="topicList" size="small">
           <el-table-column prop="title" label="标题" min-width="120" />
+          <el-table-column prop="tag" label="标签" width="80" />
           <el-table-column prop="price" label="价格" width="70" />
           <el-table-column label="状态" width="80">
             <template #default="{ row }">{{ statusLabel[row.status ?? 0] }}</template>

@@ -3,6 +3,7 @@ uploads/
 .superpowers/
 .cursor/
 .tools/
+.worktrees/
 node_modules/
 target/
 .idea/
@@ -11,8 +12,14 @@ target/
 .env.*
 !.env.example
 **/application-local.yml
+docs/服务器.txt
 dist/
 .output/
 .nuxt/
 *.log
 scripts/e2e-artifacts/
+**/__pycache__/
+*.pyc
+findings.md
+progress.md
+task_plan.md

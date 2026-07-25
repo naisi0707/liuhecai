@@ -11,6 +11,10 @@ export interface TenantPublicVO {
   kefuQq?: string
   announcement?: string
   host?: string
+  /** 当前 Host 角色：ENTRY 入口伪装 / FORUM 论坛 */
+  domainRole?: 'ENTRY' | 'FORUM'
+  /** 同租户论坛 Host（供 ENTRY 跳转） */
+  forumHost?: string | null
 }
 
 export interface TenantDirectoryItem {

@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { ElMessage } from 'element-plus'
+import { FONT_FAMILY_OPTIONS } from '@liuhecai/shared'
 definePageMeta({ title: '基础设置' })
 const { api, hydrate } = useAgentAuth()
 const { loadSiteName } = useAgentSite()
@@ -61,7 +62,18 @@ onMounted(async () => {
       <el-form-item label="联系账号·微信（全站文案）"><el-input v-model="form.kefuWechat" /></el-form-item>
       <el-form-item label="联系账号·QQ（全站文案）"><el-input v-model="form.kefuQq" /></el-form-item>
       <el-form-item label="主色"><el-color-picker v-model="form.primaryColor" /></el-form-item>
-      <el-form-item label="字体"><el-input v-model="form.fontFamily" /></el-form-item>
+      <el-form-item label="字体">
+        <el-select
+          v-model="form.fontFamily"
+          filterable
+          allow-create
+          default-first-option
+          placeholder="选择或输入字体"
+          style="width:100%"
+        >
+          <el-option v-for="opt in FONT_FAMILY_OPTIONS" :key="opt" :label="opt" :value="opt" />
+        </el-select>
+      </el-form-item>
       <el-form-item label="Logo"><ImageUploadField v-model="form.logoUrl" /></el-form-item>
     </el-form>
   </el-card>

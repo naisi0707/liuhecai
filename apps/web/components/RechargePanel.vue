@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import type { CmsKefuContent, CmsRechargeContent, RechargeVO } from '@liuhecai/shared'
-import { request } from '@liuhecai/shared'
+import { PAY_CHANNEL_OPTIONS, request } from '@liuhecai/shared'
 
 const props = withDefaults(defineProps<{
   mode?: 'recharge' | 'kefu'
@@ -110,7 +110,18 @@ onMounted(async () => {
     <div v-if="mode === 'recharge'" class="recharge-box__form" style="text-align:left;margin-top:16px;border-top:1px dashed #ddd;padding-top:12px;">
       <h4>提交充值申请</h4>
       <label style="display:flex;gap:8px;margin-bottom:8px;">金额 <input v-model.number="form.amount" type="number" min="1" style="flex:1;height:36px;" /></label>
-      <label style="display:flex;gap:8px;margin-bottom:8px;">渠道 <input v-model="form.payChannel" style="flex:1;height:36px;" /></label>
+      <label style="display:flex;gap:8px;margin-bottom:8px;align-items:center;">
+        渠道
+        <input
+          v-model="form.payChannel"
+          list="pay-channel-options"
+          style="flex:1;height:36px;"
+          placeholder="选择或输入渠道"
+        />
+        <datalist id="pay-channel-options">
+          <option v-for="opt in PAY_CHANNEL_OPTIONS" :key="opt" :value="opt" />
+        </datalist>
+      </label>
       <label style="display:flex;gap:8px;margin-bottom:8px;">备注 <input v-model="form.remark" style="flex:1;height:36px;" /></label>
       <button type="button" class="btn-buy" @click="submit">提交申请</button>
       <div v-for="r in list" :key="r.id" style="padding:6px 0;border-bottom:1px dashed #eee;">

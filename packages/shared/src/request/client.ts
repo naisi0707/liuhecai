@@ -24,9 +24,16 @@ let defaultBaseURL = ''
 const TENANT_HOST_KEY = 'liuhecai_tenant_host'
 type RequestErrorHandler = (error: unknown) => void
 let requestErrorHandler: RequestErrorHandler | null = null
+type HostResolver = () => string
+let forwardedHostResolver: HostResolver | null = null
 
 export function setApiBaseURL(baseURL: string) {
   defaultBaseURL = baseURL
+}
+
+/** Nuxt SSR 可注入：从请求 Host / X-Forwarded-Host 解析租户 */
+export function setForwardedHostResolver(resolver: HostResolver | null) {
+  forwardedHostResolver = resolver
 }
 
 /** 前台可挂全局失败钩子（如白屏）；admin/agent 可不设 */
@@ -59,6 +66,10 @@ export function getTenantHostOverride(): string | null {
 }
 
 function resolveForwardedHost(): string {
+  if (forwardedHostResolver) {
+    const resolved = (forwardedHostResolver() || '').trim().toLowerCase()
+    if (resolved) return resolved
+  }
   if (typeof window !== 'undefined') {
     const params = new URLSearchParams(window.location.search)
     const qHost = params.get('host')

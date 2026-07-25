@@ -13,9 +13,6 @@ importers:
       '@element-plus/icons-vue':
         specifier: ^2.3.2
         version: 2.3.2(vue@3.5.40(typescript@5.9.3))
-      '@element-plus/nuxt':
-        specifier: ^1.1.5
-        version: 1.1.5(@element-plus/icons-vue@2.3.2(vue@3.5.40(typescript@5.9.3)))(element-plus@2.14.3(vue@3.5.40(typescript@5.9.3)))(esbuild@0.28.1)(magicast@0.5.3)(oxc-parser@0.140.0)(rollup@4.62.2)(vite@7.3.6(jiti@2.7.0)(sass@1.101.6)(terser@5.49.0)(yaml@2.9.0))
       '@liuhecai/shared':
         specifier: workspace:*
         version: link:../../packages/shared
@@ -33,7 +30,7 @@ importers:
         version: 1.0.3(@types/lodash-es@4.17.12)(lodash-es@4.18.1)(lodash@4.18.1)
       nuxt:
         specifier: ^3.21.9
-        version: 3.21.9(@parcel/watcher@2.6.0)(@vue/compiler-sfc@3.5.40)(cac@6.7.14)(db0@0.3.4)(esbuild@0.28.1)(ioredis@5.11.1)(magicast@0.5.3)(rollup-plugin-visualizer@7.0.1(rollup@4.62.2))(rollup@4.62.2)(sass@1.101.6)(terser@5.49.0)(typescript@5.9.3)(vite@7.3.6(jiti@2.7.0)(sass@1.101.6)(terser@5.49.0)(yaml@2.9.0))(yaml@2.9.0)
+        version: 3.21.9(@parcel/watcher@2.6.0)(@vue/compiler-sfc@3.5.40)(cac@6.7.14)(db0@0.3.4)(esbuild@0.28.1)(ioredis@5.11.1)(magicast@0.5.3)(rollup-plugin-visualizer@7.0.1(rollup@4.62.2))(rollup@4.62.2)(sass@1.101.6)(srvx@0.11.22)(terser@5.49.0)(typescript@5.9.3)(vite@7.3.6(jiti@2.7.0)(sass@1.101.6)(terser@5.49.0)(yaml@2.9.0))(yaml@2.9.0)
       vue:
         specifier: ^3.5.40
         version: 3.5.40(typescript@5.9.3)
@@ -49,9 +46,6 @@ importers:
       '@element-plus/icons-vue':
         specifier: ^2.3.2
         version: 2.3.2(vue@3.5.40(typescript@5.9.3))
-      '@element-plus/nuxt':
-        specifier: ^1.1.5
-        version: 1.1.5(@element-plus/icons-vue@2.3.2(vue@3.5.40(typescript@5.9.3)))(element-plus@2.14.3(vue@3.5.40(typescript@5.9.3)))(esbuild@0.28.1)(magicast@0.5.3)(oxc-parser@0.140.0)(rollup@4.62.2)(vite@7.3.6(jiti@2.7.0)(sass@1.101.6)(terser@5.49.0)(yaml@2.9.0))
       '@liuhecai/shared':
         specifier: workspace:*
         version: link:../../packages/shared
@@ -96,7 +90,7 @@ importers:
         version: 3.4.12
       nuxt:
         specifier: ^3.21.9
-        version: 3.21.9(@parcel/watcher@2.6.0)(@vue/compiler-sfc@3.5.40)(cac@6.7.14)(db0@0.3.4)(esbuild@0.28.1)(ioredis@5.11.1)(magicast@0.5.3)(rollup-plugin-visualizer@7.0.1(rollup@4.62.2))(rollup@4.62.2)(sass@1.101.6)(srvx@0.11.22)(terser@5.49.0)(typescript@5.9.3)(vite@7.3.6(jiti@2.7.0)(sass@1.101.6)(terser@5.49.0)(yaml@2.9.0))(yaml@2.9.0)
+        version: 3.21.9(@parcel/watcher@2.6.0)(@vue/compiler-sfc@3.5.40)(cac@6.7.14)(db0@0.3.4)(esbuild@0.28.1)(ioredis@5.11.1)(magicast@0.5.3)(rollup-plugin-visualizer@7.0.1(rollup@4.62.2))(rollup@4.62.2)(sass@1.101.6)(terser@5.49.0)(typescript@5.9.3)(vite@7.3.6(jiti@2.7.0)(sass@1.101.6)(terser@5.49.0)(yaml@2.9.0))(yaml@2.9.0)
       vue:
         specifier: ^3.5.40
         version: 3.5.40(typescript@5.9.3)
@@ -306,12 +300,6 @@ packages:
     resolution: {integrity: sha512-OzIuTaIfC8QXEPmJvB4Y4kw34rSXdCJzxcD1kFStBvr8bK6X1zQAYDo0CNMjojnfTqRQCJ0I7prlErcoRiET2A==}
     peerDependencies:
       vue: ^3.2.0
-
-  '@element-plus/nuxt@1.1.5':
-    resolution: {integrity: sha512-ghmwnxAzA8B7OhRm/9ahDHzMCQVk+/urAbQZqUevU7stgCofSNsZ4by6XzwUkPQIIuKQQwgZ7gF6614+KH8ZNw==}
-    peerDependencies:
-      '@element-plus/icons-vue': '>=0.2.6'
-      element-plus: '>=2'
 
   '@emnapi/core@1.11.2':
     resolution: {integrity: sha512-TC8MkTuZUtcTSiFeuC0ksCh9QIJ5+F21MvZ4Wn4ORfYaFJ/0dsiudv5tVkejgwZlwQ39jL9WWDe2lz8x0WglOA==}
@@ -4038,26 +4026,6 @@ snapshots:
   '@element-plus/icons-vue@2.3.2(vue@3.5.40(typescript@5.9.3))':
     dependencies:
       vue: 3.5.40(typescript@5.9.3)
-
-  '@element-plus/nuxt@1.1.5(@element-plus/icons-vue@2.3.2(vue@3.5.40(typescript@5.9.3)))(element-plus@2.14.3(vue@3.5.40(typescript@5.9.3)))(esbuild@0.28.1)(magicast@0.5.3)(oxc-parser@0.140.0)(rollup@4.62.2)(vite@7.3.6(jiti@2.7.0)(sass@1.101.6)(terser@5.49.0)(yaml@2.9.0))':
-    dependencies:
-      '@element-plus/icons-vue': 2.3.2(vue@3.5.40(typescript@5.9.3))
-      '@nuxt/kit': 4.5.0(magic-string@0.30.21)(magicast@0.5.3)(oxc-parser@0.140.0)(unplugin@3.3.0(esbuild@0.28.1)(rollup@4.62.2)(vite@7.3.6(jiti@2.7.0)(sass@1.101.6)(terser@5.49.0)(yaml@2.9.0)))
-      element-plus: 2.14.3(vue@3.5.40(typescript@5.9.3))
-      magic-string: 0.30.21
-      unplugin: 3.3.0(esbuild@0.28.1)(rollup@4.62.2)(vite@7.3.6(jiti@2.7.0)(sass@1.101.6)(terser@5.49.0)(yaml@2.9.0))
-    transitivePeerDependencies:
-      - '@farmfe/core'
-      - '@rspack/core'
-      - bun-types-no-globals
-      - esbuild
-      - magicast
-      - oxc-parser
-      - rolldown
-      - rollup
-      - unloader
-      - vite
-      - webpack
 
   '@emnapi/core@1.11.2':
     dependencies:

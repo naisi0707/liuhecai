@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { ElMessage } from 'element-plus'
-import type { RechargeVO } from '@liuhecai/shared'
+import { REJECT_REASON_OPTIONS, type RechargeVO } from '@liuhecai/shared'
 definePageMeta({ title: '充值确认' })
 const { api, hydrate } = useAgentAuth()
 
@@ -45,7 +45,16 @@ onMounted(async () => {
     <template #header>充值确认（工单）</template>
     <el-space wrap style="margin-bottom:12px;">
       <el-button @click="loadRecharges">刷新</el-button>
-      <el-input v-model="rejectReason" placeholder="拒绝原因" style="width:220px" />
+      <el-select
+        v-model="rejectReason"
+        filterable
+        allow-create
+        default-first-option
+        placeholder="拒绝原因"
+        style="width:220px"
+      >
+        <el-option v-for="opt in REJECT_REASON_OPTIONS" :key="opt" :label="opt" :value="opt" />
+      </el-select>
     </el-space>
     <el-table :data="rechargeList" stripe>
       <el-table-column prop="username" label="用户" width="120" />

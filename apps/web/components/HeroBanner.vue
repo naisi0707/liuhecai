@@ -28,6 +28,6 @@ const alt = computed(() => siteName.value || domainBadge.value || '')
 
 <template>
   <div v-if="src" class="hero-banner">
-    <img :src="src" :alt="alt" width="100%" />
+    <img :src="src" :alt="alt" width="100%" height="auto" loading="lazy" />
   </div>
 </template>

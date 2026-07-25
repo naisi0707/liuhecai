@@ -3,6 +3,7 @@ package com.liuhecai.controller;
 import com.liuhecai.auth.AuthContext;
 import com.liuhecai.auth.AuthUser;
 import com.liuhecai.common.enums.AuthRealm;
+import com.liuhecai.common.result.PageResult;
 import com.liuhecai.common.result.Result;
 import com.liuhecai.service.TopicService;
 import com.liuhecai.vo.TopicVO;
@@ -10,9 +11,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-
-import java.util.List;
 
 @RestController
 @RequestMapping("/api/topics")
@@ -22,8 +22,10 @@ public class TopicController {
     private final TopicService topicService;
 
     @GetMapping
-    public Result<List<TopicVO>> list() {
-        return Result.ok(topicService.listPublic(viewerUserId()));
+    public Result<PageResult<TopicVO>> list(
+            @RequestParam(defaultValue = "1") int page,
+            @RequestParam(defaultValue = "20") int size) {
+        return Result.ok(topicService.listPublic(viewerUserId(), page, size));
     }
 
     @GetMapping("/{id}")

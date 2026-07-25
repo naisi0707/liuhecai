@@ -45,9 +45,21 @@ export {
   ApiError,
   request,
   setApiBaseURL,
+  setForwardedHostResolver,
   setRequestErrorHandler,
   setTenantHostOverride,
   getTenantHostOverride,
   buildApiHeaders,
 } from './request'
 export type { RequestOptions } from './request'
+export { encodeGotoUrl, decodeGotoUrl, isAllowedGotoTarget } from './gotoCodec'
+export {
+  TOPIC_TAG_OPTIONS,
+  TOPIC_TAG_COLOR,
+  DEFAULT_TOPIC_TAG,
+  topicTagColor,
+  PLAY_TYPE_OPTIONS,
+  PAY_CHANNEL_OPTIONS,
+  REJECT_REASON_OPTIONS,
+  FONT_FAMILY_OPTIONS,
+} from './constants/formOptions'

@@ -1,7 +1,7 @@
 <script setup lang="ts">
 const route = useRoute()
-const { siteName, tenant, loadTenant } = useTenant()
-const { token, coinBalance, logout, hydrateFromStorage, refreshProfile } = useAuth()
+const { siteName, tenant } = useTenant()
+const { token, coinBalance, logout, hydrateFromStorage } = useAuth()
 const { menus, loadMenus } = useSiteCms()
 const { mediaUrl } = useMediaUrl()
 
@@ -36,8 +36,7 @@ function iconFor(code: string) {
 onMounted(async () => {
   hydrateFromStorage()
   try {
-    if (!tenant.value) await loadTenant()
-    if (token.value) await refreshProfile()
+    // layout 已 bootstrap；此处仅兜底（缓存命中则不发请求）
     await loadMenus()
   } catch {
     // 白屏

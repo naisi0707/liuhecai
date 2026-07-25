@@ -22,6 +22,10 @@ public class TopicCreateRequest {
     @Size(max = 64)
     private String playType;
 
+    /** 帖子标签；空则默认「出售帖」；允许自定义 */
+    @Size(max = 32)
+    private String tag;
+
     @NotNull
     @Min(0)
     private Integer price;

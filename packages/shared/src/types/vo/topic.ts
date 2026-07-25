@@ -4,6 +4,8 @@ export type TopicVO = {
   lotteryType: string
   issueNo: string
   playType: string
+  /** 帖子标签：出售帖 / 高手帖 / 普通帖 / 推荐帖 等 */
+  tag?: string
   price: number
   status?: number
   purchased: boolean

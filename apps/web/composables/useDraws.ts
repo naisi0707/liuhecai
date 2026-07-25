@@ -39,7 +39,8 @@ export function useDraws() {
     countdownText.value = formatCountdown(left)
   }
 
-  async function loadDraws() {
+  async function loadDraws(force = false) {
+    if (!force && Object.keys(draws.value).length > 0) return
     const list = await request<DrawResultVO[]>('/api/draws/latest-all')
     const map: Record<string, DrawResultVO> = {}
     for (const item of list) map[item.lotteryType] = item

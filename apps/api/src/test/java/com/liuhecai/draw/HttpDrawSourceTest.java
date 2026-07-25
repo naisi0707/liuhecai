@@ -27,7 +27,8 @@ class HttpDrawSourceTest {
         Optional<FetchedDraw> macauNew = source.fetchLatest("MACAU_NEW");
         assertTrue(macauNew.isPresent(), "MACAU_NEW should parse");
         assertEquals(6, macauNew.get().numbers().size());
-        assertEquals("羊", macauNew.get().zodiacs().get(0));
+        assertTrue(macauNew.get().zodiacs().size() >= 7, "zodiacs should cover 6+special");
+        assertTrue(macauNew.get().zodiacs().stream().allMatch(z -> z != null && !z.isBlank()));
 
         Optional<FetchedDraw> macauOld = source.fetchLatest("MACAU_OLD");
         assertTrue(macauOld.isPresent(), "MACAU_OLD should parse");

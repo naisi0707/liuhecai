@@ -1,5 +1,6 @@
 package com.liuhecai.service;
 
+import com.liuhecai.common.result.PageResult;
 import com.liuhecai.dto.CoinGrantRequest;
 import com.liuhecai.dto.TopicCreateRequest;
 import com.liuhecai.dto.TopicStatusRequest;
@@ -15,7 +16,7 @@ public interface TopicService {
 
     TopicVO updateStatus(Long topicId, TopicStatusRequest request);
 
-    List<TopicVO> listPublic(Long viewerUserId);
+    PageResult<TopicVO> listPublic(Long viewerUserId, int page, int size);
 
     TopicVO detail(Long topicId, Long viewerUserId);
 
