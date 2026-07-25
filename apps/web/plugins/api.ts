@@ -1,4 +1,9 @@
-import { setApiBaseURL, setForwardedHostResolver, setRequestErrorHandler } from '@liuhecai/shared'
+import {
+  setApiBaseURL,
+  setForwardedHostResolver,
+  setRequestErrorHandler,
+  setUnauthorizedHandler,
+} from '@liuhecai/shared'
 
 export default defineNuxtPlugin(() => {
   const config = useRuntimeConfig()
@@ -19,4 +24,22 @@ export default defineNuxtPlugin(() => {
   setRequestErrorHandler(() => {
     markSiteBusy()
   })
+
+  if (import.meta.client) {
+    const { logout } = useAuth()
+    const router = useRouter()
+    const goLogin = () => {
+      logout()
+      if (router.currentRoute.value.path === '/login') return
+      void navigateTo('/login').catch(() => {
+        window.location.assign('/login')
+      })
+    }
+    setUnauthorizedHandler(goLogin)
+    window.addEventListener('storage', (e) => {
+      if (e.key === 'user_token' && !e.newValue) {
+        goLogin()
+      }
+    })
+  }
 })

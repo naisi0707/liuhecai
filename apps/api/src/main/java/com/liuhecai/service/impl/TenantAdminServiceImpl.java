@@ -1,14 +1,19 @@
 package com.liuhecai.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
+import com.baomidou.mybatisplus.core.toolkit.IdWorker;
 import com.liuhecai.common.enums.AuthRealm;
 import com.liuhecai.common.enums.ErrorCode;
+import com.liuhecai.common.enums.OpAuditAction;
 import com.liuhecai.common.exception.BusinessException;
 import com.liuhecai.common.util.PasswordGenerator;
 import com.liuhecai.dto.AgentCreateRequest;
 import com.liuhecai.dto.DomainBindRequest;
+import com.liuhecai.dto.PrimaryAgentRequest;
 import com.liuhecai.dto.TenantCreateRequest;
 import com.liuhecai.dto.TenantStatusRequest;
+import com.liuhecai.dto.TenantUpdateRequest;
 import com.liuhecai.entity.AgentAccount;
 import com.liuhecai.entity.Domain;
 import com.liuhecai.entity.Tenant;
@@ -16,6 +21,8 @@ import com.liuhecai.mapper.AgentAccountMapper;
 import com.liuhecai.mapper.DomainMapper;
 import com.liuhecai.mapper.TenantMapper;
 import com.liuhecai.service.CmsSeedService;
+import com.liuhecai.service.EntryLineAdminService;
+import com.liuhecai.service.OpAuditService;
 import com.liuhecai.service.TenantAdminService;
 import com.liuhecai.service.TokenVersionService;
 import com.liuhecai.tenant.DomainTenantLookup;
@@ -24,6 +31,7 @@ import com.liuhecai.vo.DomainAdminVO;
 import com.liuhecai.vo.TenantAdminVO;
 import com.liuhecai.vo.TenantCreateResultVO;
 import lombok.RequiredArgsConstructor;
+import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -41,13 +49,19 @@ public class TenantAdminServiceImpl implements TenantAdminService {
     private static final String DEFAULT_THEME =
             "{\"primaryColor\":\"#c62828\",\"fontFamily\":\"Microsoft YaHei\"}";
 
+    private static final String TARGET_TYPE_TENANT = "TENANT";
+    private static final String TARGET_TYPE_AGENT = "AGENT";
+
     private final TenantMapper tenantMapper;
     private final DomainMapper domainMapper;
     private final AgentAccountMapper agentAccountMapper;
     private final PasswordEncoder passwordEncoder;
     private final CmsSeedService cmsSeedService;
     private final TokenVersionService tokenVersionService;
+    private final OpAuditService opAuditService;
     private final DomainTenantLookup domainTenantLookup;
+    private final EntryLineAdminService entryLineAdminService;
+    private final JdbcTemplate jdbcTemplate;
 
     @Override
     public List<TenantAdminVO> listTenants() {
@@ -66,6 +80,7 @@ public class TenantAdminServiceImpl implements TenantAdminService {
         Map<Long, List<AgentAccount>> agentsByTenant = agentAccountMapper.selectList(
                         new LambdaQueryWrapper<AgentAccount>()
                                 .in(AgentAccount::getTenantId, tenantIds)
+                                .orderByDesc(AgentAccount::getIsPrimary)
                                 .orderByAsc(AgentAccount::getId))
                 .stream()
                 .collect(Collectors.groupingBy(AgentAccount::getTenantId));
@@ -85,33 +100,59 @@ public class TenantAdminServiceImpl implements TenantAdminService {
         String host = normalizeHost(request.getPrimaryHost());
         assertHostAvailable(host);
 
+        String agentUsername = StringUtils.hasText(request.getAgentUsername())
+                ? request.getAgentUsername().trim()
+                : "agent";
+
+        long tenantId = IdWorker.getId();
+        long agentId = IdWorker.getId();
+        String rawPassword = PasswordGenerator.randomPassword(10);
+
         Tenant tenant = new Tenant();
+        tenant.setId(tenantId);
         tenant.setName(request.getName().trim());
         tenant.setStatus(1);
+        tenant.setPrimaryAgentId(agentId);
         tenant.setThemeJson(DEFAULT_THEME);
         tenant.setAnnouncement(StringUtils.hasText(request.getAnnouncement())
                 ? request.getAnnouncement().trim()
                 : "欢迎来到 " + request.getName().trim());
-        tenantMapper.insert(tenant);
+
+        AgentAccount agent = new AgentAccount();
+        agent.setId(agentId);
+        agent.setTenantId(tenantId);
+        agent.setUsername(agentUsername);
+        agent.setPasswordHash(passwordEncoder.encode(rawPassword));
+        agent.setEnabled(1);
+        agent.setIsPrimary(1);
+        agent.setPrimaryKey(1);
 
         Domain domain = new Domain();
-        domain.setTenantId(tenant.getId());
+        domain.setTenantId(tenantId);
         domain.setHost(host);
         domain.setIsPrimary(1);
         domain.setRole("FORUM");
         domain.setStatus(1);
+
+        // circular FK: tenant.primary_agent_id <-> agent; disable checks for the insert pair
+        jdbcTemplate.execute("SET FOREIGN_KEY_CHECKS=0");
+        try {
+            tenantMapper.insert(tenant);
+            agentAccountMapper.insert(agent);
+        } finally {
+            jdbcTemplate.execute("SET FOREIGN_KEY_CHECKS=1");
+        }
         domainMapper.insert(domain);
 
-        String agentUsername = StringUtils.hasText(request.getAgentUsername())
-                ? request.getAgentUsername().trim()
-                : "agent";
-        AgentAdminVO agent = createAgentInternal(tenant.getId(), agentUsername);
-        cmsSeedService.seedDefaults(tenant.getId());
+        cmsSeedService.seedDefaults(tenantId);
         domainTenantLookup.evictAll();
 
+        AgentAdminVO agentVo = toAgentVO(agent);
+        agentVo.setRawPassword(rawPassword);
+
         TenantCreateResultVO result = new TenantCreateResultVO();
-        result.setTenant(toDetail(requireTenant(tenant.getId())));
-        result.setAgent(agent);
+        result.setTenant(toDetail(requireTenant(tenantId)));
+        result.setAgent(agentVo);
         return result;
     }
 
@@ -129,6 +170,9 @@ public class TenantAdminServiceImpl implements TenantAdminService {
         domain.setRole(normalizeRole(request.getRole()));
         domain.setStatus(1);
         domainMapper.insert(domain);
+        if ("ENTRY".equals(domain.getRole())) {
+            entryLineAdminService.seedDefaultsIfEmpty(domain.getId(), tenant.getId());
+        }
         domainTenantLookup.evictAll();
         return toDomainVO(domain);
     }
@@ -162,9 +206,56 @@ public class TenantAdminServiceImpl implements TenantAdminService {
 
     @Override
     @Transactional(rollbackFor = Exception.class)
+    public TenantAdminVO updateTenant(Long tenantId, TenantUpdateRequest request) {
+        Tenant tenant = requireTenant(tenantId);
+        tenant.setName(request.getName().trim());
+        tenant.setAnnouncement(StringUtils.hasText(request.getAnnouncement())
+                ? request.getAnnouncement().trim()
+                : "");
+        tenantMapper.updateById(tenant);
+        domainTenantLookup.evictAll();
+        opAuditService.record(OpAuditAction.TENANT_UPDATE, TARGET_TYPE_TENANT, String.valueOf(tenantId), null);
+        return toDetail(requireTenant(tenantId));
+    }
+
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    public TenantAdminVO setPrimaryAgent(Long tenantId, PrimaryAgentRequest request) {
+        Tenant tenant = requireTenant(tenantId);
+        AgentAccount next = agentAccountMapper.selectById(request.getAgentId());
+        if (next == null || !tenantId.equals(next.getTenantId())) {
+            throw new BusinessException(ErrorCode.USER_NOT_FOUND, "代理账号不存在");
+        }
+        if (next.getEnabled() == null || next.getEnabled() != 1) {
+            throw new BusinessException(ErrorCode.BAD_REQUEST, "只能设置已启用的代理为主代理");
+        }
+        if (tenant.getPrimaryAgentId() != null && tenant.getPrimaryAgentId().equals(next.getId())) {
+            return toDetail(tenant);
+        }
+
+        agentAccountMapper.update(null, new LambdaUpdateWrapper<AgentAccount>()
+                .eq(AgentAccount::getTenantId, tenantId)
+                .set(AgentAccount::getIsPrimary, 0)
+                .set(AgentAccount::getPrimaryKey, null));
+        agentAccountMapper.update(null, new LambdaUpdateWrapper<AgentAccount>()
+                .eq(AgentAccount::getId, next.getId())
+                .set(AgentAccount::getIsPrimary, 1)
+                .set(AgentAccount::getPrimaryKey, 1));
+        tenant.setPrimaryAgentId(next.getId());
+        tenantMapper.updateById(tenant);
+        opAuditService.record(OpAuditAction.AGENT_SET_PRIMARY, TARGET_TYPE_AGENT,
+                String.valueOf(next.getId()), "tenantId=" + tenantId);
+        return toDetail(requireTenant(tenantId));
+    }
+
+    @Override
+    @Transactional(rollbackFor = Exception.class)
     public AgentAdminVO createAgent(Long tenantId, AgentCreateRequest request) {
         requireTenant(tenantId);
-        return createAgentInternal(tenantId, request.getUsername().trim());
+        AgentAdminVO vo = createAgentInternal(tenantId, request.getUsername().trim());
+        opAuditService.record(OpAuditAction.AGENT_CREATE, TARGET_TYPE_AGENT,
+                String.valueOf(vo.getId()), "tenantId=" + tenantId);
+        return vo;
     }
 
     @Override
@@ -183,6 +274,24 @@ public class TenantAdminServiceImpl implements TenantAdminService {
         return vo;
     }
 
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    public void softDeleteAgent(Long agentId) {
+        AgentAccount agent = agentAccountMapper.selectById(agentId);
+        if (agent == null) {
+            throw new BusinessException(ErrorCode.USER_NOT_FOUND, "代理账号不存在");
+        }
+        Tenant tenant = requireTenant(agent.getTenantId());
+        if (tenant.getPrimaryAgentId() != null && tenant.getPrimaryAgentId().equals(agentId)
+                || (agent.getIsPrimary() != null && agent.getIsPrimary() == 1)) {
+            throw new BusinessException(ErrorCode.BAD_REQUEST, "主代理不可注销，请先转移主代理");
+        }
+        agent.setEnabled(0);
+        agentAccountMapper.updateById(agent);
+        tokenVersionService.bump(AuthRealm.AGENT, agentId);
+        opAuditService.record(OpAuditAction.AGENT_DELETE, TARGET_TYPE_AGENT, String.valueOf(agentId), null);
+    }
+
     private AgentAdminVO createAgentInternal(Long tenantId, String username) {
         Long count = agentAccountMapper.selectCount(new LambdaQueryWrapper<AgentAccount>()
                 .eq(AgentAccount::getTenantId, tenantId)
@@ -190,13 +299,28 @@ public class TenantAdminServiceImpl implements TenantAdminService {
         if (count != null && count > 0) {
             throw new BusinessException(ErrorCode.AGENT_USERNAME_EXISTS);
         }
+        Tenant tenant = requireTenant(tenantId);
+        boolean needPrimary = tenant.getPrimaryAgentId() == null
+                || agentAccountMapper.selectById(tenant.getPrimaryAgentId()) == null;
+
         String raw = PasswordGenerator.randomPassword(10);
         AgentAccount agent = new AgentAccount();
         agent.setTenantId(tenantId);
         agent.setUsername(username);
         agent.setPasswordHash(passwordEncoder.encode(raw));
         agent.setEnabled(1);
+        if (needPrimary) {
+            agent.setIsPrimary(1);
+            agent.setPrimaryKey(1);
+        } else {
+            agent.setIsPrimary(0);
+            agent.setPrimaryKey(null);
+        }
         agentAccountMapper.insert(agent);
+        if (needPrimary) {
+            tenant.setPrimaryAgentId(agent.getId());
+            tenantMapper.updateById(tenant);
+        }
         AgentAdminVO vo = toAgentVO(agent);
         vo.setRawPassword(raw);
         return vo;
@@ -237,6 +361,7 @@ public class TenantAdminServiceImpl implements TenantAdminService {
                 .orderByAsc(Domain::getId));
         List<AgentAccount> agents = agentAccountMapper.selectList(new LambdaQueryWrapper<AgentAccount>()
                 .eq(AgentAccount::getTenantId, tenant.getId())
+                .orderByDesc(AgentAccount::getIsPrimary)
                 .orderByAsc(AgentAccount::getId));
         return toDetail(tenant, domains, agents);
     }
@@ -268,6 +393,7 @@ public class TenantAdminServiceImpl implements TenantAdminService {
         vo.setId(agent.getId());
         vo.setUsername(agent.getUsername());
         vo.setEnabled(agent.getEnabled());
+        vo.setIsPrimary(agent.getIsPrimary() == null ? 0 : agent.getIsPrimary());
         return vo;
     }
 }

@@ -22,8 +22,8 @@ done
 echo '=== pages ==='
 curl -sS -o /dev/null -w 'forum:%{http_code}\n' -H 'Host: 585520.xyz' http://127.0.0.1/
 curl -sS -o /dev/null -w 'entry:%{http_code}\n' -H 'Host: 157456.com' http://127.0.0.1/
-curl -sS -o /dev/null -w 'admin:%{http_code}\n' -H 'Host: admin.236841.xyz' http://127.0.0.1/
-curl -sS -o /dev/null -w 'agent:%{http_code}\n' -H 'Host: agent.236841.xyz' http://127.0.0.1/
+curl -sS -o /dev/null -w 'admin:%{http_code}\n' -H 'Host: admin.157465.com' http://127.0.0.1/
+curl -sS -o /dev/null -w 'agent:%{http_code}\n' -H 'Host: agent.157465.com' http://127.0.0.1/
 # entry page should contain camouflage markers
 curl -sS -H 'Host: 157456.com' http://127.0.0.1/ | tr '\n' ' ' | grep -oE '.{0,40}(發發發|camouflage|线路|goto).{0,40}' | head -5 || echo 'no camouflage marker found in html snippet'
 """,
@@ -38,7 +38,7 @@ echo '=== public ip ==='
 curl -sS ifconfig.me || curl -sS ip.sb || true
 echo
 echo '=== dig from server ==='
-for h in 157456.com 585520.xyz admin.236841.xyz; do
+for h in 157456.com 585520.xyz admin.157465.com; do
   echo -n "$h -> "
   getent hosts "$h" | awk '{print $1}' | head -1 || true
 done
@@ -55,7 +55,7 @@ nginx -t && systemctl reload nginx
 certbot --nginx -n --agree-tos --register-unsafely-without-email \
   -d 157456.com -d www.157456.com \
   -d 585520.xyz -d 785412.xyz -d 658951.xyz -d 152687.xyz -d 746528.xyz \
-  -d admin.236841.xyz -d agent.236841.xyz
+  -d admin.157465.com -d agent.157465.com
 echo CERTBOT_EXIT:$?
 """,
             timeout=300,

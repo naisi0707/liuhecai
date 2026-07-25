@@ -6,7 +6,16 @@ definePageMeta({ title: '用户详情' })
 
 const route = useRoute()
 const { hydrate } = useAdminAuth()
-const { getUser, setUserEnabled, resetUserPassword, forceUserLogout, userCoinLogs, userOrders } = useAdminMgmt()
+const {
+  getUser,
+  setUserEnabled,
+  resetUserPassword,
+  forceUserLogout,
+  softDeleteUser,
+  adjustUserCoins,
+  userCoinLogs,
+  userOrders,
+} = useAdminMgmt()
 
 const loading = ref(false)
 const detail = ref<AdminUserDetail | null>(null)
@@ -18,6 +27,8 @@ const orderTotal = ref(0)
 const logPage = ref(1)
 const orderPage = ref(1)
 const echo = ref('')
+const coinDialog = ref(false)
+const coinForm = reactive({ amount: 100, remark: '' })
 const id = computed(() => String(route.params.id))
 
 async function loadDetail() {
@@ -79,6 +90,38 @@ async function onForceLogout() {
   }
 }
 
+async function onDelete() {
+  try {
+    await ElMessageBox.confirm(
+      '确认注销该用户？将封禁并强制下线，流水保留，可再解封恢复。',
+      '注销确认',
+      { type: 'warning' },
+    )
+    await softDeleteUser(id.value)
+    ElMessage.success('已注销')
+    await navigateTo('/users')
+  } catch (e: unknown) {
+    if (e === 'cancel' || e === 'close') return
+    ElMessage.error(e instanceof Error ? e.message : '注销失败')
+  }
+}
+
+async function submitCoins() {
+  if (!coinForm.amount) {
+    ElMessage.warning('请输入非 0 金额')
+    return
+  }
+  try {
+    const data = await adjustUserCoins(id.value, coinForm.amount, coinForm.remark || undefined)
+    ElMessage.success(`余额已更新为 ${data.coinBalance}`)
+    coinDialog.value = false
+    await loadDetail()
+    await loadLogs()
+  } catch (e: unknown) {
+    ElMessage.error(e instanceof Error ? e.message : '调币失败')
+  }
+}
+
 function fmtTime(v?: string | null) {
   return v ? String(v).replace('T', ' ').slice(0, 19) : '-'
 }
@@ -97,14 +140,16 @@ onMounted(async () => {
 
 <template>
   <div v-loading="loading">
-    <el-space style="margin-bottom:12px;">
+    <el-space style="margin-bottom:12px;" wrap>
       <el-button @click="navigateTo('/users')">返回列表</el-button>
       <el-button @click="loadDetail">刷新</el-button>
+      <el-button v-if="detail" type="primary" @click="coinDialog = true">加减币</el-button>
       <el-button v-if="detail" :type="detail.enabled === 1 ? 'danger' : 'success'" @click="onToggle">
         {{ detail.enabled === 1 ? '封禁' : '解封' }}
       </el-button>
       <el-button v-if="detail" type="warning" @click="onReset">重置密码</el-button>
       <el-button v-if="detail" type="danger" plain @click="onForceLogout">强制下线</el-button>
+      <el-button v-if="detail" type="danger" @click="onDelete">注销</el-button>
     </el-space>
 
     <el-alert v-if="echo" :title="echo" type="success" show-icon style="margin-bottom:12px;" @close="echo = ''" />
@@ -164,5 +209,21 @@ onMounted(async () => {
         </el-tab-pane>
       </el-tabs>
     </el-card>
+
+    <el-dialog v-model="coinDialog" title="加减币" width="420px">
+      <el-form label-width="80px">
+        <el-form-item label="金额">
+          <el-input-number v-model="coinForm.amount" :step="10" />
+          <div style="font-size:12px;color:#6b7280;margin-top:4px;">正数加币，负数扣币</div>
+        </el-form-item>
+        <el-form-item label="备注">
+          <el-input v-model="coinForm.remark" maxlength="256" />
+        </el-form-item>
+      </el-form>
+      <template #footer>
+        <el-button @click="coinDialog = false">取消</el-button>
+        <el-button type="primary" @click="submitCoins">确认</el-button>
+      </template>
+    </el-dialog>
   </div>
 </template>

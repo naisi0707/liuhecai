@@ -1,6 +1,9 @@
 import { ofetch, type FetchOptions } from 'ofetch'
 import type { Result } from '../types/result'
 
+/** 与后端 ErrorCode.UNAUTHORIZED 对齐 */
+export const UNAUTHORIZED_CODE = 40100
+
 export class ApiError extends Error {
   code: number
 
@@ -24,6 +27,9 @@ let defaultBaseURL = ''
 const TENANT_HOST_KEY = 'liuhecai_tenant_host'
 type RequestErrorHandler = (error: unknown) => void
 let requestErrorHandler: RequestErrorHandler | null = null
+type UnauthorizedHandler = () => void
+let unauthorizedHandler: UnauthorizedHandler | null = null
+let unauthorizedBusy = false
 type HostResolver = () => string
 let forwardedHostResolver: HostResolver | null = null
 
@@ -41,12 +47,47 @@ export function setRequestErrorHandler(handler: RequestErrorHandler | null) {
   requestErrorHandler = handler
 }
 
+/** 登录失效（踢下线 / 过期 / 停用）：清 token 并跳登录 */
+export function setUnauthorizedHandler(handler: UnauthorizedHandler | null) {
+  unauthorizedHandler = handler
+}
+
+export function notifyUnauthorized() {
+  if (unauthorizedBusy || !unauthorizedHandler) return
+  unauthorizedBusy = true
+  try {
+    unauthorizedHandler()
+  } catch {
+    // 钩子失败不影响原错误抛出
+  } finally {
+    if (typeof window !== 'undefined') {
+      window.setTimeout(() => {
+        unauthorizedBusy = false
+      }, 800)
+    } else {
+      unauthorizedBusy = false
+    }
+  }
+}
+
 function notifyRequestError(error: unknown) {
   try {
     requestErrorHandler?.(error)
   } catch {
     // 钩子失败不影响原错误抛出
   }
+}
+
+function isUnauthorizedCode(code: unknown): boolean {
+  return Number(code) === UNAUTHORIZED_CODE
+}
+
+/** 供绕过 request() 的 fetch/$fetch：若 JSON Result 为未登录则触发会话清理 */
+export function consumeUnauthorizedResult(payload: unknown): boolean {
+  if (!payload || typeof payload !== 'object') return false
+  if (!isUnauthorizedCode((payload as { code?: unknown }).code)) return false
+  notifyUnauthorized()
+  return true
 }
 
 /** 本地跨站演示：?host=zzws.local 写入后整站请求带该 Host */
@@ -112,14 +153,27 @@ export async function request<T>(url: string, options: RequestOptions = {}): Pro
     const res = await ofetch<Result<T>>(url, fetchOptions)
 
     if (res.code !== 0) {
-      const err = new ApiError(res.code, res.message || '请求失败')
+      if (isUnauthorizedCode(res.code)) {
+        notifyUnauthorized()
+      }
+      const err = new ApiError(Number(res.code), res.message || '请求失败')
       notifyRequestError(err)
       throw err
     }
 
     return res.data
   } catch (e: unknown) {
-    if (!(e instanceof ApiError)) {
+    if (e instanceof ApiError) {
+      // 已在上方触发；防御性再调一次会被 busy 挡住
+    } else if (e && typeof e === 'object') {
+      // ofetch 非 2xx 时：尽量从 data/body 识别业务 40100
+      const data = (e as { data?: unknown }).data
+      if (consumeUnauthorizedResult(data)) {
+        // already notified
+      } else {
+        notifyRequestError(e)
+      }
+    } else {
       notifyRequestError(e)
     }
     throw e

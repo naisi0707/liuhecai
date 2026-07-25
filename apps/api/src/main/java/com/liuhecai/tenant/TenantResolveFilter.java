@@ -33,9 +33,10 @@ public class TenantResolveFilter extends OncePerRequestFilter {
     @Override
     protected boolean shouldNotFilter(HttpServletRequest request) {
         String path = request.getRequestURI();
+        // admin / agent 后台按登录态绑定租户，不依赖浏览器 Host（代理域如 agent.xxx 通常未进 domains）
         return path.startsWith("/api/health")
                 || path.startsWith("/api/admin/")
-                || path.startsWith("/api/agent/auth/")
+                || path.startsWith("/api/agent/")
                 || path.startsWith("/uploads/");
     }
 
@@ -46,6 +47,7 @@ public class TenantResolveFilter extends OncePerRequestFilter {
             String host = resolveHost(request);
             DomainTenantLookup.ResolvedTenant resolved = domainTenantLookup.resolveEnabled(host);
             TenantContext.set(resolved.tenantId());
+            TenantContext.setDomainId(resolved.domainId());
             TenantContext.setHost(resolved.host());
             TenantContext.setDomainRole(resolved.domainRole());
             filterChain.doFilter(request, response);

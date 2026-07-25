@@ -47,16 +47,22 @@ const liveIframe = computed(() => sanitizeIframeUrl(home.value?.liveIframeUrl))
 const domainBadge = computed(() => home.value?.domainBadge || '')
 const announcement = computed(() => tenant.value?.announcement || '')
 
-function demoHost(t: TenantDirectoryItem): string | null {
+function forumHost(t: TenantDirectoryItem): string | null {
   if (t.primaryHost) return t.primaryHost
   if (!isDev) return null
   return DEMO_HOST_BY_NAME[t.name] || null
 }
 
 function tenantHref(t: TenantDirectoryItem) {
-  const host = demoHost(t)
+  const host = forumHost(t)
   if (!host) return '#'
-  return `/?host=${encodeURIComponent(host)}`
+  const h = host.trim().toLowerCase()
+  const local = h === '127.0.0.1' || h === 'localhost' || h.endsWith('.local')
+  // 本地演示用 ?host=；生产跳转对方论坛绝对地址
+  if (local || isDev) {
+    return `/?host=${encodeURIComponent(h)}`
+  }
+  return `https://${h}/`
 }
 
 function hostAllowed(hostname: string): boolean {
@@ -125,8 +131,8 @@ onMounted(async () => {
                   </div>
                   <div class="xgam-web">
                     <p align="center">
-                      <a v-if="demoHost(t)" target="_blank" rel="noopener" :href="tenantHref(t)">
-                        <span style="color:#000000">{{ demoHost(t) }}</span>
+                      <a v-if="forumHost(t)" target="_blank" rel="noopener" :href="tenantHref(t)">
+                        <span style="color:#000000">{{ forumHost(t) }}</span>
                       </a>
                     </p>
                     <p v-if="t.logoUrl" align="center" style="margin:6px 0;">
@@ -145,7 +151,7 @@ onMounted(async () => {
                   :bgcolor="t.primaryColor || undefined"
                 >
                   <a
-                    v-if="demoHost(t)"
+                    v-if="forumHost(t)"
                     target="_blank"
                     rel="noopener"
                     :href="tenantHref(t)"

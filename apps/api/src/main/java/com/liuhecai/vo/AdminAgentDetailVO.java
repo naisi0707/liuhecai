@@ -13,6 +13,7 @@ public class AdminAgentDetailVO {
     private String tenantName;
     private String username;
     private Integer enabled;
+    private Integer isPrimary;
     private LocalDateTime createdAt;
     private Long userCount;
     private Long rechargeAmount7d;

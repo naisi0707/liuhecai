@@ -3,6 +3,7 @@ package com.liuhecai.controller;
 import com.liuhecai.common.result.PageResult;
 import com.liuhecai.common.result.Result;
 import com.liuhecai.common.util.CsvWriter;
+import com.liuhecai.dto.AgentUserCreateRequest;
 import com.liuhecai.dto.BatchEnabledRequest;
 import com.liuhecai.dto.CoinAdjustRequest;
 import com.liuhecai.dto.EnabledRequest;
@@ -58,6 +59,11 @@ public class AgentUserController {
                 .body(body);
     }
 
+    @PostMapping
+    public Result<PasswordResetVO> create(@Valid @RequestBody AgentUserCreateRequest request) {
+        return Result.ok(agentUserService.createUser(request));
+    }
+
     @GetMapping("/{id}")
     public Result<AgentUserDetailVO> detail(@PathVariable Long id) {
         return Result.ok(agentUserService.getDetail(id));
@@ -77,6 +83,12 @@ public class AgentUserController {
     @PostMapping("/{id}/force-logout")
     public Result<Void> forceLogout(@PathVariable Long id) {
         agentUserService.forceLogout(id);
+        return Result.ok(null);
+    }
+
+    @PostMapping("/{id}/delete")
+    public Result<Void> softDelete(@PathVariable Long id) {
+        agentUserService.softDelete(id);
         return Result.ok(null);
     }
 

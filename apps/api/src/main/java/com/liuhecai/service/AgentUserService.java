@@ -1,6 +1,7 @@
 package com.liuhecai.service;
 
 import com.liuhecai.common.result.PageResult;
+import com.liuhecai.dto.AgentUserCreateRequest;
 import com.liuhecai.dto.CoinAdjustRequest;
 import com.liuhecai.dto.EnabledRequest;
 import com.liuhecai.vo.AgentUserDetailVO;
@@ -16,6 +17,8 @@ public interface AgentUserService {
 
     AgentUserDetailVO getDetail(Long id);
 
+    PasswordResetVO createUser(AgentUserCreateRequest request);
+
     AgentUserDetailVO updateEnabled(Long id, EnabledRequest request);
 
     PasswordResetVO resetPassword(Long id);
@@ -23,6 +26,8 @@ public interface AgentUserService {
     Integer adjustCoins(Long id, CoinAdjustRequest request);
 
     void forceLogout(Long id);
+
+    void softDelete(Long id);
 
     void batchUpdateEnabled(List<Long> ids, int enabled);
 

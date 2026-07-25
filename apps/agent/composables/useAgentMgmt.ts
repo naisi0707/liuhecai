@@ -1,11 +1,12 @@
-import type {
-  AgentDashboardVO,
-  AgentUserDetail,
-  AgentUserPage,
-  PageResult,
-  PasswordResetResult,
-  UserCoinLogItem,
-  UserOrderItem,
+import {
+  consumeUnauthorizedResult,
+  type AgentDashboardVO,
+  type AgentUserDetail,
+  type AgentUserPage,
+  type PageResult,
+  type PasswordResetResult,
+  type UserCoinLogItem,
+  type UserOrderItem,
 } from '@liuhecai/shared'
 
 export function useAgentMgmt() {
@@ -29,6 +30,13 @@ export function useAgentMgmt() {
     return api<AgentUserDetail>(`/api/agent/users/${id}`)
   }
 
+  function createUser(username: string) {
+    return api<PasswordResetResult>('/api/agent/users', {
+      method: 'POST',
+      body: { username },
+    })
+  }
+
   function setUserEnabled(id: string | number, enabled: number) {
     return api<AgentUserDetail>(`/api/agent/users/${id}/enabled`, {
       method: 'PUT',
@@ -42,6 +50,10 @@ export function useAgentMgmt() {
 
   function forceUserLogout(id: string | number) {
     return api<null>(`/api/agent/users/${id}/force-logout`, { method: 'POST' })
+  }
+
+  function softDeleteUser(id: string | number) {
+    return api<null>(`/api/agent/users/${id}/delete`, { method: 'POST' })
   }
 
   function batchUserEnabled(ids: Array<string | number>, enabled: number) {
@@ -75,6 +87,12 @@ export function useAgentMgmt() {
       headers: authHeaders(),
     })
     if (!res.ok) throw new Error('导出失败')
+    const ct = res.headers.get('content-type') || ''
+    if (ct.includes('application/json')) {
+      const payload = await res.json()
+      if (consumeUnauthorizedResult(payload)) throw new Error(payload?.message || '未登录')
+      throw new Error(payload?.message || '导出失败')
+    }
     const blob = await res.blob()
     const url = URL.createObjectURL(blob)
     const a = document.createElement('a')
@@ -88,9 +106,11 @@ export function useAgentMgmt() {
     fetchDashboard,
     pageUsers,
     getUser,
+    createUser,
     setUserEnabled,
     resetUserPassword,
     forceUserLogout,
+    softDeleteUser,
     batchUserEnabled,
     adjustCoins,
     userCoinLogs,

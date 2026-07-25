@@ -42,7 +42,7 @@ do
 done
 
 echo '=== dig ==='
-for h in 157456.com 157465.com 585520.xyz admin.236841.xyz; do
+for h in 157456.com 157465.com 585520.xyz admin.157465.com; do
   echo -n "$h A: "
   getent ahostsv4 "$h" | awk '{print $1}' | sort -u | tr '\n' ' '
   echo

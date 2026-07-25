@@ -1,0 +1,71 @@
+{
+  "size": [
+    1150,
+    358
+  ],
+  "layout": {
+    "title": {
+      "x": 0.4,
+      "y": 0.28,
+      "fontSize": 0.32
+    },
+    "sub1": {
+      "x": 0.42,
+      "y": 0.55,
+      "fontSize": 0.085
+    },
+    "sub2": {
+      "x": 0.42,
+      "y": 0.66,
+      "fontSize": 0.08
+    },
+    "domain": {
+      "x": 0.5,
+      "y": 0.88,
+      "fontSize": 0.145
+    }
+  },
+  "brands": [
+    {
+      "id": "liubowen",
+      "title": "刘伯温",
+      "sub1": "帝皇之师刘伯温",
+      "sub2": "神机妙算 解密财富",
+      "domain": "585520.xyz"
+    },
+    {
+      "id": "zhizun",
+      "title": "至尊无上",
+      "sub1": "帝皇之师至尊无上",
+      "sub2": "神机妙算 解密财富",
+      "domain": "152687.xyz"
+    },
+    {
+      "id": "shensuanzi",
+      "title": "神算子",
+      "sub1": "神机妙算神算子",
+      "sub2": "精准预测 解密财富",
+      "domain": "785412.xyz"
+    },
+    {
+      "id": "zhaocaibao",
+      "title": "招财宝",
+      "sub1": "招财进宝论坛",
+      "sub2": "神机妙算 解密财富",
+      "domain": "658951.xyz"
+    },
+    {
+      "id": "ronghuafugui",
+      "title": "荣华富贵",
+      "sub1": "荣华富贵论坛",
+      "sub2": "神机妙算 解密财富",
+      "domain": "746528.xyz"
+    }
+  ],
+  "source": {
+    "server": "45.152.64.102",
+    "path": "/www/wwwroot/liuhecai/apps/web/.output/public/site/images/311992.gif",
+    "local": "originals/site-311992.gif",
+    "note": "刘伯温站 bannerUrl；其余租户暂共用此模板换文案"
+  }
+}

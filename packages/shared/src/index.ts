@@ -3,6 +3,7 @@ export type {
   PageResult,
   TenantPublicVO,
   TenantDirectoryItem,
+  EntryLinePublicVO,
   DrawResultVO,
   DrawHistoryItemVO,
   TopicVO,
@@ -39,19 +40,26 @@ export type {
   AdminAgentPage,
   AdminUserPage,
   AgentUserPage,
+  IpWhitelistEntry,
+  IpWhitelistVO,
 } from './types'
 export { isOk } from './types'
 export {
   ApiError,
+  UNAUTHORIZED_CODE,
   request,
   setApiBaseURL,
   setForwardedHostResolver,
   setRequestErrorHandler,
+  setUnauthorizedHandler,
+  notifyUnauthorized,
+  consumeUnauthorizedResult,
   setTenantHostOverride,
   getTenantHostOverride,
   buildApiHeaders,
 } from './request'
 export type { RequestOptions } from './request'
+export { rewriteBbsToSite, resolvePublicMediaUrl } from './media'
 export { encodeGotoUrl, decodeGotoUrl, isAllowedGotoTarget } from './gotoCodec'
 export {
   TOPIC_TAG_OPTIONS,

@@ -97,22 +97,22 @@ public class CmsSeedServiceImpl implements CmsSeedService {
               "domainBadge": "311992.com",
               "showLocalDrawPanel": true,
               "sisterSites": [
-                {"name":"至尊无上论坛","domain":"305551.com","href":"https://305551.com","cta":"查看至尊无上","color":"#FF0000"},
-                {"name":"神算子论坛","domain":"933858.com","href":"https://933858.com","cta":"查看神算子","color":"#22ac38"}
+                {"name":"至尊无上论坛","domain":"152687.xyz","href":"https://152687.xyz","cta":"查看至尊无上","color":"#FF0000"},
+                {"name":"神算子论坛","domain":"785412.xyz","href":"https://785412.xyz","cta":"查看神算子","color":"#22ac38"}
               ],
               "bottomImages": [
-                {"src":"/bbs/promo/z129.png","alt":"广告条"},
-                {"src":"/bbs/promo/sgxs.jpg","alt":"生肖攻略"},
-                {"src":"/bbs/promo/vb4.jpg","alt":"资料图"},
-                {"src":"/bbs/promo/ampgt.jpg","alt":"平特图"},
-                {"src":"/bbs/promo/amttjs.jpg","alt":"特码图"},
-                {"src":"/bbs/promo/alalx18m.jpg","alt":"连肖图"},
-                {"src":"/bbs/promo/ammh.jpg","alt":"美化图"},
-                {"src":"/bbs/promo/2025sxt.jpg","alt":"生肖图"},
-                {"src":"/bbs/promo/di2.png","alt":"底图"}
+                {"src":"/site/promo/z129.gif","alt":"广告条"},
+                {"src":"/site/promo/sgxs.jpg","alt":"生肖攻略"},
+                {"src":"/site/promo/vb4.jpg","alt":"资料图"},
+                {"src":"/site/promo/ampgt.jpg","alt":"平特图"},
+                {"src":"/site/promo/amttjs.jpg","alt":"特码图"},
+                {"src":"/site/promo/alalx18m.png","alt":"连肖图"},
+                {"src":"/site/promo/ammh.jpg","alt":"美化图"},
+                {"src":"/site/promo/2025sxt.jpg","alt":"生肖图"},
+                {"src":"/site/promo/di2.png","alt":"底图"}
               ],
-              "qrWechatUrl": "/bbs/_root/weix.jpg",
-              "qrQqUrl": "/bbs/_root/qq.jpg"
+              "qrWechatUrl": "/site/root/weix.jpg",
+              "qrQqUrl": "/site/root/qq.jpg"
             }
             """;
 

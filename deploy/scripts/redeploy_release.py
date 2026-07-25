@@ -67,6 +67,8 @@ export PATH=/usr/local/bin:/opt/node-v20.18.1/bin:$PATH
 cd {REMOTE}
 # replace app artifacts only — keep uploads / api.env
 rm -rf apps/web/.output apps/admin/.output apps/agent/.output
+# avoid tar failure on existing shared symlinks/node_modules
+rm -rf packages/shared/node_modules
 mkdir -p apps/api/target apps/api/src/main/resources
 tar -xzf /tmp/liuhecai-release.tar.gz -C {REMOTE}
 ls -lh apps/api/target/{JAR_NAME}

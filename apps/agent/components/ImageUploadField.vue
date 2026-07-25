@@ -2,6 +2,7 @@
 import { ElMessage } from 'element-plus'
 import type { UploadRequestOptions } from 'element-plus'
 import { Plus, Delete } from '@element-plus/icons-vue'
+import { consumeUnauthorizedResult, resolvePublicMediaUrl } from '@liuhecai/shared'
 
 const props = withDefaults(defineProps<{
   modelValue?: string
@@ -18,7 +19,6 @@ const emit = defineEmits<{ 'update:modelValue': [string] }>()
 const { authHeaders, hydrate } = useAgentAuth()
 const config = useRuntimeConfig()
 const apiBase = (config.public.apiBase as string) || ''
-const webBase = (config.public.webBase as string) || 'http://127.0.0.1:3000'
 const uploading = ref(false)
 
 const localUrl = computed({
@@ -27,11 +27,7 @@ const localUrl = computed({
 })
 
 function previewSrc(path: string) {
-  if (!path) return ''
-  if (path.startsWith('http://') || path.startsWith('https://')) return path
-  if (path.startsWith('/uploads/')) return `${apiBase}${path}`
-  if (path.startsWith('/bbs/')) return `${webBase.replace(/\/$/, '')}${path}`
-  return `${apiBase}${path.startsWith('/') ? '' : '/'}${path}`
+  return resolvePublicMediaUrl(path, apiBase)
 }
 
 async function customRequest(options: UploadRequestOptions) {
@@ -48,6 +44,7 @@ async function customRequest(options: UploadRequestOptions) {
       },
     )
     if (res.code !== 0 || !res.data?.url) {
+      if (consumeUnauthorizedResult(res)) throw new Error(res.message || '未登录')
       throw new Error(res.message || '上传失败')
     }
     localUrl.value = res.data.url

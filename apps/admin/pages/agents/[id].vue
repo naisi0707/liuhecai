@@ -13,10 +13,17 @@ definePageMeta({ title: '代理业绩' })
 
 const route = useRoute()
 const { hydrate } = useAdminAuth()
-const { getAgent, forceAgentLogout } = useAdminMgmt()
+const {
+  getAgent,
+  setAgentEnabled,
+  resetAgentPassword,
+  forceAgentLogout,
+  softDeleteAgent,
+} = useAdminMgmt()
 
 const loading = ref(false)
 const detail = ref<AdminAgentDetail | null>(null)
+const echo = ref('')
 const id = computed(() => String(route.params.id))
 
 const trendOption = computed(() => {
@@ -52,6 +59,36 @@ function fmtTime(v?: string) {
   return v ? String(v).replace('T', ' ').slice(0, 19) : '-'
 }
 
+async function onToggle() {
+  if (!detail.value) return
+  const next = detail.value.enabled === 1 ? 0 : 1
+  try {
+    await ElMessageBox.confirm(
+      next === 0 ? '确认停用该代理？' : '确认启用该代理？',
+      '提示',
+      { type: 'warning' },
+    )
+    await setAgentEnabled(id.value, next)
+    ElMessage.success(next === 1 ? '已启用' : '已停用')
+    await load()
+  } catch (e: unknown) {
+    if (e === 'cancel' || e === 'close') return
+    ElMessage.error(e instanceof Error ? e.message : '操作失败')
+  }
+}
+
+async function onReset() {
+  try {
+    await ElMessageBox.confirm('确认重置该代理密码？', '提示', { type: 'warning' })
+    const data = await resetAgentPassword(id.value)
+    echo.value = `新密码：${data.rawPassword}`
+    ElMessage.success('密码已重置')
+  } catch (e: unknown) {
+    if (e === 'cancel' || e === 'close') return
+    ElMessage.error(e instanceof Error ? e.message : '重置失败')
+  }
+}
+
 async function onForceLogout() {
   try {
     await ElMessageBox.confirm('确认强制失效该代理已登录 Token？', '提示', { type: 'warning' })
@@ -63,6 +100,26 @@ async function onForceLogout() {
   }
 }
 
+async function onDelete() {
+  if (detail.value?.isPrimary === 1) {
+    ElMessage.warning('主代理不可注销，请先在站点列表转移主代理')
+    return
+  }
+  try {
+    await ElMessageBox.confirm(
+      '确认注销该代理？将停用并强制下线，流水保留，可再启用恢复。',
+      '注销确认',
+      { type: 'warning' },
+    )
+    await softDeleteAgent(id.value)
+    ElMessage.success('已注销')
+    await navigateTo('/agents')
+  } catch (e: unknown) {
+    if (e === 'cancel' || e === 'close') return
+    ElMessage.error(e instanceof Error ? e.message : '注销失败')
+  }
+}
+
 onMounted(async () => {
   hydrate()
   await load()
@@ -71,11 +128,16 @@ onMounted(async () => {
 
 <template>
   <div v-loading="loading">
-    <el-space style="margin-bottom:12px;">
+    <el-space style="margin-bottom:12px;" wrap>
       <el-button @click="navigateTo('/agents')">返回列表</el-button>
       <el-button @click="load">刷新</el-button>
+      <el-button v-if="detail" @click="onToggle">{{ detail.enabled === 1 ? '停用' : '启用' }}</el-button>
+      <el-button v-if="detail" type="warning" @click="onReset">重置密码</el-button>
       <el-button v-if="detail" type="danger" plain @click="onForceLogout">强制下线</el-button>
+      <el-button v-if="detail" type="danger" :disabled="detail.isPrimary === 1" @click="onDelete">注销</el-button>
     </el-space>
+
+    <el-alert v-if="echo" :title="echo" type="success" show-icon closable style="margin-bottom:12px;" @close="echo = ''" />
 
     <template v-if="detail">
       <el-card shadow="never">
@@ -84,6 +146,7 @@ onMounted(async () => {
           <el-tag :type="detail.enabled === 1 ? 'success' : 'info'" size="small" style="margin-left:8px;">
             {{ detail.enabled === 1 ? '启用' : '停用' }}
           </el-tag>
+          <el-tag v-if="detail.isPrimary === 1" size="small" type="warning" style="margin-left:6px;">主代理</el-tag>
         </template>
         <el-descriptions :column="3" border>
           <el-descriptions-item label="代理ID">{{ detail.id }}</el-descriptions-item>

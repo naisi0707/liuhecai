@@ -78,7 +78,7 @@ fi
 # CORS update without rebuild: append env override
 if ! grep -q LIUHECAI_CORS_ALLOWED_ORIGINS /etc/liuhecai/api.env; then
   cat >> /etc/liuhecai/api.env <<'EOF'
-LIUHECAI_CORS_ALLOWED_ORIGINS=https://157465.com,https://www.157465.com,https://585520.xyz,https://785412.xyz,https://658951.xyz,https://152687.xyz,https://746528.xyz,https://admin.236841.xyz,https://agent.236841.xyz,http://157465.com,http://www.157465.com,http://585520.xyz,http://785412.xyz,http://658951.xyz,http://152687.xyz,http://746528.xyz,http://admin.236841.xyz,http://agent.236841.xyz
+LIUHECAI_CORS_ALLOWED_ORIGINS=https://157465.com,https://www.157465.com,https://585520.xyz,https://785412.xyz,https://658951.xyz,https://152687.xyz,https://746528.xyz,https://admin.157465.com,https://agent.157465.com,http://157465.com,http://www.157465.com,http://585520.xyz,http://785412.xyz,http://658951.xyz,http://152687.xyz,http://746528.xyz,http://admin.157465.com,http://agent.157465.com
 EOF
 fi
 systemctl restart liuhecai-api

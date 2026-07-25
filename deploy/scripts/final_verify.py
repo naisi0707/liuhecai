@@ -30,8 +30,8 @@ echo 'ENTRY camouflage'
 curl -sS -H 'Host: 157456.com' http://127.0.0.1/ | tr '\n' ' ' | grep -c -i 'shop'
 echo 'shop-marker-count-above'
 echo 'Admin/Agent'
-curl -sS -o /dev/null -w 'admin:%{http_code}\n' -H 'Host: admin.236841.xyz' http://127.0.0.1/
-curl -sS -o /dev/null -w 'agent:%{http_code}\n' -H 'Host: agent.236841.xyz' http://127.0.0.1/
+curl -sS -o /dev/null -w 'admin:%{http_code}\n' -H 'Host: admin.157465.com' http://127.0.0.1/
+curl -sS -o /dev/null -w 'agent:%{http_code}\n' -H 'Host: agent.157465.com' http://127.0.0.1/
 systemctl is-active liuhecai-api nginx
 pm2 jlist | python3 -c 'import sys,json; apps=json.load(sys.stdin); print([(a["name"], a["pm2_env"]["status"]) for a in apps])'
 """,

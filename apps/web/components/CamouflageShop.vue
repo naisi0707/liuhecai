@@ -1,15 +1,6 @@
 <script setup lang="ts">
-const forumEntryUrl = useForumEntryUrl()
-const route = useRoute()
-
-const navSrc = computed(() => {
-  const t = forumEntryUrl.value
-  if (!t) return '/camouflage/nav.html'
-  const hostQ = typeof route.query.host === 'string' ? route.query.host : ''
-  const q = new URLSearchParams({ t })
-  if (hostQ) q.set('host', hostQ)
-  return `/camouflage/nav.html?${q.toString()}`
-})
+const { tenant } = useTenant()
+const hasLines = computed(() => (tenant.value?.entryLines || []).some((l) => l.forumUrl))
 </script>
 
 <template>
@@ -47,13 +38,7 @@ const navSrc = computed(() => {
       <p>1734 Stonecoal Road · About Us · Privacy Policy · Help</p>
     </footer>
 
-    <!-- 叠层线路导航（对齐原站 iframe） -->
-    <iframe
-      v-if="forumEntryUrl"
-      class="camo-shop__nav-frame"
-      title="线路导航"
-      :src="navSrc"
-    />
+    <CamouflageLineNav v-if="hasLines" class="camo-shop__nav-frame" />
   </div>
 </template>
 
@@ -179,9 +164,6 @@ const navSrc = computed(() => {
   top: 18%;
   transform: translateX(-50%);
   width: min(440px, 94vw);
-  height: 360px;
-  border: 0;
   z-index: 1000;
-  background: transparent;
 }
 </style>

@@ -4,6 +4,7 @@ public final class TenantContext {
     private static final ThreadLocal<Long> TENANT_HOLDER = new ThreadLocal<>();
     private static final ThreadLocal<String> HOST_HOLDER = new ThreadLocal<>();
     private static final ThreadLocal<String> DOMAIN_ROLE_HOLDER = new ThreadLocal<>();
+    private static final ThreadLocal<Long> DOMAIN_ID_HOLDER = new ThreadLocal<>();
 
     private TenantContext() {
     }
@@ -32,9 +33,18 @@ public final class TenantContext {
         return DOMAIN_ROLE_HOLDER.get();
     }
 
+    public static void setDomainId(Long domainId) {
+        DOMAIN_ID_HOLDER.set(domainId);
+    }
+
+    public static Long getDomainId() {
+        return DOMAIN_ID_HOLDER.get();
+    }
+
     public static void clear() {
         TENANT_HOLDER.remove();
         HOST_HOLDER.remove();
         DOMAIN_ROLE_HOLDER.remove();
+        DOMAIN_ID_HOLDER.remove();
     }
 }

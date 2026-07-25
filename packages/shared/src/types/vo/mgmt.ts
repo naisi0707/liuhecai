@@ -6,6 +6,8 @@ export interface AdminAgentListItem {
   tenantName: string
   username: string
   enabled: number
+  /** 1=主代理 */
+  isPrimary?: number
   createdAt: string
   userCount?: number
   rechargeAmount7d?: number

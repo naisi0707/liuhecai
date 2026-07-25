@@ -28,8 +28,8 @@ done
 echo 'ENTRY'
 curl -sS -H 'Host: 157456.com' http://127.0.0.1/ | tr '\n' ' ' | grep -oi shop | wc -l
 curl -sS -o /dev/null -w 'entry-page:%{http_code}\n' -H 'Host: 157456.com' http://127.0.0.1/
-curl -sS -o /dev/null -w 'admin:%{http_code}\n' -H 'Host: admin.236841.xyz' http://127.0.0.1/
-curl -sS -o /dev/null -w 'agent:%{http_code}\n' -H 'Host: agent.236841.xyz' http://127.0.0.1/
+curl -sS -o /dev/null -w 'admin:%{http_code}\n' -H 'Host: admin.157465.com' http://127.0.0.1/
+curl -sS -o /dev/null -w 'agent:%{http_code}\n' -H 'Host: agent.157465.com' http://127.0.0.1/
 systemctl is-active liuhecai-api nginx
 pm2 jlist | python3 -c 'import sys,json; apps=json.load(sys.stdin); print([(a["name"], a["pm2_env"]["status"]) for a in apps])'
 """,

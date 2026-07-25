@@ -9,6 +9,7 @@ import { Editor, Toolbar } from '@wangeditor/editor-for-vue'
 import type { IDomEditor, IEditorConfig, IToolbarConfig } from '@wangeditor/editor'
 import '@wangeditor/editor/dist/css/style.css'
 import { ElMessage } from 'element-plus'
+import { consumeUnauthorizedResult, resolvePublicMediaUrl } from '@liuhecai/shared'
 
 const props = withDefaults(defineProps<{
   modelValue?: string
@@ -50,6 +51,7 @@ const editorConfig: Partial<IEditorConfig> = {
             },
           )
           if (res.code !== 0 || !res.data?.url) {
+            if (consumeUnauthorizedResult(res)) throw new Error(res.message || '未登录')
             throw new Error(res.message || '上传失败')
           }
           insertFn(mediaUrl(res.data.url), file.name, '')
@@ -62,14 +64,7 @@ const editorConfig: Partial<IEditorConfig> = {
 }
 
 function mediaUrl(path: string) {
-  if (!path) return ''
-  if (path.startsWith('http://') || path.startsWith('https://')) return path
-  if (path.startsWith('/uploads/')) return `${apiBase}${path}`
-  if (path.startsWith('/bbs/')) {
-    const webBase = (config.public.webBase as string) || 'http://127.0.0.1:3000'
-    return `${webBase.replace(/\/$/, '')}${path}`
-  }
-  return `${apiBase}${path.startsWith('/') ? '' : '/'}${path}`
+  return resolvePublicMediaUrl(path, apiBase)
 }
 
 const valueHtml = computed({

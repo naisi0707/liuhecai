@@ -7,6 +7,26 @@ const route = useRoute()
 const { tenant, loadTenant } = useTenant()
 const error = ref('')
 
+function collectAllowedHosts(): string[] {
+  const allowed = new Set<string>()
+  for (const line of tenant.value?.entryLines || []) {
+    if (!line.forumUrl) continue
+    try {
+      const u = new URL(line.forumUrl)
+      allowed.add(u.hostname.toLowerCase())
+      const h = u.searchParams.get('host')
+      if (h) allowed.add(h.toLowerCase())
+    } catch {
+      /* skip */
+    }
+  }
+  const forumHost = (tenant.value?.forumHost || '').toLowerCase()
+  if (forumHost) allowed.add(forumHost)
+  allowed.add('127.0.0.1')
+  allowed.add('localhost')
+  return [...allowed]
+}
+
 onMounted(async () => {
   try {
     if (!tenant.value) await loadTenant()
@@ -26,13 +46,13 @@ onMounted(async () => {
     error.value = '跳转参数无效'
     return
   }
-  const forumHost = (tenant.value?.forumHost || '').toLowerCase()
-  const allowed = [forumHost, '127.0.0.1', 'localhost'].filter(Boolean)
+  const allowed = collectAllowedHosts()
   let ok = isAllowedGotoTarget(decoded, allowed)
-  if (!ok && forumHost) {
+  if (!ok) {
     try {
       const u = new URL(decoded)
-      ok = (u.searchParams.get('host') || '').toLowerCase() === forumHost
+      const hostParam = (u.searchParams.get('host') || '').toLowerCase()
+      ok = !!hostParam && allowed.includes(hostParam)
     } catch {
       ok = false
     }

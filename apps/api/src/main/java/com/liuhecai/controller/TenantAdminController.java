@@ -3,8 +3,10 @@ package com.liuhecai.controller;
 import com.liuhecai.common.result.Result;
 import com.liuhecai.dto.AgentCreateRequest;
 import com.liuhecai.dto.DomainBindRequest;
+import com.liuhecai.dto.PrimaryAgentRequest;
 import com.liuhecai.dto.TenantCreateRequest;
 import com.liuhecai.dto.TenantStatusRequest;
+import com.liuhecai.dto.TenantUpdateRequest;
 import com.liuhecai.service.TenantAdminService;
 import com.liuhecai.vo.AgentAdminVO;
 import com.liuhecai.vo.DomainAdminVO;
@@ -51,6 +53,18 @@ public class TenantAdminController {
     public Result<TenantAdminVO> updateStatus(@PathVariable Long tenantId,
                                               @Valid @RequestBody TenantStatusRequest request) {
         return Result.ok(tenantAdminService.updateStatus(tenantId, request));
+    }
+
+    @PutMapping("/tenants/{tenantId}")
+    public Result<TenantAdminVO> updateTenant(@PathVariable Long tenantId,
+                                              @Valid @RequestBody TenantUpdateRequest request) {
+        return Result.ok(tenantAdminService.updateTenant(tenantId, request));
+    }
+
+    @PutMapping("/tenants/{tenantId}/primary-agent")
+    public Result<TenantAdminVO> setPrimaryAgent(@PathVariable Long tenantId,
+                                                 @Valid @RequestBody PrimaryAgentRequest request) {
+        return Result.ok(tenantAdminService.setPrimaryAgent(tenantId, request));
     }
 
     @PostMapping("/tenants/{tenantId}/agents")

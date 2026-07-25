@@ -7,14 +7,16 @@ import com.liuhecai.common.enums.ErrorCode;
 import com.liuhecai.common.exception.BusinessException;
 import com.liuhecai.config.CacheConfig;
 import com.liuhecai.entity.DemoNote;
-import com.liuhecai.entity.Domain;
+import com.liuhecai.entity.EntryLine;
 import com.liuhecai.entity.Tenant;
 import com.liuhecai.mapper.DemoNoteMapper;
-import com.liuhecai.mapper.DomainMapper;
+import com.liuhecai.mapper.EntryLineMapper;
 import com.liuhecai.mapper.TenantMapper;
+import com.liuhecai.service.ForumHostResolver;
 import com.liuhecai.service.TenantQueryService;
 import com.liuhecai.tenant.TenantContext;
 import com.liuhecai.vo.DemoNoteVO;
+import com.liuhecai.vo.EntryLinePublicVO;
 import com.liuhecai.vo.TenantDirectoryItemVO;
 import com.liuhecai.vo.TenantVO;
 import lombok.RequiredArgsConstructor;
@@ -23,10 +25,10 @@ import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
-import java.util.Objects;
 
 @Slf4j
 @Service
@@ -35,7 +37,8 @@ public class TenantQueryServiceImpl implements TenantQueryService {
 
     private final TenantMapper tenantMapper;
     private final DemoNoteMapper demoNoteMapper;
-    private final DomainMapper domainMapper;
+    private final EntryLineMapper entryLineMapper;
+    private final ForumHostResolver forumHostResolver;
     private final ObjectMapper objectMapper;
 
     @Override
@@ -67,40 +70,39 @@ public class TenantQueryServiceImpl implements TenantQueryService {
         vo.setHost(TenantContext.getHost());
         String role = TenantContext.getDomainRole();
         vo.setDomainRole(StringUtils.hasText(role) ? role : "FORUM");
-        vo.setForumHost(resolveForumHost(tenantId));
+        vo.setForumHost(forumHostResolver.resolveForumHost(tenantId));
+        if ("ENTRY".equalsIgnoreCase(vo.getDomainRole())) {
+            vo.setEntryLines(loadEntryLines(TenantContext.getDomainId()));
+        }
         return vo;
     }
 
-    private String resolveForumHost(Long tenantId) {
-        List<Domain> domains = domainMapper.selectList(new LambdaQueryWrapper<Domain>()
-                .eq(Domain::getTenantId, tenantId)
-                .eq(Domain::getStatus, 1)
-                .orderByDesc(Domain::getIsPrimary)
-                .orderByAsc(Domain::getId));
-        List<Domain> forums = domains.stream()
-                .filter(d -> {
-                    String r = d.getRole();
-                    return !StringUtils.hasText(r) || "FORUM".equalsIgnoreCase(r.trim());
-                })
-                .toList();
-        String current = TenantContext.getHost();
-        // entry.xxx → 优先配对论坛域 xxx
-        if (StringUtils.hasText(current) && current.toLowerCase().startsWith("entry.")) {
-            String paired = current.substring("entry.".length()).toLowerCase();
-            for (Domain d : forums) {
-                if (paired.equalsIgnoreCase(d.getHost())) {
-                    return d.getHost();
-                }
+    private List<EntryLinePublicVO> loadEntryLines(Long domainId) {
+        if (domainId == null) {
+            return List.of();
+        }
+        List<EntryLine> rows = entryLineMapper.selectList(new LambdaQueryWrapper<EntryLine>()
+                .eq(EntryLine::getEntryDomainId, domainId)
+                .eq(EntryLine::getStatus, 1)
+                .orderByAsc(EntryLine::getSortOrder)
+                .orderByAsc(EntryLine::getId));
+        if (rows.isEmpty()) {
+            return List.of();
+        }
+        List<EntryLinePublicVO> out = new ArrayList<>(rows.size());
+        for (EntryLine row : rows) {
+            String forumHost = forumHostResolver.resolveForumHost(row.getTargetTenantId());
+            String forumUrl = forumHostResolver.buildForumUrl(forumHost);
+            if (!StringUtils.hasText(forumUrl)) {
+                continue;
             }
+            EntryLinePublicVO line = new EntryLinePublicVO();
+            line.setLabel(row.getLabel());
+            line.setColor(StringUtils.hasText(row.getColor()) ? row.getColor() : "#c62828");
+            line.setForumUrl(forumUrl);
+            out.add(line);
         }
-        if (!forums.isEmpty()) {
-            return forums.get(0).getHost();
-        }
-        return domains.stream()
-                .map(Domain::getHost)
-                .filter(Objects::nonNull)
-                .findFirst()
-                .orElse(null);
+        return out;
     }
 
     @Override
@@ -133,7 +135,8 @@ public class TenantQueryServiceImpl implements TenantQueryService {
         vo.setName(tenant.getName());
         vo.setLogoUrl(asString(theme.get("logoUrl"), ""));
         vo.setPrimaryColor(asString(theme.get("primaryColor"), "#c62828"));
-        vo.setPrimaryHost(null);
+        // 姊妹站跳转需要真实 FORUM 主域（此前故意脱敏导致前台「查看xx」无链接）
+        vo.setPrimaryHost(forumHostResolver.resolveForumHost(tenant.getId()));
         return vo;
     }
 

@@ -11,6 +11,7 @@ import com.liuhecai.common.result.PageResult;
 import com.liuhecai.common.util.CsvWriter;
 import com.liuhecai.common.util.PageLimits;
 import com.liuhecai.common.util.PasswordGenerator;
+import com.liuhecai.dto.AgentUserCreateRequest;
 import com.liuhecai.dto.CoinAdjustRequest;
 import com.liuhecai.dto.EnabledRequest;
 import com.liuhecai.entity.Tenant;
@@ -90,6 +91,33 @@ public class AgentUserServiceImpl implements AgentUserService {
 
     @Override
     @Transactional(rollbackFor = Exception.class)
+    public PasswordResetVO createUser(AgentUserCreateRequest request) {
+        AuthUser agent = requireAgent();
+        String username = request.getUsername().trim();
+        Long count = userMapper.selectCount(new LambdaQueryWrapper<User>()
+                .eq(User::getTenantId, agent.getTenantId())
+                .eq(User::getUsername, username));
+        if (count != null && count > 0) {
+            throw new BusinessException(ErrorCode.BAD_REQUEST, "该站用户名已存在");
+        }
+        String raw = PasswordGenerator.randomPassword(10);
+        User user = new User();
+        user.setTenantId(agent.getTenantId());
+        user.setUsername(username);
+        user.setPasswordHash(passwordEncoder.encode(raw));
+        user.setCoinBalance(0);
+        user.setEnabled(1);
+        userMapper.insert(user);
+        opAuditService.record(OpAuditAction.USER_CREATE, TARGET_TYPE_USER, String.valueOf(user.getId()), null);
+        PasswordResetVO vo = new PasswordResetVO();
+        vo.setId(user.getId());
+        vo.setUsername(user.getUsername());
+        vo.setRawPassword(raw);
+        return vo;
+    }
+
+    @Override
+    @Transactional(rollbackFor = Exception.class)
     public AgentUserDetailVO updateEnabled(Long id, EnabledRequest request) {
         requireAgent();
         validateEnabled(request.getEnabled());
@@ -153,6 +181,20 @@ public class AgentUserServiceImpl implements AgentUserService {
         requireUserInTenant(id);
         tokenVersionService.bump(AuthRealm.USER, id);
         opAuditService.record(OpAuditAction.USER_FORCE_LOGOUT, TARGET_TYPE_USER, String.valueOf(id), null);
+    }
+
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    public void softDelete(Long id) {
+        requireAgent();
+        User user = requireUserInTenant(id);
+        user.setEnabled(0);
+        user.setUpdatedAt(LocalDateTime.now());
+        if (userMapper.updateById(user) == 0) {
+            throw new BusinessException(ErrorCode.USER_NOT_FOUND);
+        }
+        tokenVersionService.bump(AuthRealm.USER, id);
+        opAuditService.record(OpAuditAction.USER_DELETE, TARGET_TYPE_USER, String.valueOf(id), null);
     }
 
     @Override

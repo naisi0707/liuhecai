@@ -16,6 +16,7 @@
     "@wangeditor/editor": "^5.1.23",
     "@wangeditor/editor-for-vue": "5.1.12",
     "dayjs": "^1.11.21",
+    "dompurify": "^3.4.12",
     "echarts": "^6.1.0",
     "element-plus": "^2.14.3",
     "lodash-unified": "^1.0.3",

@@ -3,6 +3,7 @@ package com.liuhecai.controller;
 import com.liuhecai.common.result.PageResult;
 import com.liuhecai.common.result.Result;
 import com.liuhecai.common.util.CsvWriter;
+import com.liuhecai.dto.BatchEnabledRequest;
 import com.liuhecai.dto.EnabledRequest;
 import com.liuhecai.service.AdminAgentService;
 import com.liuhecai.vo.AdminAgentDetailVO;
@@ -73,6 +74,18 @@ public class AdminAgentController {
     @PostMapping("/{id}/force-logout")
     public Result<Void> forceLogout(@PathVariable Long id) {
         adminAgentService.forceLogout(id);
+        return Result.ok(null);
+    }
+
+    @PostMapping("/{id}/delete")
+    public Result<Void> softDelete(@PathVariable Long id) {
+        adminAgentService.softDelete(id);
+        return Result.ok(null);
+    }
+
+    @PostMapping("/batch-enabled")
+    public Result<Void> batchEnabled(@Valid @RequestBody BatchEnabledRequest request) {
+        adminAgentService.batchUpdateEnabled(request.getIds(), request.getEnabled());
         return Result.ok(null);
     }
 }

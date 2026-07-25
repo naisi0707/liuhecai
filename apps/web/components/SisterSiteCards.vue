@@ -1,7 +1,7 @@
 <script setup lang="ts">
 const sisters = [
-  { name: '至尊无上论坛', domain: '305551.com', cta: '查看至尊无上', href: 'https://305551.com' },
-  { name: '神算子论坛', domain: '933858.com', cta: '查看神算子', href: 'https://933858.com' },
+  { name: '至尊无上论坛', domain: '152687.xyz', cta: '查看至尊无上', href: 'https://152687.xyz' },
+  { name: '神算子论坛', domain: '785412.xyz', cta: '查看神算子', href: 'https://785412.xyz' },
 ]
 </script>
 

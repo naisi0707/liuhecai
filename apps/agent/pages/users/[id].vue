@@ -11,6 +11,7 @@ const {
   setUserEnabled,
   resetUserPassword,
   forceUserLogout,
+  softDeleteUser,
   adjustCoins,
   userCoinLogs,
   userOrders,
@@ -89,6 +90,22 @@ async function onForceLogout() {
   }
 }
 
+async function onDelete() {
+  try {
+    await ElMessageBox.confirm(
+      '确认注销该用户？将停用并强制下线，流水保留，可再启用恢复。',
+      '注销确认',
+      { type: 'warning' },
+    )
+    await softDeleteUser(id.value)
+    ElMessage.success('已注销')
+    await navigateTo('/users')
+  } catch (e: unknown) {
+    if (e === 'cancel' || e === 'close') return
+    ElMessage.error(e instanceof Error ? e.message : '注销失败')
+  }
+}
+
 async function submitCoins() {
   if (!coinForm.amount) {
     ElMessage.warning('请输入非 0 金额')
@@ -134,6 +151,7 @@ onMounted(async () => {
       <el-button v-if="detail" @click="onToggle">{{ detail.enabled === 1 ? '停用' : '启用' }}</el-button>
       <el-button v-if="detail" type="warning" @click="onReset">重置密码</el-button>
       <el-button v-if="detail" type="danger" plain @click="onForceLogout">强制下线</el-button>
+      <el-button v-if="detail" type="danger" @click="onDelete">注销</el-button>
     </el-space>
 
     <el-alert v-if="echo" :title="echo" type="success" show-icon style="margin-bottom:12px;" @close="echo = ''" />

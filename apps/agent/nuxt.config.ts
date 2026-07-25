@@ -75,12 +75,14 @@ export default defineNuxtConfig({
     apiBase: 'http://127.0.0.1:8080',
     public: {
       apiBase: 'http://127.0.0.1:8080',
-      webBase: 'http://127.0.0.1:3000',
+      webBase: '',
     },
   },
   nitro: {
     devProxy: {
       '/uploads': { target: 'http://127.0.0.1:8080/uploads', changeOrigin: true },
+      '/site': { target: 'http://127.0.0.1:3000/site', changeOrigin: true },
+      '/bbs': { target: 'http://127.0.0.1:3000/bbs', changeOrigin: true },
     },
   },
   app: {

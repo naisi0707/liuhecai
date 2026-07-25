@@ -23,3 +23,8 @@ scripts/e2e-artifacts/
 findings.md
 progress.md
 task_plan.md
+.venv-banner/
+apps/admin/F:/
+apps/agent/F:/
+**/vite-cache/
+liu-bowen-banner.gif

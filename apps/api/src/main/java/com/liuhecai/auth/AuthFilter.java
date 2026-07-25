@@ -5,9 +5,9 @@ import com.liuhecai.common.enums.AuthRealm;
 import com.liuhecai.common.enums.ErrorCode;
 import com.liuhecai.common.exception.BusinessException;
 import com.liuhecai.common.result.Result;
-import com.liuhecai.tenant.TenantContext;
 import com.liuhecai.service.AccountStatusService;
 import com.liuhecai.service.TokenVersionService;
+import com.liuhecai.tenant.TenantContext;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -34,10 +34,15 @@ public class AuthFilter extends OncePerRequestFilter {
             "/api/tenant/",
             "/api/site/",
             "/api/demo-notes",
-            "/api/draws/",
-            "/api/admin/auth/",
-            "/api/agent/auth/",
-            "/api/user/auth/"
+            "/api/draws/"
+    );
+
+    /** 精确公开路径（登录/注册）；/auth/password 等需鉴权 */
+    private static final Set<String> PUBLIC_EXACT = Set.of(
+            "/api/admin/auth/login",
+            "/api/agent/auth/login",
+            "/api/user/auth/login",
+            "/api/user/auth/register"
     );
 
     /** 可匿名访问，有 Token 则解析以判断是否已购 */
@@ -54,7 +59,8 @@ public class AuthFilter extends OncePerRequestFilter {
             return true;
         }
         String path = request.getRequestURI();
-        return PUBLIC_PREFIXES.stream().anyMatch(path::startsWith)
+        return PUBLIC_EXACT.contains(path)
+                || PUBLIC_PREFIXES.stream().anyMatch(path::startsWith)
                 || path.startsWith("/uploads/");
     }
 
@@ -127,12 +133,17 @@ public class AuthFilter extends OncePerRequestFilter {
                     return;
                 }
             } else if (user.getTenantId() != null && !optionalAuth) {
-                // /api/topics 等可选路径禁止 AGENT/SUPER 用 JWT 覆盖 Host 租户（防串租）
+                // AGENT：登录态绑定运营租户（不再依赖 Host）
                 TenantContext.set(user.getTenantId());
             }
             filterChain.doFilter(request, response);
         } finally {
             AuthContext.clear();
+            // agent 路径跳过 TenantResolveFilter，需在此回收 ThreadLocal
+            if (request.getRequestURI().startsWith("/api/agent/")
+                    || request.getRequestURI().startsWith("/api/admin/")) {
+                TenantContext.clear();
+            }
         }
     }
 

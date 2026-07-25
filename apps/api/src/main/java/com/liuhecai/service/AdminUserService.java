@@ -1,7 +1,8 @@
 package com.liuhecai.service;
 
 import com.liuhecai.common.result.PageResult;
-import com.liuhecai.dto.BatchEnabledRequest;
+import com.liuhecai.dto.AdminUserCreateRequest;
+import com.liuhecai.dto.CoinAdjustRequest;
 import com.liuhecai.dto.EnabledRequest;
 import com.liuhecai.vo.AdminUserDetailVO;
 import com.liuhecai.vo.AdminUserListItemVO;
@@ -16,11 +17,17 @@ public interface AdminUserService {
 
     AdminUserDetailVO getDetail(Long id);
 
+    PasswordResetVO createUser(AdminUserCreateRequest request);
+
     AdminUserDetailVO updateEnabled(Long id, EnabledRequest request);
 
     PasswordResetVO resetPassword(Long id);
 
+    Integer adjustCoins(Long id, CoinAdjustRequest request);
+
     void forceLogout(Long id);
+
+    void softDelete(Long id);
 
     void batchUpdateEnabled(List<Long> ids, int enabled);
 

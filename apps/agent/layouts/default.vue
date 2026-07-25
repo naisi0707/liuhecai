@@ -1,7 +1,44 @@
 <script setup lang="ts">
+import { ElMessage } from 'element-plus'
+
 const route = useRoute()
-const { token, logout, hydrate } = useAgentAuth()
+const { token, logout, hydrate, changePassword } = useAgentAuth()
 const { siteName, loadSiteName, clearSiteName } = useAgentSite()
+
+const pwdVisible = ref(false)
+const pwdSaving = ref(false)
+const pwdForm = reactive({ oldPassword: '', newPassword: '', confirm: '' })
+
+async function submitPassword() {
+  if (!pwdForm.oldPassword || !pwdForm.newPassword) {
+    ElMessage.warning('请填写完整')
+    return
+  }
+  if (pwdForm.newPassword.length < 6) {
+    ElMessage.warning('新密码至少 6 位')
+    return
+  }
+  if (pwdForm.newPassword !== pwdForm.confirm) {
+    ElMessage.warning('两次输入的新密码不一致')
+    return
+  }
+  pwdSaving.value = true
+  try {
+    await changePassword(pwdForm.oldPassword, pwdForm.newPassword)
+    ElMessage.success('密码已修改，请重新登录')
+    pwdVisible.value = false
+    pwdForm.oldPassword = ''
+    pwdForm.newPassword = ''
+    pwdForm.confirm = ''
+    clearSiteName()
+    logout()
+    await navigateTo('/login')
+  } catch (e: unknown) {
+    ElMessage.error(e instanceof Error ? e.message : '修改失败')
+  } finally {
+    pwdSaving.value = false
+  }
+}
 
 const menus = [
   {
@@ -76,13 +113,34 @@ onMounted(() => {
     <el-container class="agent-body">
       <el-header class="agent-header">
         <span>{{ headerTitle }}</span>
-        <el-button text type="danger" @click="onLogout">退出</el-button>
+        <el-space>
+          <el-button text style="color:#fff;" @click="pwdVisible = true">修改密码</el-button>
+          <el-button text type="danger" @click="onLogout">退出</el-button>
+        </el-space>
       </el-header>
       <el-main class="agent-main">
         <slot />
       </el-main>
     </el-container>
   </el-container>
+
+  <el-dialog v-model="pwdVisible" title="修改密码" width="420px" append-to-body>
+    <el-form label-width="90px">
+      <el-form-item label="旧密码">
+        <el-input v-model="pwdForm.oldPassword" type="password" show-password />
+      </el-form-item>
+      <el-form-item label="新密码">
+        <el-input v-model="pwdForm.newPassword" type="password" show-password />
+      </el-form-item>
+      <el-form-item label="确认新密码">
+        <el-input v-model="pwdForm.confirm" type="password" show-password />
+      </el-form-item>
+    </el-form>
+    <template #footer>
+      <el-button @click="pwdVisible = false">取消</el-button>
+      <el-button type="primary" :loading="pwdSaving" @click="submitPassword">确认</el-button>
+    </template>
+  </el-dialog>
 </template>
 
 <style>

@@ -3,7 +3,9 @@ package com.liuhecai.controller;
 import com.liuhecai.common.result.PageResult;
 import com.liuhecai.common.result.Result;
 import com.liuhecai.common.util.CsvWriter;
+import com.liuhecai.dto.AdminUserCreateRequest;
 import com.liuhecai.dto.BatchEnabledRequest;
+import com.liuhecai.dto.CoinAdjustRequest;
 import com.liuhecai.dto.EnabledRequest;
 import com.liuhecai.service.AdminUserService;
 import com.liuhecai.vo.AdminUserDetailVO;
@@ -25,6 +27,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.Map;
 
 @RestController
 @RequestMapping("/api/admin/users")
@@ -57,6 +61,11 @@ public class AdminUserController {
                 .body(body);
     }
 
+    @PostMapping
+    public Result<PasswordResetVO> create(@Valid @RequestBody AdminUserCreateRequest request) {
+        return Result.ok(adminUserService.createUser(request));
+    }
+
     @GetMapping("/{id}")
     public Result<AdminUserDetailVO> detail(@PathVariable Long id) {
         return Result.ok(adminUserService.getDetail(id));
@@ -73,9 +82,22 @@ public class AdminUserController {
         return Result.ok(adminUserService.resetPassword(id));
     }
 
+    @PostMapping("/{id}/coins")
+    public Result<Map<String, Integer>> adjustCoins(@PathVariable Long id,
+                                                    @Valid @RequestBody CoinAdjustRequest request) {
+        Integer balance = adminUserService.adjustCoins(id, request);
+        return Result.ok(Map.of("coinBalance", balance));
+    }
+
     @PostMapping("/{id}/force-logout")
     public Result<Void> forceLogout(@PathVariable Long id) {
         adminUserService.forceLogout(id);
+        return Result.ok(null);
+    }
+
+    @PostMapping("/{id}/delete")
+    public Result<Void> softDelete(@PathVariable Long id) {
+        adminUserService.softDelete(id);
         return Result.ok(null);
     }
 

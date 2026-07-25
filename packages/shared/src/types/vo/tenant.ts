@@ -1,3 +1,9 @@
+export interface EntryLinePublicVO {
+  label: string
+  color: string
+  forumUrl: string
+}
+
 export interface TenantPublicVO {
   id: number
   name: string
@@ -15,6 +21,8 @@ export interface TenantPublicVO {
   domainRole?: 'ENTRY' | 'FORUM'
   /** 同租户论坛 Host（供 ENTRY 跳转） */
   forumHost?: string | null
+  /** ENTRY 域线路按钮（仅 domainRole=ENTRY 时返回） */
+  entryLines?: EntryLinePublicVO[]
 }
 
 export interface TenantDirectoryItem {

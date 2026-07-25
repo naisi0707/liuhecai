@@ -6,6 +6,8 @@ import com.liuhecai.vo.AdminAgentDetailVO;
 import com.liuhecai.vo.AdminAgentListItemVO;
 import com.liuhecai.vo.AgentAdminVO;
 
+import java.util.List;
+
 public interface AdminAgentService {
     PageResult<AdminAgentListItemVO> page(Long tenantId, String username, Integer enabled, int page, int size);
 
@@ -16,6 +18,10 @@ public interface AdminAgentService {
     AgentAdminVO resetPassword(Long id);
 
     void forceLogout(Long id);
+
+    void softDelete(Long id);
+
+    void batchUpdateEnabled(List<Long> ids, int enabled);
 
     String exportAgentsCsv(Long tenantId, String username, Integer enabled);
 }

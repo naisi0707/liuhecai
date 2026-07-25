@@ -6,7 +6,9 @@ import com.liuhecai.auth.AuthUser;
 import com.liuhecai.auth.JwtService;
 import com.liuhecai.common.enums.AuthRealm;
 import com.liuhecai.common.enums.ErrorCode;
+import com.liuhecai.common.enums.OpAuditAction;
 import com.liuhecai.common.exception.BusinessException;
+import com.liuhecai.dto.ChangePasswordRequest;
 import com.liuhecai.dto.LoginRequest;
 import com.liuhecai.dto.UserRegisterRequest;
 import com.liuhecai.entity.AgentAccount;
@@ -16,6 +18,8 @@ import com.liuhecai.mapper.AgentAccountMapper;
 import com.liuhecai.mapper.SuperAdminMapper;
 import com.liuhecai.mapper.UserMapper;
 import com.liuhecai.service.AuthService;
+import com.liuhecai.service.OpAuditService;
+import com.liuhecai.service.TokenVersionService;
 import com.liuhecai.tenant.TenantContext;
 import com.liuhecai.vo.AuthProfileVO;
 import com.liuhecai.vo.LoginVO;
@@ -33,6 +37,8 @@ public class AuthServiceImpl implements AuthService {
     private final UserMapper userMapper;
     private final PasswordEncoder passwordEncoder;
     private final JwtService jwtService;
+    private final TokenVersionService tokenVersionService;
+    private final OpAuditService opAuditService;
 
     @Override
     public LoginVO loginSuper(LoginRequest request) {
@@ -121,6 +127,38 @@ public class AuthServiceImpl implements AuthService {
             vo.setCoinBalance(user.getCoinBalance());
         }
         return vo;
+    }
+
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    public void changePassword(ChangePasswordRequest request) {
+        AuthUser authUser = AuthContext.get();
+        if (authUser == null) {
+            throw new BusinessException(ErrorCode.UNAUTHORIZED);
+        }
+        if (request.getOldPassword().equals(request.getNewPassword())) {
+            throw new BusinessException(ErrorCode.BAD_REQUEST, "新密码不能与旧密码相同");
+        }
+        AuthRealm realm = authUser.getRealm();
+        if (realm == AuthRealm.SUPER) {
+            SuperAdmin admin = superAdminMapper.selectById(authUser.getId());
+            if (admin == null || !passwordEncoder.matches(request.getOldPassword(), admin.getPasswordHash())) {
+                throw new BusinessException(ErrorCode.BAD_REQUEST, "旧密码不正确");
+            }
+            admin.setPasswordHash(passwordEncoder.encode(request.getNewPassword()));
+            superAdminMapper.updateById(admin);
+        } else if (realm == AuthRealm.AGENT) {
+            AgentAccount agent = agentAccountMapper.selectById(authUser.getId());
+            if (agent == null || !passwordEncoder.matches(request.getOldPassword(), agent.getPasswordHash())) {
+                throw new BusinessException(ErrorCode.BAD_REQUEST, "旧密码不正确");
+            }
+            agent.setPasswordHash(passwordEncoder.encode(request.getNewPassword()));
+            agentAccountMapper.updateById(agent);
+        } else {
+            throw new BusinessException(ErrorCode.BAD_REQUEST, "当前账号不支持此操作");
+        }
+        tokenVersionService.bump(realm, authUser.getId());
+        opAuditService.record(OpAuditAction.PASSWORD_CHANGE, realm.name(), String.valueOf(authUser.getId()), null);
     }
 
     private Long requireTenantId() {

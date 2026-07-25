@@ -44,6 +44,7 @@ export function useAuth() {
   function logout() {
     token.value = ''
     coinBalance.value = null
+    username.value = ''
     if (import.meta.client) localStorage.removeItem('user_token')
   }
 

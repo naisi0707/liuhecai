@@ -1,6 +1,6 @@
 # 生产部署说明
 
-服务器：`45.152.64.102`（Ubuntu 18.04）  
+服务器：`45.152.64.102`（Ubuntu 18.04；以 `docs/服务器.txt` 为准）  
 应用根目录：`/www/wwwroot/liuhecai`
 
 > Ubuntu 18.04 glibc 过旧，**勿在服务器上用官方 Node 20 构建**。本机构建后上传产物；运行时使用 unofficial Node 20（glibc 2.17）于 `/opt/node-v20.18.1`。
@@ -15,13 +15,20 @@
 
 ## 域名
 
+完整对照见 **[urls.md](./urls.md)**。摘要：
+
 | Host | 用途 | HTTPS |
 |------|------|-------|
-| `157465.com` | ENTRY 伪装入口（Cloudflare 已代理） | 源站已绑 ENTRY；SSL 用 Let's Encrypt / Cloudflare Full |
-| `585520.xyz` 等 5 个 `.xyz` | 各品牌 FORUM | 已签发 |
-| `admin.236841.xyz` / `agent.236841.xyz` | 超管 / 代理 | 需先加 DNS A 记录再签证书 |
+| `157465.com` / `www.157465.com` | ENTRY 伪装入口（Cloudflare 已代理） | Let's Encrypt / Cloudflare Full |
+| `585520.xyz` | 刘伯温论坛 FORUM | 已签发 |
+| `152687.xyz` | 至尊无上论坛 FORUM | 已签发 |
+| `785412.xyz` | 神算子论坛 FORUM | 已签发 |
+| `658951.xyz` | 招财宝论坛 FORUM | 已签发 |
+| `746528.xyz` | 荣华富贵论坛 FORUM | 已签发 |
+| `admin.157465.com` | 超级管理端 | Cloudflare 已代理；证书与 ENTRY 同 SAN |
+| `agent.157465.com` | 代理端 | 同上 |
 
-演示账号（上线后请改密）：超管 `admin` / `admin123`；代理 `agent_a` / `agent123`。
+演示账号（上线后请改密）：超管 `admin` / `admin123`；各站主代理见 [urls.md](./urls.md)（`agent_a` / `agent_b` / `agent_ssz` / `agent_zcb` / `agent_rhfg`，密码均为 `agent123`）。
 
 ## 本机构建后上传
 
@@ -58,6 +65,6 @@ certbot renew --quiet
 
 ```bash
 curl -sS -H 'Host: 585520.xyz' http://127.0.0.1/api/health
-curl -sS -H 'Host: 157456.com' http://127.0.0.1/api/tenant/current   # domainRole=ENTRY
+curl -sS -H 'Host: 157465.com' http://127.0.0.1/api/tenant/current   # domainRole=ENTRY
 curl -sk --resolve 585520.xyz:443:127.0.0.1 https://585520.xyz/api/health
 ```

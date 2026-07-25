@@ -43,7 +43,10 @@ public class MybatisPlusConfig {
                         || "super_admins".equalsIgnoreCase(tableName)
                         || "agent_accounts".equalsIgnoreCase(tableName)
                         || "draw_results_global".equalsIgnoreCase(tableName)
-                        || "op_audit_logs".equalsIgnoreCase(tableName);
+                        || "op_audit_logs".equalsIgnoreCase(tableName)
+                        || "ip_whitelist_settings".equalsIgnoreCase(tableName)
+                        || "ip_whitelist_entries".equalsIgnoreCase(tableName)
+                        || "entry_lines".equalsIgnoreCase(tableName);
             }
         }));
         interceptor.addInnerInterceptor(new PaginationInnerInterceptor(DbType.MYSQL));

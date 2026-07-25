@@ -36,7 +36,8 @@ public interface AdminUserAgentMapper {
     @Select("""
             <script>
             SELECT a.id, a.tenant_id AS tenantId, t.name AS tenantName,
-                   a.username, a.enabled, a.created_at AS createdAt,
+                   a.username, a.enabled, COALESCE(a.is_primary, 0) AS isPrimary,
+                   a.created_at AS createdAt,
                    COALESCE(uc.cnt, 0) AS userCount,
                    COALESCE(rr.amt, 0) AS rechargeAmount7d
             FROM agent_accounts a
@@ -67,7 +68,8 @@ public interface AdminUserAgentMapper {
 
     @Select("""
             SELECT a.id, a.tenant_id AS tenantId, t.name AS tenantName,
-                   a.username, a.enabled, a.created_at AS createdAt,
+                   a.username, a.enabled, COALESCE(a.is_primary, 0) AS isPrimary,
+                   a.created_at AS createdAt,
                    COALESCE(uc.cnt, 0) AS userCount,
                    COALESCE(rr.amt, 0) AS rechargeAmount7d
             FROM agent_accounts a
@@ -273,7 +275,8 @@ public interface AdminUserAgentMapper {
     @Select("""
             <script>
             SELECT a.id, a.tenant_id AS tenantId, t.name AS tenantName,
-                   a.username, a.enabled, a.created_at AS createdAt,
+                   a.username, a.enabled, COALESCE(a.is_primary, 0) AS isPrimary,
+                   a.created_at AS createdAt,
                    COALESCE(uc.cnt, 0) AS userCount,
                    COALESCE(rr.amt, 0) AS rechargeAmount7d
             FROM agent_accounts a

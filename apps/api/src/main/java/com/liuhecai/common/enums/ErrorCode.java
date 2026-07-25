@@ -11,6 +11,7 @@ public enum ErrorCode {
     VALIDATION_FAILED(40001, "参数校验失败"),
     UNAUTHORIZED(40100, "未登录"),
     FORBIDDEN(40300, "无权限"),
+    IP_NOT_ALLOWED(40301, "当前 IP 不在白名单"),
     USER_NOT_FOUND(10001, "用户不存在"),
     USERNAME_EXISTS(10002, "用户名已存在"),
     TENANT_NOT_FOUND(30001, "租户不存在"),

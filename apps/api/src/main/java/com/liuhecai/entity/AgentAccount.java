@@ -16,6 +16,12 @@ public class AgentAccount {
     private String username;
     private String passwordHash;
     private Integer enabled;
+    /** 1=主代理 */
+    private Integer isPrimary;
+    /**
+     * 主代理唯一槽：主代理为 1，非主为 null（配合 uk_agent_tenant_primary）。
+     */
+    private Integer primaryKey;
     private Integer tokenVersion;
     private LocalDateTime createdAt;
 }

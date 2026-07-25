@@ -107,7 +107,9 @@ public interface AdminStatsMapper {
             SELECT t.id AS tenantId, t.name AS tenantName, t.status,
                    COALESCE(uc.cnt, 0) AS userCount,
                    COALESCE(oc.cnt, 0) AS orderCount,
-                   pd.host AS primaryHost
+                   (SELECT d.host FROM domains d
+                     WHERE d.tenant_id = t.id
+                     ORDER BY d.is_primary DESC, d.id ASC LIMIT 1) AS primaryHost
             FROM tenants t
             LEFT JOIN (
               SELECT tenant_id, COUNT(*) AS cnt FROM users GROUP BY tenant_id
@@ -115,13 +117,6 @@ public interface AdminStatsMapper {
             LEFT JOIN (
               SELECT tenant_id, COUNT(*) AS cnt FROM topic_orders GROUP BY tenant_id
             ) oc ON oc.tenant_id = t.id
-            LEFT JOIN (
-              SELECT tenant_id, host FROM (
-                SELECT tenant_id, host,
-                       ROW_NUMBER() OVER (PARTITION BY tenant_id ORDER BY is_primary DESC, id ASC) AS rn
-                FROM domains
-              ) ranked WHERE rn = 1
-            ) pd ON pd.tenant_id = t.id
             ORDER BY orderCount DESC, userCount DESC
             LIMIT 5
             """)

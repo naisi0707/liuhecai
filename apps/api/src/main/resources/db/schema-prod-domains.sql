@@ -1,4 +1,6 @@
 -- Production tenants + domains (run after schema-m2 / base schemas)
+-- Agents are NOT inserted here: AuthSeedRunner ensures one primary agent per tenant
+-- (agent_a/b/ssz/zcb/rhfg) and DB FKs require tenants.primary_agent_id.
 USE liuhecai;
 
 -- Keep seed tenants 1001/1002; add remaining brands

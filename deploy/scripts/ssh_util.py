@@ -9,7 +9,23 @@ import paramiko
 
 HOST = "45.152.64.102"
 
-__all__ = ["HOST", "connect", "load_password", "run"]
+__all__ = ["HOST", "connect", "load_password", "load_host", "run"]
+
+
+def _cred_lines() -> list[str]:
+    txt = Path(__file__).resolve().parents[2] / "docs" / "服务器.txt"
+    return [ln.strip() for ln in txt.read_text(encoding="utf-8").splitlines() if ln.strip()]
+
+
+def load_host() -> str:
+    import os
+
+    if os.environ.get("LIUHECAI_SSH_HOST"):
+        return os.environ["LIUHECAI_SSH_HOST"]
+    lines = _cred_lines()
+    if lines and lines[0][0].isdigit():
+        return lines[0]
+    return HOST
 
 
 def load_password() -> str:
@@ -17,8 +33,7 @@ def load_password() -> str:
 
     if os.environ.get("LIUHECAI_SSH_PASSWORD"):
         return os.environ["LIUHECAI_SSH_PASSWORD"]
-    txt = Path(__file__).resolve().parents[2] / "docs" / "服务器.txt"
-    lines = [ln.strip() for ln in txt.read_text(encoding="utf-8").splitlines() if ln.strip()]
+    lines = _cred_lines()
     return lines[-1]
 
 
@@ -26,7 +41,7 @@ def connect() -> paramiko.SSHClient:
     c = paramiko.SSHClient()
     c.set_missing_host_key_policy(paramiko.AutoAddPolicy())
     c.connect(
-        HOST,
+        load_host(),
         username="root",
         password=load_password(),
         timeout=30,

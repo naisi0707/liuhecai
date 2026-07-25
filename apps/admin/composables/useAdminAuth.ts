@@ -45,5 +45,12 @@ export function useAdminAuth() {
     if (import.meta.client) localStorage.removeItem('admin_token')
   }
 
-  return { token, hydrate, authHeaders, api, login, logout }
+  async function changePassword(oldPassword: string, newPassword: string) {
+    await api<null>('/api/admin/auth/password', {
+      method: 'PUT',
+      body: { oldPassword, newPassword },
+    })
+  }
+
+  return { token, hydrate, authHeaders, api, login, logout, changePassword }
 }

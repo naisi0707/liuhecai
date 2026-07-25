@@ -41,7 +41,7 @@ public class DomainTenantLookup {
         if (!"ENTRY".equals(role)) {
             role = "FORUM";
         }
-        return new ResolvedTenant(tenant.getId(), host, role);
+        return new ResolvedTenant(tenant.getId(), domain.getId(), host, role);
     }
 
     @CacheEvict(cacheNames = {
@@ -52,6 +52,6 @@ public class DomainTenantLookup {
         // no-op: annotation-driven eviction
     }
 
-    public record ResolvedTenant(Long tenantId, String host, String domainRole) {
+    public record ResolvedTenant(Long tenantId, Long domainId, String host, String domainRole) {
     }
 }

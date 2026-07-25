@@ -46,5 +46,12 @@ export function useAgentAuth() {
     if (import.meta.client) localStorage.removeItem('agent_token')
   }
 
-  return { token, hydrate, authHeaders, api, login, logout }
+  async function changePassword(oldPassword: string, newPassword: string) {
+    await api<null>('/api/agent/auth/password', {
+      method: 'PUT',
+      body: { oldPassword, newPassword },
+    })
+  }
+
+  return { token, hydrate, authHeaders, api, login, logout, changePassword }
 }

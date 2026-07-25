@@ -12,6 +12,11 @@ const themeStyle = computed(() => (
   primaryColor.value ? { '--brand': primaryColor.value } : undefined
 ))
 
+/** ENTRY 伪装入口：标签页显示「导航」，勿暴露论坛名 */
+useHead(() => ({
+  title: isEntry.value ? '导航' : (siteName.value || '论坛'),
+}))
+
 try {
   await loadTenant()
   if (!isEntry.value) {

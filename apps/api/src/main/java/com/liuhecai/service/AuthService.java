@@ -1,5 +1,6 @@
 package com.liuhecai.service;
 
+import com.liuhecai.dto.ChangePasswordRequest;
 import com.liuhecai.dto.LoginRequest;
 import com.liuhecai.dto.UserRegisterRequest;
 import com.liuhecai.vo.AuthProfileVO;
@@ -15,4 +16,6 @@ public interface AuthService {
     LoginVO registerUser(UserRegisterRequest request);
 
     AuthProfileVO currentProfile();
+
+    void changePassword(ChangePasswordRequest request);
 }

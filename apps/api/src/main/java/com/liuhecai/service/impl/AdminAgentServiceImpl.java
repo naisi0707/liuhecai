@@ -28,6 +28,7 @@ import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -81,6 +82,7 @@ public class AdminAgentServiceImpl implements AdminAgentService {
         detail.setTenantName(row.getTenantName());
         detail.setUsername(row.getUsername());
         detail.setEnabled(row.getEnabled());
+        detail.setIsPrimary(row.getIsPrimary());
         detail.setCreatedAt(row.getCreatedAt());
         detail.setUserCount(row.getUserCount());
         detail.setRechargeAmount7d(row.getRechargeAmount7d());
@@ -140,6 +142,37 @@ public class AdminAgentServiceImpl implements AdminAgentService {
         }
         tokenVersionService.bump(AuthRealm.AGENT, id);
         opAuditService.record(OpAuditAction.AGENT_FORCE_LOGOUT, TARGET_TYPE_AGENT, String.valueOf(id), null);
+    }
+
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    public void softDelete(Long id) {
+        tenantAdminService.softDeleteAgent(id);
+    }
+
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    public void batchUpdateEnabled(List<Long> ids, int enabled) {
+        validateEnabled(enabled);
+        if (ids == null || ids.isEmpty()) {
+            throw new BusinessException(ErrorCode.BAD_REQUEST, "ids 不能为空");
+        }
+        LocalDateTime sevenDaysAgo = LocalDate.now().minusDays(6).atStartOfDay();
+        for (Long id : ids) {
+            if (adminUserAgentMapper.selectAgentRow(id, sevenDaysAgo) == null) {
+                throw new BusinessException(ErrorCode.USER_NOT_FOUND, "代理账号不存在");
+            }
+            if (adminUserAgentMapper.updateAgentEnabled(id, enabled) == 0) {
+                throw new BusinessException(ErrorCode.USER_NOT_FOUND, "代理账号不存在");
+            }
+            tokenVersionService.bump(AuthRealm.AGENT, id);
+        }
+        String detail = ids.stream().map(String::valueOf).collect(Collectors.joining(","));
+        opAuditService.record(
+                enabled == 1 ? OpAuditAction.AGENT_ENABLE : OpAuditAction.AGENT_DISABLE,
+                TARGET_TYPE_AGENT,
+                null,
+                detail);
     }
 
     @Override

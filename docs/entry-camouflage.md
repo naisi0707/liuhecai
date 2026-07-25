@@ -46,10 +46,18 @@ function decode(uu) {
 |---|---|
 | 永久域 | `domains.role = ENTRY` 的 Host |
 | 论坛域 | `domains.role = FORUM`（默认；可 `is_primary`） |
-| 假商城 + 线路 | `apps/web` 在 ENTRY Host 下渲染伪装壳 |
-| `goto.php` | `/goto?u=` + 白名单校验（解码后 Host 须为本租户 `forumHost`） |
+| 假商城 + 线路 | `apps/web` 在 ENTRY Host 下渲染伪装壳；线路由 `entry_lines` 配置 |
+| `goto.php` | `/goto?u=` + 白名单校验（允许 `entryLines` 各目标论坛 Host + 本域 `forumHost`） |
 
 运营约定：永久域绑 `ENTRY`，论坛子域绑 `FORUM`。
+
+### 可配置线路
+
+- 表：`entry_lines`（按 ENTRY 的 `domains.id`）
+- 超管后台：域名绑定页 → ENTRY 行「配置线路」（`GET/PUT /api/admin/entry-domains/{domainId}/lines`）
+- 前台：`GET /api/tenant/current` 在 `domainRole=ENTRY` 时返回 `entryLines: [{ label, color, forumUrl }]`
+- 组件：`CamouflageLineNav.vue`（取代静态 `camouflage/nav.html` iframe）
+- 新绑 ENTRY 域时自动写入默认五条（目标均为该域所属租户）
 
 本地演示（`application-local.yml` 需 `trust-forwarded-host: true`）：
 

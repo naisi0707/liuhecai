@@ -12,7 +12,8 @@ export default defineNuxtConfig({
   ],
   app: {
     head: {
-      title: '刘伯温论坛',
+      // 具体标题由 layouts/default.vue 按 domainRole 设置（ENTRY→导航 / FORUM→站点名）
+      title: '导航',
       meta: [
         { name: 'viewport', content: 'width=device-width, initial-scale=1' },
         { name: 'format-detection', content: 'telephone=no' },
