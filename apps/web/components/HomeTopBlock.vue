@@ -21,6 +21,16 @@ const IFRAME_HOST_ALLOWLIST = [
 const home = computed(() => pageContent<CmsHomeContent>('home'))
 const otherTenants = ref<TenantDirectoryItem[]>([])
 
+/** 桌面/原站对齐：姊妹站表格每行 2 个 */
+const tenantRows = computed(() => {
+  const list = otherTenants.value
+  const rows: TenantDirectoryItem[][] = []
+  for (let i = 0; i < list.length; i += 2) {
+    rows.push(list.slice(i, i + 2))
+  }
+  return rows
+})
+
 const wx = computed(() => tenant.value?.kefuWechat || '')
 const qq = computed(() => tenant.value?.kefuQq || '')
 
@@ -104,44 +114,50 @@ onMounted(async () => {
       <div class="xgam">
         <table width="100%" border="1">
           <tbody>
-            <tr>
-              <td v-for="t in otherTenants" :key="t.id" bgcolor="#FFFFFF">
-                <div class="xgam-tit">
-                  <p align="center">
-                    <img src="/site/root/92.gif" alt="" />
-                    <span :style="t.primaryColor ? { color: t.primaryColor } : undefined">{{ t.name }}</span>
-                  </p>
-                </div>
-                <div class="xgam-web">
-                  <p align="center">
-                    <a v-if="demoHost(t)" target="_blank" rel="noopener" :href="tenantHref(t)">
-                      <span style="color:#000000">{{ demoHost(t) }}</span>
-                    </a>
-                  </p>
-                  <p v-if="t.logoUrl" align="center" style="margin:6px 0;">
-                    <img :src="mediaUrl(t.logoUrl)" alt="" height="28" />
-                  </p>
-                </div>
-              </td>
-            </tr>
-            <tr>
-              <td
-                v-for="t in otherTenants"
-                :key="'cta-' + t.id"
-                :bgcolor="t.primaryColor || undefined"
-              >
-                <a
-                  v-if="demoHost(t)"
-                  target="_blank"
-                  rel="noopener"
-                  :href="tenantHref(t)"
+            <template v-for="(row, rowIndex) in tenantRows" :key="'row-' + rowIndex">
+              <tr>
+                <td v-for="t in row" :key="t.id" bgcolor="#FFFFFF" width="50%">
+                  <div class="xgam-tit">
+                    <p align="center">
+                      <img src="/site/root/92.gif" alt="" />
+                      <span :style="t.primaryColor ? { color: t.primaryColor } : undefined">{{ t.name }}</span>
+                    </p>
+                  </div>
+                  <div class="xgam-web">
+                    <p align="center">
+                      <a v-if="demoHost(t)" target="_blank" rel="noopener" :href="tenantHref(t)">
+                        <span style="color:#000000">{{ demoHost(t) }}</span>
+                      </a>
+                    </p>
+                    <p v-if="t.logoUrl" align="center" style="margin:6px 0;">
+                      <img :src="mediaUrl(t.logoUrl)" alt="" height="28" />
+                    </p>
+                  </div>
+                </td>
+                <!-- 奇数个时补空格，保持两列对齐 -->
+                <td v-if="row.length === 1" bgcolor="#FFFFFF" width="50%" />
+              </tr>
+              <tr>
+                <td
+                  v-for="t in row"
+                  :key="'cta-' + t.id"
+                  width="50%"
+                  :bgcolor="t.primaryColor || undefined"
                 >
-                  <img src="/site/root/ye.gif" alt="" />
-                  <span style="color:#FFFFFF"><b> 查看{{ t.name }}</b></span>
-                </a>
-                <span v-else style="color:#FFFFFF"><b> 查看{{ t.name }}</b></span>
-              </td>
-            </tr>
+                  <a
+                    v-if="demoHost(t)"
+                    target="_blank"
+                    rel="noopener"
+                    :href="tenantHref(t)"
+                  >
+                    <img src="/site/root/ye.gif" alt="" />
+                    <span style="color:#FFFFFF"><b> 查看{{ t.name }}</b></span>
+                  </a>
+                  <span v-else style="color:#FFFFFF"><b> 查看{{ t.name }}</b></span>
+                </td>
+                <td v-if="row.length === 1" width="50%" bgcolor="#FFFFFF" />
+              </tr>
+            </template>
           </tbody>
         </table>
       </div>
