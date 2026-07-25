@@ -1,0 +1,44 @@
+# Production profile — secrets via env: MYSQL_PASSWORD, LIUHECAI_JWT_SECRET
+server:
+  compression:
+    enabled: true
+    mime-types: application/json,application/xml,text/html,text/xml,text/plain,application/javascript,text/css
+    min-response-size: 1024
+
+spring:
+  datasource:
+    url: jdbc:mysql://127.0.0.1:3306/liuhecai?useUnicode=true&characterEncoding=utf8&serverTimezone=Asia/Shanghai&allowPublicKeyRetrieval=true&useSSL=false
+    username: ${MYSQL_USER:liuhecai}
+    password: ${MYSQL_PASSWORD}
+    hikari:
+      maximum-pool-size: 20
+      minimum-idle: 5
+      connection-timeout: 5000
+      idle-timeout: 600000
+      max-lifetime: 1800000
+      leak-detection-threshold: 60000
+
+liuhecai:
+  jwt:
+    secret: ${LIUHECAI_JWT_SECRET}
+    expire-seconds: 86400
+  tenant:
+    trust-forwarded-host: true
+  cors:
+    allowed-origins: >-
+      https://157465.com,https://www.157465.com,
+      https://585520.xyz,https://785412.xyz,https://658951.xyz,
+      https://152687.xyz,https://746528.xyz,
+      https://admin.236841.xyz,https://agent.236841.xyz,
+      http://157465.com,http://www.157465.com,
+      http://585520.xyz,http://785412.xyz,http://658951.xyz,
+      http://152687.xyz,http://746528.xyz,
+      http://admin.236841.xyz,http://agent.236841.xyz
+  upload:
+    root: /www/wwwroot/liuhecai/uploads
+    max-bytes: 2097152
+
+logging:
+  level:
+    root: INFO
+    com.liuhecai: INFO

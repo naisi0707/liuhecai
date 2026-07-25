@@ -16,4 +16,8 @@ public class TenantVO {
     private String kefuQq;
     private String announcement;
     private String host;
+    /** ENTRY / FORUM */
+    private String domainRole;
+    /** 同租户论坛 Host，供入口跳转 */
+    private String forumHost;
 }

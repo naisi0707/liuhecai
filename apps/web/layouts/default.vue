@@ -1,9 +1,12 @@
 <script setup lang="ts">
 import { getTenantHostOverride } from '@liuhecai/shared'
 
-const { loadTenant, errorMsg, primaryColor, siteName } = useTenant()
+const { loadTenant, errorMsg, primaryColor, siteName, tenant } = useTenant()
 const { hydrateFromStorage, token, refreshProfile } = useAuth()
 const { loadDraws, startCountdown, stopCountdown } = useDraws()
+const { loadMenus } = useSiteCms()
+
+const isEntry = computed(() => tenant.value?.domainRole === 'ENTRY')
 
 const themeStyle = computed(() => (
   primaryColor.value ? { '--brand': primaryColor.value } : undefined
@@ -11,7 +14,9 @@ const themeStyle = computed(() => (
 
 try {
   await loadTenant()
-  await loadDraws()
+  if (!isEntry.value) {
+    await Promise.all([loadDraws(), loadMenus()])
+  }
 } catch {
   // 接口失败已由 request 钩子 markSiteBusy
 }
@@ -19,16 +24,22 @@ try {
 onMounted(async () => {
   hydrateFromStorage()
   const params = new URLSearchParams(window.location.search)
-  const qHost = (params.get('host') || '').trim()
+  const qHost = (params.get('host') || '').trim().toLowerCase()
+  const expectedHost = qHost || getTenantHostOverride() || ''
   try {
-    if (qHost || getTenantHostOverride()) {
-      await Promise.all([loadTenant(), loadDraws()])
+    // ?host= 切换时必须重拉租户（含 domainRole）
+    if (expectedHost && tenant.value?.host !== expectedHost) {
+      await loadTenant(true)
     }
-    if (token.value) await refreshProfile()
+    if (!isEntry.value) {
+      await loadDraws()
+      await loadMenus()
+      if (token.value) await refreshProfile()
+      startCountdown()
+    }
   } catch {
     // busy 已标记
   }
-  startCountdown()
 })
 
 onBeforeUnmount(() => stopCountdown())
@@ -39,7 +50,11 @@ function scrollTop() {
 </script>
 
 <template>
-  <div :style="themeStyle">
+  <!-- ENTRY：伪装壳全屏，不套论坛顶栏 -->
+  <div v-if="isEntry">
+    <slot />
+  </div>
+  <div v-else :style="themeStyle">
     <AppHeader />
     <div class="site-shell">
       <p v-if="errorMsg" class="global-error">{{ errorMsg }}</p>

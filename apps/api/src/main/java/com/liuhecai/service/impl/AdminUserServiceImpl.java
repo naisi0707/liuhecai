@@ -121,8 +121,8 @@ public class AdminUserServiceImpl implements AdminUserService {
         if (ids == null || ids.isEmpty()) {
             throw new BusinessException(ErrorCode.BAD_REQUEST, "ids 不能为空");
         }
-        for (Long id : ids) {
-            ensureUserExists(id);
+        if (adminUserAgentMapper.countUsersByIds(ids) != ids.size()) {
+            throw new BusinessException(ErrorCode.USER_NOT_FOUND);
         }
         if (adminUserAgentMapper.batchUpdateUserEnabled(ids, enabled) == 0) {
             throw new BusinessException(ErrorCode.USER_NOT_FOUND);

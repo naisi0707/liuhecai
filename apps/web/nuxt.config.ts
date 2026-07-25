@@ -19,15 +19,23 @@ export default defineNuxtConfig({
       ],
     },
   },
+  routeRules: {
+    // 登录/注册无 SEO 价值，走 CSR 减轻 SSR
+    '/login': { ssr: false },
+    '/register': { ssr: false },
+  },
   build: {
     transpile: ['@liuhecai/shared', 'dompurify'],
   },
   nitro: {
+    compressPublicAssets: true,
     devProxy: {
       '/uploads': { target: 'http://127.0.0.1:8080/uploads', changeOrigin: true },
     },
   },
   runtimeConfig: {
+    // SSR 直连本机 API；浏览器用 public.apiBase（生产可设为空走同源 /api）
+    apiBase: 'http://127.0.0.1:8080',
     public: {
       apiBase: 'http://127.0.0.1:8080',
       webBase: 'http://127.0.0.1:3000',

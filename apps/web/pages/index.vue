@@ -1,17 +1,32 @@
 <script setup lang="ts">
 import { request, type TopicVO, type CmsHomeContent } from '@liuhecai/shared'
 
+const { tenant } = useTenant()
 const { authHeaders } = useAuth()
 const { loadPage, pageContent } = useSiteCms()
 const { mediaUrl } = useMediaUrl()
 
+const isEntry = computed(() => tenant.value?.domainRole === 'ENTRY')
+
 const { data: topics, refresh } = await useAsyncData('home-topics', async () => {
+  if (isEntry.value) return [] as TopicVO[]
   try {
-    return await request<TopicVO[]>('/api/topics', { headers: authHeaders() })
+    const page = await request<{ records: TopicVO[] }>('/api/topics?page=1&size=50', {
+      headers: authHeaders(),
+    })
+    return page.records || []
   } catch {
     return [] as TopicVO[]
   }
 })
+
+if (!isEntry.value) {
+  try {
+    await loadPage('home')
+  } catch {
+    // busy 已标记
+  }
+}
 
 const banner = computed(() => {
   const home = pageContent<CmsHomeContent>('home')
@@ -19,8 +34,8 @@ const banner = computed(() => {
 })
 
 onMounted(async () => {
+  if (isEntry.value) return
   try {
-    await loadPage('home')
     if (import.meta.client && new URLSearchParams(location.search).get('host')) {
       await refresh()
     }
@@ -31,8 +46,9 @@ onMounted(async () => {
 </script>
 
 <template>
-  <div>
-    <img v-if="banner" :src="banner" width="100%" alt="banner" />
+  <CamouflageShop v-if="isEntry" />
+  <div v-else>
+    <img v-if="banner" :src="banner" width="100%" height="auto" alt="banner" />
     <HomeTopBlock />
     <div class="home-guest-bar">
       您现在是游客:

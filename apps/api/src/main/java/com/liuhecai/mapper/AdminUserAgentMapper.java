@@ -37,12 +37,19 @@ public interface AdminUserAgentMapper {
             <script>
             SELECT a.id, a.tenant_id AS tenantId, t.name AS tenantName,
                    a.username, a.enabled, a.created_at AS createdAt,
-                   (SELECT COUNT(*) FROM users u WHERE u.tenant_id = a.tenant_id) AS userCount,
-                   (SELECT COALESCE(SUM(r.amount), 0) FROM recharge_requests r
-                     WHERE r.tenant_id = a.tenant_id AND r.status = 1
-                       AND r.handled_at &gt;= #{sevenDaysAgo}) AS rechargeAmount7d
+                   COALESCE(uc.cnt, 0) AS userCount,
+                   COALESCE(rr.amt, 0) AS rechargeAmount7d
             FROM agent_accounts a
             LEFT JOIN tenants t ON t.id = a.tenant_id
+            LEFT JOIN (
+              SELECT tenant_id, COUNT(*) AS cnt FROM users GROUP BY tenant_id
+            ) uc ON uc.tenant_id = a.tenant_id
+            LEFT JOIN (
+              SELECT tenant_id, COALESCE(SUM(amount), 0) AS amt
+              FROM recharge_requests
+              WHERE status = 1 AND handled_at &gt;= #{sevenDaysAgo}
+              GROUP BY tenant_id
+            ) rr ON rr.tenant_id = a.tenant_id
             WHERE 1=1
             <if test="tenantId != null">AND a.tenant_id = #{tenantId}</if>
             <if test="username != null and username != ''">AND a.username LIKE CONCAT('%', #{username}, '%')</if>
@@ -61,12 +68,19 @@ public interface AdminUserAgentMapper {
     @Select("""
             SELECT a.id, a.tenant_id AS tenantId, t.name AS tenantName,
                    a.username, a.enabled, a.created_at AS createdAt,
-                   (SELECT COUNT(*) FROM users u WHERE u.tenant_id = a.tenant_id) AS userCount,
-                   (SELECT COALESCE(SUM(r.amount), 0) FROM recharge_requests r
-                     WHERE r.tenant_id = a.tenant_id AND r.status = 1
-                       AND r.handled_at >= #{sevenDaysAgo}) AS rechargeAmount7d
+                   COALESCE(uc.cnt, 0) AS userCount,
+                   COALESCE(rr.amt, 0) AS rechargeAmount7d
             FROM agent_accounts a
             LEFT JOIN tenants t ON t.id = a.tenant_id
+            LEFT JOIN (
+              SELECT tenant_id, COUNT(*) AS cnt FROM users GROUP BY tenant_id
+            ) uc ON uc.tenant_id = a.tenant_id
+            LEFT JOIN (
+              SELECT tenant_id, COALESCE(SUM(amount), 0) AS amt
+              FROM recharge_requests
+              WHERE status = 1 AND handled_at >= #{sevenDaysAgo}
+              GROUP BY tenant_id
+            ) rr ON rr.tenant_id = a.tenant_id
             WHERE a.id = #{id}
             """)
     AdminAgentListItemVO selectAgentRow(@Param("id") Long id,
@@ -217,6 +231,16 @@ public interface AdminUserAgentMapper {
     @Select("SELECT token_version FROM agent_accounts WHERE id = #{id}")
     Integer selectAgentTokenVersion(@Param("id") Long id);
 
+    @Select("""
+            <script>
+            SELECT COUNT(*) FROM users WHERE id IN
+            <foreach collection="ids" item="id" open="(" separator="," close=")">
+                #{id}
+            </foreach>
+            </script>
+            """)
+    long countUsersByIds(@Param("ids") List<Long> ids);
+
     @Update("""
             <script>
             UPDATE users SET enabled = #{enabled}, updated_at = NOW()
@@ -250,12 +274,19 @@ public interface AdminUserAgentMapper {
             <script>
             SELECT a.id, a.tenant_id AS tenantId, t.name AS tenantName,
                    a.username, a.enabled, a.created_at AS createdAt,
-                   (SELECT COUNT(*) FROM users u WHERE u.tenant_id = a.tenant_id) AS userCount,
-                   (SELECT COALESCE(SUM(r.amount), 0) FROM recharge_requests r
-                     WHERE r.tenant_id = a.tenant_id AND r.status = 1
-                       AND r.handled_at &gt;= #{sevenDaysAgo}) AS rechargeAmount7d
+                   COALESCE(uc.cnt, 0) AS userCount,
+                   COALESCE(rr.amt, 0) AS rechargeAmount7d
             FROM agent_accounts a
             LEFT JOIN tenants t ON t.id = a.tenant_id
+            LEFT JOIN (
+              SELECT tenant_id, COUNT(*) AS cnt FROM users GROUP BY tenant_id
+            ) uc ON uc.tenant_id = a.tenant_id
+            LEFT JOIN (
+              SELECT tenant_id, COALESCE(SUM(amount), 0) AS amt
+              FROM recharge_requests
+              WHERE status = 1 AND handled_at &gt;= #{sevenDaysAgo}
+              GROUP BY tenant_id
+            ) rr ON rr.tenant_id = a.tenant_id
             WHERE 1=1
             <if test="tenantId != null">AND a.tenant_id = #{tenantId}</if>
             <if test="username != null and username != ''">AND a.username LIKE CONCAT('%', #{username}, '%')</if>

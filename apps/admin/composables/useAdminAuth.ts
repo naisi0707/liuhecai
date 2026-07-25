@@ -2,7 +2,9 @@ import { buildApiHeaders, request, setApiBaseURL } from '@liuhecai/shared'
 
 export function useAdminAuth() {
   const config = useRuntimeConfig()
-  setApiBaseURL(config.public.apiBase as string)
+  const serverBase = (config.apiBase as string) || ''
+  const publicBase = (config.public.apiBase as string) || ''
+  setApiBaseURL(import.meta.server ? (serverBase || publicBase) : publicBase)
 
   const token = useState<string>('admin_token', () => '')
 

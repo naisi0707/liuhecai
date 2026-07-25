@@ -7,6 +7,7 @@ const tenants = ref<any[]>([])
 const bindTenantId = ref<number | string | null>(null)
 const bindHost = ref('')
 const isPrimary = ref(0)
+const role = ref<'FORUM' | 'ENTRY'>('FORUM')
 const loading = ref(false)
 
 async function load() {
@@ -22,9 +23,10 @@ async function bindDomain() {
   try {
     await api(`/api/admin/tenants/${bindTenantId.value}/domains`, {
       method: 'POST',
-      body: { host: bindHost.value.trim(), isPrimary: isPrimary.value },
+      body: { host: bindHost.value.trim(), isPrimary: isPrimary.value, role: role.value },
     })
     bindHost.value = ''
+    role.value = 'FORUM'
     await load()
     ElMessage.success('域名已绑定')
   } catch (e: unknown) {
@@ -54,6 +56,12 @@ onMounted(async () => {
             </el-select>
           </el-form-item>
           <el-form-item label="域名"><el-input v-model="bindHost" placeholder="demo2.local" /></el-form-item>
+          <el-form-item label="角色">
+            <el-select v-model="role" style="width:100%">
+              <el-option label="论坛 FORUM" value="FORUM" />
+              <el-option label="入口伪装 ENTRY" value="ENTRY" />
+            </el-select>
+          </el-form-item>
           <el-form-item label="设为主域名">
             <el-switch v-model="isPrimary" :active-value="1" :inactive-value="0" />
           </el-form-item>
@@ -68,6 +76,9 @@ onMounted(async () => {
           <p><strong>{{ selected.name }}</strong></p>
           <el-table :data="selected.domains || []" size="small">
             <el-table-column prop="host" label="域名" />
+            <el-table-column label="角色" width="100">
+              <template #default="{ row }">{{ row.role || 'FORUM' }}</template>
+            </el-table-column>
             <el-table-column label="主域名" width="90">
               <template #default="{ row }">{{ row.isPrimary === 1 ? '是' : '' }}</template>
             </el-table-column>

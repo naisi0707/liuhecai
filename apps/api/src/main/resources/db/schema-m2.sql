@@ -19,6 +19,7 @@ CREATE TABLE IF NOT EXISTS domains (
     tenant_id   BIGINT       NOT NULL,
     host        VARCHAR(128) NOT NULL,
     is_primary  TINYINT      NOT NULL DEFAULT 0,
+    role        VARCHAR(16)  NOT NULL DEFAULT 'FORUM' COMMENT 'ENTRY入口伪装 FORUM论坛',
     status      TINYINT      NOT NULL DEFAULT 1 COMMENT '1启用 0停用',
     created_at  DATETIME     NOT NULL DEFAULT CURRENT_TIMESTAMP,
     UNIQUE KEY uk_domains_host (host),
@@ -43,11 +44,12 @@ INSERT INTO tenants (id, name, status, theme_json, kefu_wechat, announcement) VA
 (1001, '刘伯温论坛', 1, JSON_OBJECT('primaryColor', '#c62828', 'fontFamily', 'Microsoft YaHei'), 'lbw_kefu', '欢迎来到刘伯温论坛（演示站 A）'),
 (1002, '至尊无上论坛', 1, JSON_OBJECT('primaryColor', '#1565c0', 'fontFamily', 'Microsoft YaHei'), 'zzws_kefu', '欢迎来到至尊无上（演示站 B）');
 
-INSERT INTO domains (id, tenant_id, host, is_primary, status) VALUES
-(2001, 1001, 'lbw.local', 1, 1),
-(2002, 1002, 'zzws.local', 1, 1),
-(2003, 1001, 'localhost', 0, 1),
-(2004, 1001, '127.0.0.1', 0, 1);
+INSERT INTO domains (id, tenant_id, host, is_primary, role, status) VALUES
+(2001, 1001, 'lbw.local', 1, 'FORUM', 1),
+(2002, 1002, 'zzws.local', 1, 'FORUM', 1),
+(2003, 1001, 'localhost', 0, 'FORUM', 1),
+(2004, 1001, '127.0.0.1', 0, 'FORUM', 1),
+(2005, 1001, 'entry.127.0.0.1', 0, 'ENTRY', 1);
 
 INSERT INTO demo_notes (id, tenant_id, title, content) VALUES
 (3001, 1001, 'A站内部笔记', '仅租户1001可见'),

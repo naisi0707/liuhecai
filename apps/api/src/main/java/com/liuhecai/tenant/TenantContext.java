@@ -3,6 +3,7 @@ package com.liuhecai.tenant;
 public final class TenantContext {
     private static final ThreadLocal<Long> TENANT_HOLDER = new ThreadLocal<>();
     private static final ThreadLocal<String> HOST_HOLDER = new ThreadLocal<>();
+    private static final ThreadLocal<String> DOMAIN_ROLE_HOLDER = new ThreadLocal<>();
 
     private TenantContext() {
     }
@@ -23,8 +24,17 @@ public final class TenantContext {
         return HOST_HOLDER.get();
     }
 
+    public static void setDomainRole(String role) {
+        DOMAIN_ROLE_HOLDER.set(role);
+    }
+
+    public static String getDomainRole() {
+        return DOMAIN_ROLE_HOLDER.get();
+    }
+
     public static void clear() {
         TENANT_HOLDER.remove();
         HOST_HOLDER.remove();
+        DOMAIN_ROLE_HOLDER.remove();
     }
 }

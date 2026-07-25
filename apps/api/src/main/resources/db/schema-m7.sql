@@ -11,6 +11,7 @@ CREATE TABLE IF NOT EXISTS topics (
     lottery_type    VARCHAR(32)  NOT NULL,
     issue_no        VARCHAR(32)  NOT NULL,
     play_type       VARCHAR(64)  NOT NULL DEFAULT '综合',
+    tag             VARCHAR(32)  NOT NULL DEFAULT '出售帖' COMMENT '帖子标签',
     price           INT          NOT NULL DEFAULT 0,
     content         TEXT         NOT NULL,
     preview_content MEDIUMTEXT   NULL COMMENT '往期成绩等公开预览 HTML',

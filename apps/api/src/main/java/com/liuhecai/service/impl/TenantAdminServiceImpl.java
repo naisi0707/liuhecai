@@ -18,6 +18,7 @@ import com.liuhecai.mapper.TenantMapper;
 import com.liuhecai.service.CmsSeedService;
 import com.liuhecai.service.TenantAdminService;
 import com.liuhecai.service.TokenVersionService;
+import com.liuhecai.tenant.DomainTenantLookup;
 import com.liuhecai.vo.AgentAdminVO;
 import com.liuhecai.vo.DomainAdminVO;
 import com.liuhecai.vo.TenantAdminVO;
@@ -28,7 +29,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -43,12 +47,36 @@ public class TenantAdminServiceImpl implements TenantAdminService {
     private final PasswordEncoder passwordEncoder;
     private final CmsSeedService cmsSeedService;
     private final TokenVersionService tokenVersionService;
+    private final DomainTenantLookup domainTenantLookup;
 
     @Override
     public List<TenantAdminVO> listTenants() {
         List<Tenant> tenants = tenantMapper.selectList(new LambdaQueryWrapper<Tenant>()
                 .orderByAsc(Tenant::getId));
-        return tenants.stream().map(this::toDetail).toList();
+        if (tenants.isEmpty()) {
+            return List.of();
+        }
+        List<Long> tenantIds = tenants.stream().map(Tenant::getId).toList();
+        Map<Long, List<Domain>> domainsByTenant = domainMapper.selectList(new LambdaQueryWrapper<Domain>()
+                        .in(Domain::getTenantId, tenantIds)
+                        .orderByDesc(Domain::getIsPrimary)
+                        .orderByAsc(Domain::getId))
+                .stream()
+                .collect(Collectors.groupingBy(Domain::getTenantId));
+        Map<Long, List<AgentAccount>> agentsByTenant = agentAccountMapper.selectList(
+                        new LambdaQueryWrapper<AgentAccount>()
+                                .in(AgentAccount::getTenantId, tenantIds)
+                                .orderByAsc(AgentAccount::getId))
+                .stream()
+                .collect(Collectors.groupingBy(AgentAccount::getTenantId));
+        List<TenantAdminVO> result = new ArrayList<>(tenants.size());
+        for (Tenant tenant : tenants) {
+            result.add(toDetail(
+                    tenant,
+                    domainsByTenant.getOrDefault(tenant.getId(), List.of()),
+                    agentsByTenant.getOrDefault(tenant.getId(), List.of())));
+        }
+        return result;
     }
 
     @Override
@@ -70,6 +98,7 @@ public class TenantAdminServiceImpl implements TenantAdminService {
         domain.setTenantId(tenant.getId());
         domain.setHost(host);
         domain.setIsPrimary(1);
+        domain.setRole("FORUM");
         domain.setStatus(1);
         domainMapper.insert(domain);
 
@@ -78,9 +107,10 @@ public class TenantAdminServiceImpl implements TenantAdminService {
                 : "agent";
         AgentAdminVO agent = createAgentInternal(tenant.getId(), agentUsername);
         cmsSeedService.seedDefaults(tenant.getId());
+        domainTenantLookup.evictAll();
 
         TenantCreateResultVO result = new TenantCreateResultVO();
-        result.setTenant(toDetail(tenantMapper.selectById(tenant.getId())));
+        result.setTenant(toDetail(requireTenant(tenant.getId())));
         result.setAgent(agent);
         return result;
     }
@@ -96,9 +126,25 @@ public class TenantAdminServiceImpl implements TenantAdminService {
         domain.setTenantId(tenant.getId());
         domain.setHost(host);
         domain.setIsPrimary(request.getIsPrimary() != null && request.getIsPrimary() == 1 ? 1 : 0);
+        domain.setRole(normalizeRole(request.getRole()));
         domain.setStatus(1);
         domainMapper.insert(domain);
+        domainTenantLookup.evictAll();
         return toDomainVO(domain);
+    }
+
+    private String normalizeRole(String role) {
+        if (!StringUtils.hasText(role)) {
+            return "FORUM";
+        }
+        String value = role.trim().toUpperCase();
+        if ("ENTRY".equals(value)) {
+            return "ENTRY";
+        }
+        if ("FORUM".equals(value)) {
+            return "FORUM";
+        }
+        throw new BusinessException(ErrorCode.BAD_REQUEST, "role 只能为 ENTRY 或 FORUM");
     }
 
     @Override
@@ -110,7 +156,8 @@ public class TenantAdminServiceImpl implements TenantAdminService {
         Tenant tenant = requireTenant(tenantId);
         tenant.setStatus(request.getStatus());
         tenantMapper.updateById(tenant);
-        return toDetail(tenantMapper.selectById(tenantId));
+        domainTenantLookup.evictAll();
+        return toDetail(requireTenant(tenantId));
     }
 
     @Override
@@ -184,20 +231,24 @@ public class TenantAdminServiceImpl implements TenantAdminService {
     }
 
     private TenantAdminVO toDetail(Tenant tenant) {
+        List<Domain> domains = domainMapper.selectList(new LambdaQueryWrapper<Domain>()
+                .eq(Domain::getTenantId, tenant.getId())
+                .orderByDesc(Domain::getIsPrimary)
+                .orderByAsc(Domain::getId));
+        List<AgentAccount> agents = agentAccountMapper.selectList(new LambdaQueryWrapper<AgentAccount>()
+                .eq(AgentAccount::getTenantId, tenant.getId())
+                .orderByAsc(AgentAccount::getId));
+        return toDetail(tenant, domains, agents);
+    }
+
+    private TenantAdminVO toDetail(Tenant tenant, List<Domain> domains, List<AgentAccount> agents) {
         TenantAdminVO vo = new TenantAdminVO();
         vo.setId(tenant.getId());
         vo.setName(tenant.getName());
         vo.setStatus(tenant.getStatus());
         vo.setAnnouncement(tenant.getAnnouncement());
         vo.setKefuWechat(tenant.getKefuWechat());
-        List<Domain> domains = domainMapper.selectList(new LambdaQueryWrapper<Domain>()
-                .eq(Domain::getTenantId, tenant.getId())
-                .orderByDesc(Domain::getIsPrimary)
-                .orderByAsc(Domain::getId));
         vo.setDomains(domains.stream().map(this::toDomainVO).toList());
-        List<AgentAccount> agents = agentAccountMapper.selectList(new LambdaQueryWrapper<AgentAccount>()
-                .eq(AgentAccount::getTenantId, tenant.getId())
-                .orderByAsc(AgentAccount::getId));
         vo.setAgents(agents.stream().map(this::toAgentVO).toList());
         return vo;
     }
@@ -207,6 +258,7 @@ public class TenantAdminServiceImpl implements TenantAdminService {
         vo.setId(domain.getId());
         vo.setHost(domain.getHost());
         vo.setIsPrimary(domain.getIsPrimary());
+        vo.setRole(StringUtils.hasText(domain.getRole()) ? domain.getRole() : "FORUM");
         vo.setStatus(domain.getStatus());
         return vo;
     }

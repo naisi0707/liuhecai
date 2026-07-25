@@ -5,13 +5,22 @@ const route = useRoute()
 const { authHeaders, token, coinBalance } = useAuth()
 const { errorMsg, tenant, siteName } = useTenant()
 
-const topic = ref<TopicVO | null>(null)
 const buying = ref(false)
 
-async function load() {
-  const id = String(route.params.id)
-  topic.value = await request<TopicVO>(`/api/topics/${id}`, { headers: authHeaders() })
-}
+const topicId = computed(() => String(route.params.id || ''))
+
+const { data: topic, refresh } = await useAsyncData(
+  () => `topic-${topicId.value}`,
+  async () => {
+    if (!topicId.value) return null
+    try {
+      return await request<TopicVO>(`/api/topics/${topicId.value}`, { headers: authHeaders() })
+    } catch {
+      return null
+    }
+  },
+  { watch: [topicId] },
+)
 
 async function purchase() {
   if (!topic.value) return
@@ -28,27 +37,11 @@ async function purchase() {
       headers: authHeaders(),
     })
     coinBalance.value = result.coinBalance
-    await load()
+    await refresh()
   } finally {
     buying.value = false
   }
 }
-
-onMounted(async () => {
-  try {
-    await load()
-  } catch {
-    // busy 已标记
-  }
-})
-
-watch(() => route.params.id, async () => {
-  try {
-    await load()
-  } catch {
-    // busy 已标记
-  }
-})
 </script>
 
 <template>

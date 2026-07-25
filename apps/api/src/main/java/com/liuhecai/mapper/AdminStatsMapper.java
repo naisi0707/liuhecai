@@ -105,12 +105,23 @@ public interface AdminStatsMapper {
 
     @Select("""
             SELECT t.id AS tenantId, t.name AS tenantName, t.status,
-                   (SELECT COUNT(*) FROM users u WHERE u.tenant_id = t.id) AS userCount,
-                   (SELECT COUNT(*) FROM topic_orders o WHERE o.tenant_id = t.id) AS orderCount,
-                   (SELECT d.host FROM domains d
-                     WHERE d.tenant_id = t.id
-                     ORDER BY d.is_primary DESC, d.id ASC LIMIT 1) AS primaryHost
+                   COALESCE(uc.cnt, 0) AS userCount,
+                   COALESCE(oc.cnt, 0) AS orderCount,
+                   pd.host AS primaryHost
             FROM tenants t
+            LEFT JOIN (
+              SELECT tenant_id, COUNT(*) AS cnt FROM users GROUP BY tenant_id
+            ) uc ON uc.tenant_id = t.id
+            LEFT JOIN (
+              SELECT tenant_id, COUNT(*) AS cnt FROM topic_orders GROUP BY tenant_id
+            ) oc ON oc.tenant_id = t.id
+            LEFT JOIN (
+              SELECT tenant_id, host FROM (
+                SELECT tenant_id, host,
+                       ROW_NUMBER() OVER (PARTITION BY tenant_id ORDER BY is_primary DESC, id ASC) AS rn
+                FROM domains
+              ) ranked WHERE rn = 1
+            ) pd ON pd.tenant_id = t.id
             ORDER BY orderCount DESC, userCount DESC
             LIMIT 5
             """)
@@ -141,43 +152,52 @@ public interface AdminStatsMapper {
     List<AdminDashboardVO.DrawFreshness> listLatestDraws();
 
     @Select("""
-            SELECT 'COIN' AS type,
-                   COALESCE(t.name, '-') AS tenantName,
-                   c.biz_type AS bizType,
-                   c.change_amount AS amount,
-                   c.user_id AS userId,
-                   c.created_at AS createdAt
-            FROM coin_logs c
-            LEFT JOIN tenants t ON t.id = c.tenant_id
-            ORDER BY c.created_at DESC
-            LIMIT 20
+            SELECT * FROM (
+              SELECT 'COIN' AS type,
+                     COALESCE(t.name, '-') AS tenantName,
+                     c.biz_type AS bizType,
+                     NULL AS status,
+                     c.change_amount AS amount,
+                     c.user_id AS userId,
+                     NULL AS topicTitle,
+                     c.created_at AS createdAt
+              FROM coin_logs c
+              LEFT JOIN tenants t ON t.id = c.tenant_id
+              ORDER BY c.created_at DESC
+              LIMIT 20
+            ) coin
+            UNION ALL
+            SELECT * FROM (
+              SELECT 'RECHARGE' AS type,
+                     COALESCE(t.name, '-') AS tenantName,
+                     NULL AS bizType,
+                     r.status AS status,
+                     r.amount AS amount,
+                     r.user_id AS userId,
+                     NULL AS topicTitle,
+                     COALESCE(r.handled_at, r.created_at) AS createdAt
+              FROM recharge_requests r
+              LEFT JOIN tenants t ON t.id = r.tenant_id
+              ORDER BY COALESCE(r.handled_at, r.created_at) DESC
+              LIMIT 20
+            ) recharge
+            UNION ALL
+            SELECT * FROM (
+              SELECT 'TOPIC' AS type,
+                     COALESCE(t.name, '-') AS tenantName,
+                     NULL AS bizType,
+                     tp.status AS status,
+                     NULL AS amount,
+                     NULL AS userId,
+                     LEFT(tp.title, 80) AS topicTitle,
+                     tp.updated_at AS createdAt
+              FROM topics tp
+              LEFT JOIN tenants t ON t.id = tp.tenant_id
+              ORDER BY tp.updated_at DESC
+              LIMIT 20
+            ) topic
+            ORDER BY createdAt DESC
+            LIMIT 30
             """)
-    List<AdminDashboardVO.ActivityItem> listCoinActivities();
-
-    @Select("""
-            SELECT 'RECHARGE' AS type,
-                   COALESCE(t.name, '-') AS tenantName,
-                   r.status AS status,
-                   r.amount AS amount,
-                   r.user_id AS userId,
-                   COALESCE(r.handled_at, r.created_at) AS createdAt
-            FROM recharge_requests r
-            LEFT JOIN tenants t ON t.id = r.tenant_id
-            ORDER BY COALESCE(r.handled_at, r.created_at) DESC
-            LIMIT 20
-            """)
-    List<AdminDashboardVO.ActivityItem> listRechargeActivities();
-
-    @Select("""
-            SELECT 'TOPIC' AS type,
-                   COALESCE(t.name, '-') AS tenantName,
-                   tp.status AS status,
-                   LEFT(tp.title, 80) AS topicTitle,
-                   tp.updated_at AS createdAt
-            FROM topics tp
-            LEFT JOIN tenants t ON t.id = tp.tenant_id
-            ORDER BY tp.updated_at DESC
-            LIMIT 20
-            """)
-    List<AdminDashboardVO.ActivityItem> listTopicActivities();
+    List<AdminDashboardVO.ActivityItem> listRecentActivities();
 }

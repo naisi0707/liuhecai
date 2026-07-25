@@ -5,6 +5,7 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.liuhecai.common.enums.ErrorCode;
 import com.liuhecai.common.exception.BusinessException;
+import com.liuhecai.config.CacheConfig;
 import com.liuhecai.dto.CmsMenusSaveRequest;
 import com.liuhecai.dto.CmsPageSaveRequest;
 import com.liuhecai.entity.SiteMenu;
@@ -18,13 +19,18 @@ import com.liuhecai.tenant.TenantContext;
 import com.liuhecai.vo.SiteMenuVO;
 import com.liuhecai.vo.SitePageVO;
 import lombok.RequiredArgsConstructor;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -39,6 +45,7 @@ public class CmsServiceImpl implements CmsService {
     private final HtmlSanitizeService htmlSanitizeService;
 
     @Override
+    @Cacheable(cacheNames = CacheConfig.CMS_MENUS, key = "T(com.liuhecai.tenant.TenantContext).get()")
     public List<SiteMenuVO> listPublicMenus() {
         Long tenantId = requireTenantId();
         cmsSeedService.seedDefaultsIfEmpty(tenantId);
@@ -53,6 +60,9 @@ public class CmsServiceImpl implements CmsService {
     }
 
     @Override
+    @Cacheable(
+            cacheNames = CacheConfig.CMS_PAGES,
+            key = "T(com.liuhecai.tenant.TenantContext).get() + ':' + #pageKey")
     public SitePageVO getPublicPage(String pageKey) {
         validatePageKey(pageKey);
         Long tenantId = requireTenantId();
@@ -79,19 +89,21 @@ public class CmsServiceImpl implements CmsService {
 
     @Override
     @Transactional(rollbackFor = Exception.class)
+    @CacheEvict(cacheNames = {CacheConfig.CMS_MENUS, CacheConfig.CMS_PAGES}, allEntries = true)
     public List<SiteMenuVO> saveAgentMenus(CmsMenusSaveRequest request) {
         Long tenantId = requireTenantId();
         cmsSeedService.seedDefaultsIfEmpty(tenantId);
+        Map<String, SiteMenu> existingByCode = siteMenuMapper.selectList(new LambdaQueryWrapper<SiteMenu>()
+                        .eq(SiteMenu::getTenantId, tenantId))
+                .stream()
+                .collect(Collectors.toMap(SiteMenu::getCode, Function.identity(), (a, b) -> a));
         Set<String> codes = new HashSet<>();
         for (CmsMenusSaveRequest.Item item : request.getItems()) {
             if (!codes.add(item.getCode())) {
                 throw new BusinessException(ErrorCode.BAD_REQUEST, "菜单 code 重复: " + item.getCode());
             }
             validateMenuPath(item.getPath());
-            SiteMenu existing = siteMenuMapper.selectOne(new LambdaQueryWrapper<SiteMenu>()
-                    .eq(SiteMenu::getTenantId, tenantId)
-                    .eq(SiteMenu::getCode, item.getCode())
-                    .last("LIMIT 1"));
+            SiteMenu existing = existingByCode.get(item.getCode());
             if (existing == null) {
                 SiteMenu m = new SiteMenu();
                 m.setTenantId(tenantId);
@@ -131,6 +143,7 @@ public class CmsServiceImpl implements CmsService {
 
     @Override
     @Transactional(rollbackFor = Exception.class)
+    @CacheEvict(cacheNames = {CacheConfig.CMS_MENUS, CacheConfig.CMS_PAGES}, allEntries = true)
     public SitePageVO saveAgentPage(String pageKey, CmsPageSaveRequest request) {
         Long tenantId = requireTenantId();
         cmsSeedService.seedDefaultsIfEmpty(tenantId);

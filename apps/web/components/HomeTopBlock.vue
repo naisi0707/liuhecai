@@ -2,7 +2,7 @@
 import { request, type CmsHomeContent, type TenantDirectoryItem } from '@liuhecai/shared'
 
 const { tenant } = useTenant()
-const { loadPage, pageContent } = useSiteCms()
+const { pageContent } = useSiteCms()
 const { mediaUrl } = useMediaUrl()
 
 const isDev = import.meta.dev
@@ -70,7 +70,7 @@ function sanitizeIframeUrl(raw: string | undefined | null): string | null {
 
 onMounted(async () => {
   try {
-    await loadPage('home')
+    // home CMS 由首页 owner 拉取；此处仅拉姊妹站目录
     otherTenants.value = await request<TenantDirectoryItem[]>('/api/site/tenants')
   } catch {
     // busy 已标记

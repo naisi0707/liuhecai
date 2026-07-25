@@ -163,8 +163,11 @@ public class AgentUserServiceImpl implements AgentUserService {
         if (ids == null || ids.isEmpty()) {
             throw new BusinessException(ErrorCode.BAD_REQUEST, "ids 不能为空");
         }
-        for (Long id : ids) {
-            requireUserInTenant(id);
+        List<User> found = userMapper.selectList(new LambdaQueryWrapper<User>()
+                .in(User::getId, ids)
+                .eq(User::getTenantId, agent.getTenantId()));
+        if (found.size() != ids.size()) {
+            throw new BusinessException(ErrorCode.USER_NOT_FOUND);
         }
         LambdaQueryWrapper<User> wrapper = new LambdaQueryWrapper<User>()
                 .in(User::getId, ids)

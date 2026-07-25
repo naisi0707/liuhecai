@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>导航</title>
+  <style>
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: "Microsoft YaHei", sans-serif;
+      background: transparent;
+      color: #111;
+    }
+    .wrap {
+      max-width: 420px;
+      margin: 12px auto;
+      padding: 12px 14px 16px;
+      background: rgba(255, 255, 255, 0.96);
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      box-shadow: 0 4px 18px rgba(0, 0, 0, 0.18);
+    }
+    h1 {
+      margin: 0 0 10px;
+      font-size: 16px;
+      text-align: center;
+    }
+    .line {
+      display: block;
+      width: 100%;
+      margin: 8px 0;
+      padding: 10px 12px;
+      text-align: center;
+      text-decoration: none;
+      font-weight: 700;
+      color: #fff;
+      background: #c62828;
+      border-radius: 6px;
+    }
+    .line:nth-child(3) { background: #1565c0; }
+    .line:nth-child(4) { background: #2e7d32; }
+    .line:nth-child(5) { background: #6a1b9a; }
+    .line:nth-child(6) { background: #ef6c00; }
+    .tip {
+      margin-top: 10px;
+      font-size: 12px;
+      line-height: 1.5;
+      color: #555;
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <h1>请选择线路进入</h1>
+    <a class="line" data-tag="1" href="#">电信临时线路</a>
+    <a class="line" data-tag="2" href="#">移动临时线路</a>
+    <a class="line" data-tag="3" href="#">联通临时线路</a>
+    <a class="line" data-tag="4" href="#">广电临时线路</a>
+    <a class="line" data-tag="5" href="#">澳门直达专线</a>
+    <p class="tip">注：如无法进入到主页，请更换其他浏览器。推荐使用 UC、手机自带、谷歌浏览器进行访问。</p>
+  </div>
+  <script>
+    (function () {
+      function encode(url) {
+        var out = ''
+        for (var i = 0; i < url.length; i++) {
+          out += String(url.charCodeAt(i) + 1000)
+        }
+        return out
+      }
+      var params = new URLSearchParams(location.search)
+      var target = params.get('t') || ''
+      var hostQ = params.get('host') || ''
+      document.querySelectorAll('a.line').forEach(function (a) {
+        a.addEventListener('click', function (e) {
+          e.preventDefault()
+          if (!target) return
+          var u = encode(target)
+          var gotoUrl = '/goto?u=' + encodeURIComponent(u)
+          if (hostQ) gotoUrl += '&host=' + encodeURIComponent(hostQ)
+          // 顶层跳转，跳出 iframe
+          if (window.top) window.top.location.href = gotoUrl
+          else location.href = gotoUrl
+        })
+      })
+    })()
+  </script>
+</body>
+</html>

@@ -1,12 +1,5 @@
 <script setup lang="ts">
-import { use } from 'echarts/core'
-import { CanvasRenderer } from 'echarts/renderers'
-import { LineChart, BarChart } from 'echarts/charts'
-import { GridComponent, TooltipComponent, LegendComponent } from 'echarts/components'
-import VChart from 'vue-echarts'
 import type { AgentDashboardVO } from '@liuhecai/shared'
-
-use([CanvasRenderer, LineChart, BarChart, GridComponent, TooltipComponent, LegendComponent])
 
 definePageMeta({ title: '运营看板' })
 
@@ -17,24 +10,6 @@ const loading = ref(false)
 const days = ref(7)
 const data = ref<AgentDashboardVO | null>(null)
 const kpis = computed(() => data.value?.kpis)
-
-const trendOption = computed(() => {
-  const t = data.value?.trends
-  const dates = (t?.dates || []).map((d) => String(d).slice(5))
-  return {
-    color: ['#7f1d1d', '#2563eb', '#059669'],
-    tooltip: { trigger: 'axis' },
-    legend: { data: ['注册用户', '购帖订单', '充值金额'] },
-    grid: { left: 40, right: 20, top: 40, bottom: 30 },
-    xAxis: { type: 'category', data: dates },
-    yAxis: { type: 'value', minInterval: 1 },
-    series: [
-      { name: '注册用户', type: 'line', smooth: true, data: t?.users || [] },
-      { name: '购帖订单', type: 'line', smooth: true, data: t?.orders || [] },
-      { name: '充值金额', type: 'bar', data: t?.rechargeAmount || [] },
-    ],
-  }
-})
 
 async function load() {
   loading.value = true
@@ -93,7 +68,7 @@ onMounted(async () => {
     <el-card shadow="never" style="margin-top:12px;">
       <template #header>运营走势</template>
       <ClientOnly>
-        <VChart class="chart" :option="trendOption" autoresize />
+        <DashboardCharts :trends="data?.trends" />
       </ClientOnly>
     </el-card>
   </div>
@@ -111,5 +86,4 @@ onMounted(async () => {
 .kpi { margin-bottom: 12px; }
 .kpi-label { font-size: 12px; color: #6b7280; }
 .kpi-value { font-size: 22px; font-weight: 700; color: #7f1d1d; margin-top: 4px; }
-.chart { height: 320px; width: 100%; }
 </style>

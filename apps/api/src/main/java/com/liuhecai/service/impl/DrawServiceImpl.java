@@ -10,6 +10,7 @@ import com.liuhecai.common.enums.ErrorCode;
 import com.liuhecai.common.enums.LotteryType;
 import com.liuhecai.common.exception.BusinessException;
 import com.liuhecai.common.util.ZodiacHelper;
+import com.liuhecai.config.CacheConfig;
 import com.liuhecai.draw.DrawSource;
 import com.liuhecai.draw.FetchedDraw;
 import com.liuhecai.draw.HttpDrawSource;
@@ -26,6 +27,8 @@ import com.liuhecai.vo.DrawHistoryItemVO;
 import com.liuhecai.vo.DrawResultVO;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
@@ -62,6 +65,7 @@ public class DrawServiceImpl implements DrawService {
 
     @Override
     @Transactional(rollbackFor = Exception.class)
+    @CacheEvict(cacheNames = {CacheConfig.DRAWS_LATEST_ALL, CacheConfig.DRAW_HISTORY}, allEntries = true)
     public Map<String, Object> fetchAll() {
         Map<String, Object> summary = new LinkedHashMap<>();
         List<String> saved = new ArrayList<>();
@@ -190,13 +194,36 @@ public class DrawServiceImpl implements DrawService {
     }
 
     @Override
+    @Cacheable(
+            cacheNames = CacheConfig.DRAWS_LATEST_ALL,
+            key = "T(com.liuhecai.tenant.TenantContext).get() ?: 'global'")
     public List<DrawResultVO> latestAll() {
-        return Arrays.stream(LotteryType.values())
-                .map(t -> latest(t.name()))
+        List<String> types = Arrays.stream(LotteryType.values()).map(Enum::name).toList();
+        Map<String, DrawOverride> overrides = batchFindOverrides(types);
+        Map<String, DrawResultGlobal> globals = batchFindLatestGlobal(types);
+        return types.stream()
+                .map(type -> {
+                    DrawOverride override = overrides.get(type);
+                    if (override != null) {
+                        return toVo(override.getLotteryType(), override.getIssueNo(), override.getDrawTime(),
+                                override.getNumbersJson(), override.getSpecialNumber(), override.getZodiacJson(),
+                                "override", true);
+                    }
+                    DrawResultGlobal global = globals.get(type);
+                    if (global == null) {
+                        return emptyVo(type);
+                    }
+                    return toVo(global.getLotteryType(), global.getIssueNo(), global.getDrawTime(),
+                            global.getNumbersJson(), global.getSpecialNumber(), global.getZodiacJson(),
+                            global.getSource(), false);
+                })
                 .collect(Collectors.toList());
     }
 
     @Override
+    @Cacheable(
+            cacheNames = CacheConfig.DRAW_HISTORY,
+            key = "#lotteryType + ':' + (#year != null ? #year : 'all') + ':' + #pageSize")
     public List<DrawHistoryItemVO> history(String lotteryType, Integer year, int pageSize) {
         String type = normalizeType(lotteryType);
         return zhiboHistoryClient.fetchHistory(type, year, pageSize);
@@ -204,6 +231,7 @@ public class DrawServiceImpl implements DrawService {
 
     @Override
     @Transactional(rollbackFor = Exception.class)
+    @CacheEvict(cacheNames = CacheConfig.DRAWS_LATEST_ALL, allEntries = true)
     public DrawResultVO override(DrawOverrideRequest request) {
         AuthUser user = AuthContext.get();
         if (user == null || user.getTenantId() == null) {
@@ -264,6 +292,48 @@ public class DrawServiceImpl implements DrawService {
                 .eq(DrawOverride::getLotteryType, lotteryType)
                 .orderByDesc(DrawOverride::getDrawTime)
                 .last("LIMIT 1"));
+    }
+
+    private Map<String, DrawOverride> batchFindOverrides(List<String> types) {
+        if (TenantContext.get() == null || types.isEmpty()) {
+            return Map.of();
+        }
+        List<DrawOverride> all = drawOverrideMapper.selectList(new LambdaQueryWrapper<DrawOverride>()
+                .in(DrawOverride::getLotteryType, types)
+                .orderByDesc(DrawOverride::getDrawTime));
+        Map<String, DrawOverride> result = new LinkedHashMap<>();
+        for (DrawOverride override : all) {
+            result.putIfAbsent(override.getLotteryType(), override);
+        }
+        return result;
+    }
+
+    private Map<String, DrawResultGlobal> batchFindLatestGlobal(List<String> types) {
+        if (types.isEmpty()) {
+            return Map.of();
+        }
+        List<DrawResultGlobal> all = drawResultGlobalMapper.selectList(new LambdaQueryWrapper<DrawResultGlobal>()
+                .in(DrawResultGlobal::getLotteryType, types)
+                .orderByDesc(DrawResultGlobal::getDrawTime));
+        Map<String, DrawResultGlobal> bestNonMock = new LinkedHashMap<>();
+        Map<String, DrawResultGlobal> bestAny = new LinkedHashMap<>();
+        for (DrawResultGlobal global : all) {
+            bestAny.putIfAbsent(global.getLotteryType(), global);
+            if (!"mock".equals(global.getSource())) {
+                bestNonMock.putIfAbsent(global.getLotteryType(), global);
+            }
+        }
+        Map<String, DrawResultGlobal> result = new LinkedHashMap<>();
+        for (String type : types) {
+            DrawResultGlobal pick = bestNonMock.get(type);
+            if (pick == null) {
+                pick = bestAny.get(type);
+            }
+            if (pick != null) {
+                result.put(type, pick);
+            }
+        }
+        return result;
     }
 
     private DrawResultVO emptyVo(String type) {
